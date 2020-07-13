@@ -1,0 +1,72 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:security/recommended"
+  ],
+  "rules": {
+    "no-shadow": "error",
+    "no-useless-return": "error",
+    "newline-before-return": "error",
+    "prefer-object-spread": "error",
+    "arrow-body-style": [
+      "error",
+      "as-needed"
+    ],
+    "newline-per-chained-call": "error",
+    "no-duplicate-imports": [
+      "error",
+      {
+        "includeExports": true
+      }
+    ],
+    "semi": "off",
+    "indent": "off",
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 150
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "never",
+        "functions": "never"
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/require-await": "off",
+    "@typescript-eslint/typedef": [
+      "error",
+      {
+        "arrayDestructuring": true,
+        "arrowParameter": true,
+        "variableDeclaration": false
+      }
+    ],
+    "@typescript-eslint/class-name-casing": "error",
+    "@typescript-eslint/semi": [
+      "error"
+    ],
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/unbound-method": [
+      "off"
+    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": false
+      }
+    ]
+  }
+}
