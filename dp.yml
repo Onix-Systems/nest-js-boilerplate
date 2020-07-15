@@ -1,0 +1,65 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: nginx
+  name: __CI_PROJECT_NAME__
+  namespace: __NAMESPACE_NAME__
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: __CI_PROJECT_NAME__
+      app: __CI_PROJECT_NAME__
+  template:
+    metadata:
+      labels:
+        run: __CI_PROJECT_NAME__
+        app: __CI_PROJECT_NAME__
+    spec:
+      containers:
+        - name: __CI_PROJECT_NAME__
+          image: __REPOSITORY_IMAGE__
+          ports:
+            - containerPort: 3000
+      imagePullSecrets:
+        - name: gitlab-registry
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: __CI_PROJECT_NAME__-service
+  namespace: __NAMESPACE_NAME__
+spec:
+  selector:
+    app: __CI_PROJECT_NAME__
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: __CI_PROJECT_NAME__-ingress
+  namespace: __NAMESPACE_NAME__
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+    - hosts:
+        - __HOSTNAME__.staging.onix.ua
+      secretName: ssl-cert
+  rules:
+    - host: __HOSTNAME__.staging.onix.ua
+      http:
+        paths:
+          - backend:
+              serviceName: __CI_PROJECT_NAME__-service
+              servicePort: 3000
