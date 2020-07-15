@@ -1,4 +1,2 @@
 
 FROM mongo:4.1.13
-
-ADD db.js /docker-entrypoint-initdb.d/
