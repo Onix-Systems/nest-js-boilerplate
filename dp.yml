@@ -47,9 +47,8 @@ metadata:
   name: __CI_PROJECT_NAME__-ingress
   namespace: __NAMESPACE_NAME__
   annotations:
-    ingress.kubernetes.io/ssl-redirect: "true"
-    kubernetes.io/tls-acme: "true"
-    certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
     kubernetes.io/ingress.class: "nginx"
 spec:
   tls:
