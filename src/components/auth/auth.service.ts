@@ -68,12 +68,12 @@ export class AuthService {
     };
   }
 
-  getRefreshTokenByLogin(login: string): Promise<string> {
-    return this.redisClient.get(login);
+  getRefreshTokenByEmail(email: string): Promise<string> {
+    return this.redisClient.get(email);
   }
 
-  deleteTokenByLogin(login: string): Promise<number> {
-    return this.redisClient.del(login);
+  deleteTokenByEmail(email: string): Promise<number> {
+    return this.redisClient.del(email);
   }
 
   deleteAllTokens(): Promise<string> {

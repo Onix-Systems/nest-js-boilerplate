@@ -6,7 +6,7 @@ import {
   Delete,
   Param,
   Request, UnauthorizedException,
-  UseGuards,
+  UseGuards, NotFoundException,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
@@ -49,7 +49,7 @@ export class AuthController {
   async refreshToken(@Body() refreshTokenDto: RefreshTokenDto): Promise<IAuthLoginOutput | IVerbUnauthorized> {
     const verifiedUser = this.jwtService.verify(refreshTokenDto.refreshToken);
 
-    const oldRefreshToken: string = await this.authService.getRefreshTokenByLogin(verifiedUser.login);
+    const oldRefreshToken: string = await this.authService.getRefreshTokenByEmail(verifiedUser.email);
 
     // if the old refresh token is not equal to request refresh token then this user is unauthorized
     if (!oldRefreshToken || oldRefreshToken !== refreshTokenDto.refreshToken) {
@@ -68,10 +68,15 @@ export class AuthController {
 
   @Delete('logout/:token')
   @HttpCode(204)
-  async logout(@Param('token') token: string): Promise<INoContentResponse> {
-    const { login } = this.jwtService.verify(token);
+  async logout(@Param('token') token: string): Promise<INoContentResponse | never> {
+    const { email } = this.jwtService.verify(token);
 
-    await this.authService.deleteTokenByLogin(login);
+    const deletedUserCount = await this.authService.deleteTokenByEmail(email);
+
+    if (deletedUserCount === 0) {
+        throw new NotFoundException('The item does not exist');
+    }
+
     return;
   }
 
