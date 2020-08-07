@@ -1,4 +1,4 @@
-import {ObjectID} from 'typeorm';
+import { ObjectID } from 'typeorm';
 
 export interface IJwtStrategyValidate {
     id: ObjectID;

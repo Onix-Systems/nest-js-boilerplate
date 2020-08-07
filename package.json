@@ -1,10 +1,10 @@
 {
-  "name": "bang-goliath-backend",
+  "name": "nestjs-jwt-starter",
   "version": "0.0.2",
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -18,48 +18,51 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "commit": "git-cz"
   },
   "dependencies": {
-    "@nestjs/common": "^7.0.0",
-    "@nestjs/core": "^7.0.0",
-    "@nestjs/platform-express": "^7.0.0",
-    "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
-    "rxjs": "^6.5.4",
-    "@nestjs/common": "^7.0.0",
-    "@nestjs/core": "^7.0.0",
-    "@nestjs/jwt": "^7.1.0",
-    "@nestjs/passport": "^7.1.0",
-    "@nestjs/platform-express": "^7.0.0",
-    "@nestjs/typeorm": "^7.1.0",
-    "bcrypt": "^5.0.0",
-    "class-transformer": "^0.2.3",
-    "class-validator": "^0.12.2",
-    "mongodb": "^3.5.9",
-    "nestjs-redis": "^1.2.8",
-    "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
-    "rxjs": "^6.5.4",
-    "typeorm": "^0.2.25"
+    "@nestjs/common": "7.0.0",
+    "@nestjs/core": "7.0.0",
+    "@nestjs/jwt": "7.1.0",
+    "@nestjs/passport": "7.1.0",
+    "@nestjs/platform-express": "7.0.0",
+    "@nestjs/testing": "7.4.2",
+    "@nestjs/typeorm": "7.1.0",
+    "bcrypt": "5.0.0",
+    "class-transformer": "0.2.3",
+    "class-validator": "0.12.2",
+    "express": "4.17.1",
+    "husky": "^4.2.5",
+    "ioredis": "4.17.3",
+    "module-alias": "2.2.2",
+    "mongodb": "3.5.9",
+    "nestjs-redis": "1.2.8",
+    "passport": "0.4.1",
+    "passport-jwt": "4.0.0",
+    "passport-local": "1.0.0",
+    "reflect-metadata": "0.1.13",
+    "rimraf": "3.0.2",
+    "rxjs": "6.5.4",
+    "typeorm": "0.2.25"
   },
   "devDependencies": {
     "@nestjs/cli": "7.0.0",
     "@nestjs/schematics": "7.0.0",
-    "@nestjs/testing": "7.0.0",
     "@types/express": "4.17.3",
     "@types/jest": "25.2.3",
     "@types/node": "13.9.1",
+    "@types/passport-jwt": "3.0.3",
+    "@types/passport-local": "1.0.33",
     "@types/supertest": "2.0.8",
-    "@typescript-eslint/eslint-plugin": "3.6.1",
-    "@typescript-eslint/parser": "3.6.1",
-    "eslint": "7.4.0",
+    "@typescript-eslint/eslint-plugin": "3.0.2",
+    "@typescript-eslint/parser": "3.0.2",
+    "cz-conventional-changelog": "3.2.0",
+    "eslint": "7.1.0",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-config-airbnb-typescript": "8.0.2",
-    "eslint-plugin-import": "2.22.0",
+    "eslint-config-prettier": "6.10.0",
+    "eslint-plugin-import": "2.20.1",
     "jest": "26.0.1",
     "prettier": "1.19.1",
     "supertest": "4.0.2",
@@ -67,31 +70,13 @@
     "ts-loader": "6.2.1",
     "ts-node": "8.6.2",
     "tsconfig-paths": "3.9.0",
-    "@nestjs/cli": "^7.0.0",
-    "@nestjs/schematics": "^7.0.0",
-    "@nestjs/testing": "^7.0.0",
-    "@types/express": "^4.17.3",
-    "@types/jest": "25.2.3",
-    "@types/node": "^13.9.1",
-    "@types/passport-jwt": "^3.0.3",
-    "@types/passport-local": "^1.0.33",
-    "@types/supertest": "^2.0.8",
-    "@typescript-eslint/eslint-plugin": "3.0.2",
-    "@typescript-eslint/parser": "3.0.2",
-    "cz-conventional-changelog": "^3.2.0",
-    "eslint": "7.1.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-import": "^2.20.1",
-    "jest": "26.0.1",
-    "prettier": "^1.19.1",
-    "supertest": "^4.0.2",
-    "ts-jest": "26.1.0",
-    "ts-loader": "^6.2.1",
-    "ts-node": "^8.6.2",
-    "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.7.4"
+    "typescript": "3.7.4"
   },
   "jest": {
+    "moduleNameMapper": {
+      "^@shared(.*)$": "<rootDir>/shared$1",
+      "^@components(.*)$": "<rootDir>/components$1"
+    },
     "moduleFileExtensions": [
       "js",
       "json",
@@ -108,6 +93,16 @@
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
+    }
+  },
+  "_moduleAliases": {
+    "@shared": "./dist/shared",
+    "@components": "./dist/components"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm test"
     }
   }
 }

@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthModule } from '../auth/auth.module';
-import { UsersModule } from '../users/users.module';
-
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { RedisModule } from 'nestjs-redis';
+
+import AuthModule from '@components/auth/auth.module';
+import UsersModule from '@components/users/users.module';
 
 @Module({
   imports: [
@@ -14,7 +11,7 @@ import { RedisModule } from 'nestjs-redis';
     UsersModule,
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: 'mongodb+srv://root:1234@cluster0-ilpdw.mongodb.net/goliath_bang',
+      url: 'mongodb+srv://root:1234@cluster0-ilpdw.mongodb.net/nestjs-test-api',
       // automatically try to reconnect when it loses connection
       autoReconnect: true,
       // reconnect every reconnectInterval milliseconds
@@ -38,7 +35,7 @@ import { RedisModule } from 'nestjs-redis';
       reconnectOnError: (): boolean => true,
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
-export class AppModule {}
+export default class AppModule {}

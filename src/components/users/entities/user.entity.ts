@@ -3,11 +3,11 @@ import {
   Column,
   ObjectIdColumn,
   ObjectID,
-  Index
+  Index,
 } from 'typeorm';
 
 @Entity('users')
-export class UserEntity {
+export default class UserEntity {
   @ObjectIdColumn()
   id: ObjectID;
 

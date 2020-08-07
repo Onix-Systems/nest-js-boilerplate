@@ -8,21 +8,20 @@ import {
   Request, UnauthorizedException,
   UseGuards, NotFoundException,
 } from '@nestjs/common';
-import { LocalAuthGuard } from './guards/local-auth.guard';
-import { AuthService } from './auth.service';
-import { UsersService } from '../users/users.service';
-
-import { UserDto } from '../users/dto/user.dto';
-import { RefreshTokenDto } from './dto/refreshToken.dto';
-
-import { IAuthLoginOutput } from './interfaces/IAuthLoginOutput.interface';
-import { INoContentResponse } from '../../shared/interfaces/responses/INoContentResponse.interface';
-import { ICreatedResponse } from '../../shared/interfaces/responses/ICreatedResponse.interface';
-import { IVerbUnauthorized } from '../../shared/interfaces/responses/IVerbUnauthorized.interface';
 import { JwtService } from '@nestjs/jwt';
 
+import { IAuthLoginOutput } from '@components/auth/interfaces/IAuthLoginOutput.interface';
+import { ICreatedResponse } from '@shared/interfaces/responses/ICreatedResponse.interface';
+import { IVerbUnauthorized } from '@shared/interfaces/responses/IVerbUnauthorized.interface';
+
+import LocalAuthGuard from '@components/auth/guards/local-auth.guard';
+import AuthService from '@components/auth/auth.service';
+import UsersService from '@components/users/users.service';
+import UserDto from '@components/users/dto/user.dto';
+import RefreshTokenDto from '@components/auth/dto/refreshToken.dto';
+
 @Controller('auth')
-export class AuthController {
+export default class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly jwtService: JwtService,
@@ -53,7 +52,7 @@ export class AuthController {
 
     // if the old refresh token is not equal to request refresh token then this user is unauthorized
     if (!oldRefreshToken || oldRefreshToken !== refreshTokenDto.refreshToken) {
-        throw new UnauthorizedException('Authentication credentials were missing or incorrect');
+      throw new UnauthorizedException('Authentication credentials were missing or incorrect');
     }
 
     const payload = {
@@ -68,22 +67,23 @@ export class AuthController {
 
   @Delete('logout/:token')
   @HttpCode(204)
-  async logout(@Param('token') token: string): Promise<INoContentResponse | never> {
+  async logout(@Param('token') token: string): Promise<boolean | never> {
     const { email } = this.jwtService.verify(token);
 
     const deletedUserCount = await this.authService.deleteTokenByEmail(email);
 
     if (deletedUserCount === 0) {
-        throw new NotFoundException('The item does not exist');
+      throw new NotFoundException('The item does not exist');
     }
 
-    return;
+    return true;
   }
 
   @Delete('logoutAll')
   @HttpCode(204)
-  async logoutAll(): Promise<INoContentResponse> {
+  async logoutAll(): Promise<boolean> {
     await this.authService.deleteAllTokens();
-    return;
+
+    return true;
   }
 }

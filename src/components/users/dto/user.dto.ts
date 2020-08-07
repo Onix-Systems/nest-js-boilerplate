@@ -5,7 +5,7 @@ import {
 } from 'class-validator';
 import { ObjectID } from 'typeorm';
 
-export class UserDto {
+export default class UserDto {
     id?: ObjectID;
 
     @IsNotEmpty()

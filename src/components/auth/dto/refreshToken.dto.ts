@@ -1,6 +1,6 @@
-import {IsNotEmpty, IsString, MinLength} from 'class-validator';
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
-export class RefreshTokenDto {
+export default class RefreshTokenDto {
     @IsNotEmpty()
     @MinLength(32)
     @IsString()
