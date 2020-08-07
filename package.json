@@ -33,7 +33,7 @@
     "class-transformer": "0.2.3",
     "class-validator": "0.12.2",
     "express": "4.17.1",
-    "husky": "^4.2.5",
+    "husky": "4.2.5",
     "ioredis": "4.17.3",
     "module-alias": "2.2.2",
     "mongodb": "3.5.9",
