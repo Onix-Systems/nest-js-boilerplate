@@ -1,19 +1,10 @@
 {
-  "name": "generator-nestjs-jwt-starter",
-  "version": "0.1.0",
-  "description": "",
-  "author": "wimmmly",
+  "name": "my-project",
+  "version": "0.0.2",
+  "description": "custom desc",
+  "author": "",
+  "private": true,
   "license": "MIT",
-  "files": [
-    "generators"
-  ],
-  "keywords": [
-    "yeoman-generator",
-    "yeoman"
-  ],
-  "repository": {
-    "url": "https://gitlab.onix.ua/template/nest-js-jwt-starter.git"
-  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -39,7 +30,6 @@
     "@nestjs/testing": "7.4.2",
     "@nestjs/typeorm": "7.1.0",
     "bcrypt": "5.0.0",
-    "chalk": "4.1.0",
     "class-transformer": "0.2.3",
     "class-validator": "0.12.2",
     "express": "4.17.1",
@@ -54,11 +44,7 @@
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
     "rxjs": "6.5.4",
-    "ts-node": "8.6.2",
-    "typeorm": "0.2.25",
-    "yeoman-generator": "1.1.1",
-    "yosay": "2.0.2",
-    "print-message": "3.0.1"
+    "typeorm": "0.2.25"
   },
   "devDependencies": {
     "@nestjs/cli": "7.0.0",
@@ -82,6 +68,7 @@
     "supertest": "4.0.2",
     "ts-jest": "26.1.0",
     "ts-loader": "6.2.1",
+    "ts-node": "8.6.2",
     "tsconfig-paths": "3.9.0",
     "typescript": "3.7.4"
   },
@@ -111,5 +98,11 @@
   "_moduleAliases": {
     "@shared": "./dist/shared",
     "@components": "./dist/components"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm test"
+    }
   }
 }
