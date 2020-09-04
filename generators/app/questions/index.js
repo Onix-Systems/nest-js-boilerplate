@@ -1,13 +1,17 @@
 const packageManager = require('./packageManager');
 const app = require('./app');
-const auth = require('./auth');
+const authType = require('./authType');
+const additionalAuthQuestions = require('./additionalAuthQuestions');
 const identifier = require('./identifier');
 const description = require('./description');
 
 module.exports = {
   packageManager,
   app,
-  auth,
+  auth: {
+    type: authType,
+    additionalQuestions: additionalAuthQuestions,
+  },
   identifier,
   description,
 };

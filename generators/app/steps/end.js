@@ -7,6 +7,10 @@ const chalk = require('chalk');
 const printMessage = require('print-message');
 
 module.exports = function () {
+  this.composeWith('@onix-systems/nestjs-boilerplate:auth', {
+    answers: this.answers,
+  });
+
   printMessage([
     `Enjoy your ${chalk.red('Nestjs REST API')} project!`,
     '---',

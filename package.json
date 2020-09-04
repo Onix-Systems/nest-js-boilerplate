@@ -1,5 +1,5 @@
 {
-  "name": "generator-nestjs-jwt-starter",
+  "name": "@onix-systems/generator-nestjs-boilerplate",
   "version": "0.1.0",
   "description": "",
   "author": "wimmmly",
@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@nestjs/common": "7.0.0",
+    "@nestjs/config": "^0.5.0",
     "@nestjs/core": "7.0.0",
     "@nestjs/jwt": "7.1.0",
     "@nestjs/passport": "7.1.0",
@@ -43,6 +44,7 @@
     "class-transformer": "0.2.3",
     "class-validator": "0.12.2",
     "express": "4.17.1",
+    "express-session": "1.17.1",
     "husky": "4.2.5",
     "ioredis": "4.17.3",
     "module-alias": "2.2.2",
@@ -51,14 +53,15 @@
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
     "passport-local": "1.0.0",
+    "print-message": "3.0.1",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
     "rxjs": "6.5.4",
     "ts-node": "8.6.2",
     "typeorm": "0.2.25",
-    "yeoman-generator": "1.1.1",
+    "yeoman-generator": "4.12.0",
     "yosay": "2.0.2",
-    "print-message": "3.0.1"
+    "passport-google-oauth20": "2.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "7.0.0",
@@ -83,7 +86,8 @@
     "ts-jest": "26.1.0",
     "ts-loader": "6.2.1",
     "tsconfig-paths": "3.9.0",
-    "typescript": "3.7.4"
+    "typescript": "3.7.4",
+    "@types/passport-google-oauth20": "2.0.3"
   },
   "jest": {
     "moduleNameMapper": {

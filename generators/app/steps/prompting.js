@@ -26,10 +26,20 @@ module.exports = {
   },
 
   askAuthType() {
-    askQuestions.call(this, 'Auth', questions.auth, this.async());
+    askQuestions.call(this, 'Auth', questions.auth.type, this.async());
+  },
+
+  askAdditionalAuthQuestions() {
+    askQuestions.call(
+      this,
+      'Auth additional questions',
+      questions.auth.additionalQuestions[this.answers.authType],
+      this.async()
+    );
   },
 
   askAppIdentifier() {
+    console.log('identifier scope', this.answers);
     askQuestions.call(this, 'App Identifier', questions.identifier, this.async());
   },
 
