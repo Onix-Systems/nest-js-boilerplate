@@ -2,19 +2,22 @@ import {
   Injectable,
   CanActivate,
   ExecutionContext,
-  NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export default class IsNotLoggedGuard implements CanActivate {
+export default class IsLoggedGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const req = context.switchToHttp().getRequest();
+    const http = context.switchToHttp();
 
-    if (req.isAuthenticated()) {
-      throw new NotFoundException('Logout please');
+    const req = http.getRequest();
+    const res = http.getResponse();
+
+    if (req.isUnauthenticated()) {
+      return res.redirect('/auth/login');
     }
 
     return true;

@@ -1,7 +1,7 @@
 const jwtConstants = {
-  secret: 'secretKey',
-  refreshTokenExpirationTime: '7d',
-  accessTokenExpirationTime: '1d',
+  secret: '<%= config.jwtSecret %>',
+  refreshTokenExpirationTime: '<%= config.refreshTokenExpirationTime %>',
+  accessTokenExpirationTime: '<%= config.accessTokenExpirationTime %>',
 };
 
 export default jwtConstants;

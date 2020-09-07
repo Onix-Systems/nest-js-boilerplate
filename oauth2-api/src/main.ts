@@ -15,7 +15,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.use(session({
-    secret: 'hello-world',
+    secret: process.env.PASSPORT_SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
   }));

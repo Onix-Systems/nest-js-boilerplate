@@ -39,7 +39,6 @@ module.exports = {
   },
 
   askAppIdentifier() {
-    console.log('identifier scope', this.answers);
     askQuestions.call(this, 'App Identifier', questions.identifier, this.async());
   },
 
