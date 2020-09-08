@@ -10,7 +10,10 @@ import UserDto from '@components/users/dto/user.dto';
 
 @Injectable()
 export default class UsersService {
-  constructor(@InjectRepository(UserEntity) private readonly usersRepository: Repository<UserEntity>) {}
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly usersRepository: Repository<UserEntity>,
+  ) {}
 
   async create(userDto: UserDto): Promise<UserEntity> {
     const hashedPassword = await bcrypt.hash(userDto.password, 10);

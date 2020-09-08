@@ -18,11 +18,7 @@ import AuthService from '@components/auth/auth.service';
       secret: jwtConstants.secret,
     }),
   ],
-  providers: [
-    AuthService,
-    LocalStrategy,
-    JwtStrategy,
-  ],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
   exports: [AuthService],
 })

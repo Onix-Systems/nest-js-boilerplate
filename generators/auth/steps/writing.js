@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { join } = require('path');
 
-module.exports = function () {
+module.exports = function() {
   const { answers } = this.options;
 
   const authFolder = answers.sessionsStorage

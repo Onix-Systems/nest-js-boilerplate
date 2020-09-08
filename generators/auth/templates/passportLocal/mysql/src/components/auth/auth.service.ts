@@ -10,7 +10,10 @@ import UsersService from '@components/users/users.service';
 export default class AuthService {
   constructor(private readonly usersService: UsersService) {}
 
-  async validateUser(email: string, password: string): Promise<null | IAuthValidateUserOutput> {
+  async validateUser(
+    email: string,
+    password: string,
+  ): Promise<null | IAuthValidateUserOutput> {
     const user = await this.usersService.getVerifiedByEmail(email);
 
     if (!user) {

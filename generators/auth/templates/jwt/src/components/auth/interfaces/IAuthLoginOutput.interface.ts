@@ -1,4 +1,4 @@
 export interface IAuthLoginOutput {
-    accessToken: string;
-    refreshToken: string;
+  accessToken: string;
+  refreshToken: string;
 }

@@ -5,8 +5,10 @@ import {
   Post,
   Delete,
   Param,
-  Request, UnauthorizedException,
-  UseGuards, NotFoundException,
+  Request,
+  UnauthorizedException,
+  UseGuards,
+  NotFoundException,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -43,7 +45,7 @@ export default class AuthController {
     return this.authService.login(req.user);
   }
 
-  @ApiOkResponse({ description: '200, Success'})
+  @ApiOkResponse({ description: '200, Success' })
   @ApiInternalServerErrorResponse({ description: '500. InternalServerError' })
   @Post('register')
   async register(@Body() userDto: UserDto): Promise<ICreatedResponse> {
@@ -56,16 +58,22 @@ export default class AuthController {
 
   @ApiOkResponse({ description: '200, returns new jwt tokens' })
   @ApiUnauthorizedResponse({ description: '401. Token has been expired' })
-  @ApiInternalServerErrorResponse({ description: '500. InternalServerError '})
+  @ApiInternalServerErrorResponse({ description: '500. InternalServerError ' })
   @Post('refreshToken')
-  async refreshToken(@Body() refreshTokenDto: RefreshTokenDto): Promise<IAuthLoginOutput | IVerbUnauthorized> {
+  async refreshToken(
+    @Body() refreshTokenDto: RefreshTokenDto,
+  ): Promise<IAuthLoginOutput | IVerbUnauthorized> {
     const verifiedUser = this.jwtService.verify(refreshTokenDto.refreshToken);
 
-    const oldRefreshToken: string = await this.authService.getRefreshTokenByEmail(verifiedUser.email);
+    const oldRefreshToken: string = await this.authService.getRefreshTokenByEmail(
+      verifiedUser.email,
+    );
 
     // if the old refresh token is not equal to request refresh token then this user is unauthorized
     if (!oldRefreshToken || oldRefreshToken !== refreshTokenDto.refreshToken) {
-      throw new UnauthorizedException('Authentication credentials were missing or incorrect');
+      throw new UnauthorizedException(
+        'Authentication credentials were missing or incorrect',
+      );
     }
 
     const payload = {
@@ -80,7 +88,7 @@ export default class AuthController {
 
   @ApiOkResponse({ description: '200, returns new jwt tokens' })
   @ApiUnauthorizedResponse({ description: '401. Token has been expired' })
-  @ApiInternalServerErrorResponse({ description: '500. InternalServerError '})
+  @ApiInternalServerErrorResponse({ description: '500. InternalServerError ' })
   @Delete('logout/:token')
   @HttpCode(204)
   async logout(@Param('token') token: string): Promise<boolean | never> {
@@ -96,7 +104,7 @@ export default class AuthController {
   }
 
   @ApiOkResponse({ description: '200, returns new jwt tokens' })
-  @ApiInternalServerErrorResponse({ description: '500. InternalServerError '})
+  @ApiInternalServerErrorResponse({ description: '500. InternalServerError ' })
   @Delete('logoutAll')
   @HttpCode(204)
   async logoutAll(): Promise<boolean> {

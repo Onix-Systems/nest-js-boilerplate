@@ -17,12 +17,7 @@ import LocalSerializer from '@components/auth/serializers/local.serializer';
       session: true,
     }),
   ],
-  providers: [
-    AuthService,
-    LocalStrategy,
-    LocalSerializer,
-    LocalAuthGuard,
-  ],
+  providers: [AuthService, LocalStrategy, LocalSerializer, LocalAuthGuard],
   controllers: [AuthController],
   exports: [AuthService],
 })

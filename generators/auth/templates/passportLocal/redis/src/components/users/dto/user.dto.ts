@@ -1,9 +1,4 @@
-import {
-  IsNotEmpty,
-  MinLength,
-  IsString,
-  IsEmail,
-} from 'class-validator';
+import { IsNotEmpty, MinLength, IsString, IsEmail } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { ObjectID } from 'mongodb';
 

@@ -8,7 +8,10 @@ import UserDto from './dto/user.dto';
 
 @Injectable()
 export default class UsersService {
-  constructor(@InjectRepository(UserEntity) private readonly usersRepository: MongoRepository<UserEntity>) {}
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly usersRepository: MongoRepository<UserEntity>,
+  ) {}
 
   create(user: UserDto): Promise<UserEntity> {
     return this.usersRepository.save({

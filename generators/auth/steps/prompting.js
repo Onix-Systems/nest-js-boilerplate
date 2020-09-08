@@ -5,5 +5,4 @@
 
 const questions = require('../questions');
 
-module.exports = function () {
-};
+module.exports = function() {};

@@ -16,12 +16,7 @@ import AuthDataSerializer from './serializers/authData.serializer';
       session: true,
     }),
   ],
-  providers: [
-    AuthService,
-    GoogleStrategy,
-    GoogleAuthGuard,
-    AuthDataSerializer,
-  ],
+  providers: [AuthService, GoogleStrategy, GoogleAuthGuard, AuthDataSerializer],
   controllers: [AuthController],
   exports: [AuthService],
 })

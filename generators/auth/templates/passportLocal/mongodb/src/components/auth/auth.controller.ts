@@ -20,12 +20,13 @@ import {
 import { Response } from 'express';
 import { ICreatedResponse } from '@interfaces/responses/ICreatedResponse.interface';
 
-import LocalAuthGuard from '@components/auth/guards/local-auth.guard';
-import AuthService from '@components/auth/auth.service';
 import UsersService from '@components/users/users.service';
 import UserDto from '@components/users/dto/user.dto';
 import IsLoggedGuard from '@guards/isLogged.guard';
 import IsNotLoggedGuard from '@guards/isNotLogged.guard';
+
+import LocalAuthGuard from './guards/local-auth.guard';
+import AuthService from './auth.service';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -36,7 +37,7 @@ export default class AuthController {
   ) {}
 
   @ApiOkResponse({ description: 'Renders a login page' })
-  @ApiUnauthorizedResponse({ description: 'Returns an unauthorized '})
+  @ApiUnauthorizedResponse({ description: 'Returns an unauthorized ' })
   @Get('/login')
   @Render('login')
   index(@Request() req, @Res() res: Response): { message: string } {
@@ -53,14 +54,18 @@ export default class AuthController {
   @ApiInternalServerErrorResponse({ description: 'Returns the 500 error' })
   @Post('/register')
   @Render('create')
-  async create(@Body() params, @Request() req, @Res() res: Response): Promise<void> {
+  async create(
+    @Body() params,
+    @Request() req,
+    @Res() res: Response,
+  ): Promise<void> {
     await this.usersService.create(params);
 
     res.redirect('/');
   }
 
   @ApiOkResponse({ description: 'If logout is success' })
-  @ApiInternalServerErrorResponse({ description: 'Internal error'})
+  @ApiInternalServerErrorResponse({ description: 'Internal error' })
   @Get('/logout')
   logout(@Request() req, @Res() res: Response): void {
     req.logout();
@@ -69,7 +74,9 @@ export default class AuthController {
 
   @ApiCookieAuth()
   @ApiOkResponse({ description: 'Returns 200 if login is ok' })
-  @ApiInternalServerErrorResponse({ description: 'Returns 500 if smth has been failed'})
+  @ApiInternalServerErrorResponse({
+    description: 'Returns 500 if smth has been failed',
+  })
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   login(@Request() req, @Res() res: Response): void {

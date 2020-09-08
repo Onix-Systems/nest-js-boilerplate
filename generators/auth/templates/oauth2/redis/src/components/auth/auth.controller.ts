@@ -29,13 +29,15 @@ export default class AuthController {
     private readonly usersService: UsersService,
   ) {}
 
-  @ApiMovedPermanentlyResponse({ description: 'Does redirect to route'})
+  @ApiMovedPermanentlyResponse({ description: 'Does redirect to route' })
   @Get()
   @UseGuards(GoogleAuthGuard)
   async googleAuth(@Req() req) {}
 
-  @ApiOkResponse({ description: 'User registered/authorized successfully '})
-  @ApiInternalServerErrorResponse({ description: 'InternalServerError. User was not authorized/registered' })
+  @ApiOkResponse({ description: 'User registered/authorized successfully ' })
+  @ApiInternalServerErrorResponse({
+    description: 'InternalServerError. User was not authorized/registered',
+  })
   @Get('redirect')
   @UseGuards(GoogleAuthGuard)
   async googleAuthRedirect(@Req() req): Promise<ICreatedResponse | never> {

@@ -23,8 +23,9 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       store: new MongoDBStore({
-        uri: 'mongodb+srv://root:1234@cluster0-ilpdw.mongodb.net/nestjs-test-api',
-        collection: 'sessions'
+        uri:
+          'mongodb+srv://root:1234@cluster0-ilpdw.mongodb.net/nestjs-test-api',
+        collection: 'sessions',
       }),
     }),
   );
@@ -44,6 +45,8 @@ async function bootstrap() {
 
   const port = process.env.SERVER_PORT || 3000;
 
-  await app.listen(port, () => console.log(`The server is running on ${port} port`));
+  await app.listen(port, () =>
+    console.log(`The server is running on ${port} port`),
+  );
 }
 bootstrap();

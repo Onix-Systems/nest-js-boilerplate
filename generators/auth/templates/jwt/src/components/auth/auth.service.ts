@@ -24,7 +24,10 @@ export default class AuthService {
     this.redisClient = redisService.getClient();
   }
 
-  async validateUser(email: string, password: string): Promise<null | IAuthValidateUserOutput> {
+  async validateUser(
+    email: string,
+    password: string,
+  ): Promise<null | IAuthValidateUserOutput> {
     const user = await this.usersService.getVerifiedByEmail(email);
 
     if (!user) {
@@ -56,12 +59,7 @@ export default class AuthService {
       expiresIn: jwtConstants.refreshTokenExpirationTime,
     });
 
-    await this.redisClient.set(
-      payload.email,
-      refreshToken,
-      'EX',
-      86400,
-    );
+    await this.redisClient.set(payload.email, refreshToken, 'EX', 86400);
 
     return {
       accessToken,

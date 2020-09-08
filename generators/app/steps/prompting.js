@@ -8,17 +8,20 @@ const questions = require('../questions');
 function askQuestions(title, questions, done) {
   this.log(chalk.yellow(`\n${title} questions:`));
 
-  return this
-    .prompt(questions)
-    .then((answers) => {
-      this.answers = Object.assign(this.answers || {}, answers);
-      done();
-    });
+  return this.prompt(questions).then(answers => {
+    this.answers = Object.assign(this.answers || {}, answers);
+    done();
+  });
 }
 
 module.exports = {
   askPackageManager() {
-    askQuestions.call(this, 'Package Manager', questions.packageManager, this.async());
+    askQuestions.call(
+      this,
+      'Package Manager',
+      questions.packageManager,
+      this.async(),
+    );
   },
 
   askAppName() {
@@ -34,15 +37,25 @@ module.exports = {
       this,
       'Auth additional questions',
       questions.auth.additionalQuestions[this.answers.authType],
-      this.async()
+      this.async(),
     );
   },
 
   askAppIdentifier() {
-    askQuestions.call(this, 'App Identifier', questions.identifier, this.async());
+    askQuestions.call(
+      this,
+      'App Identifier',
+      questions.identifier,
+      this.async(),
+    );
   },
 
   askDescription() {
-    askQuestions.call(this, 'App Description', questions.description, this.async());
+    askQuestions.call(
+      this,
+      'App Description',
+      questions.description,
+      this.async(),
+    );
   },
 };

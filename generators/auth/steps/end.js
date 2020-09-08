@@ -3,5 +3,4 @@
  * Called last, cleanup, say good bye, etc
  */
 
-module.exports = function () {
-};
+module.exports = function() {};

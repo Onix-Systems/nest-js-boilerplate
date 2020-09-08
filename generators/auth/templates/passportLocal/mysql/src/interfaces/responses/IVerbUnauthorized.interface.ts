@@ -1,3 +1,3 @@
 export interface IVerbUnauthorized {
-    message: string;
+  message: string;
 }

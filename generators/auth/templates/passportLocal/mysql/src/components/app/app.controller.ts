@@ -14,7 +14,10 @@ import IsLoggedGuard from '@guards/isLogged.guard';
 export default class AppController {
   @ApiCookieAuth()
   @ApiOkResponse({ description: 'Returns the logged user' })
-  @ApiUnauthorizedResponse({ status: 401, description: 'Returns the unauthorized error'})
+  @ApiUnauthorizedResponse({
+    status: 401,
+    description: 'Returns the unauthorized error',
+  })
   @UseGuards(IsLoggedGuard)
   @Get('/home')
   @Render('home')

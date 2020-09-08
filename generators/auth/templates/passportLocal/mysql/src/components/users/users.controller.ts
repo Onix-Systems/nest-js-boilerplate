@@ -26,12 +26,14 @@ export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiCookieAuth()
-  @ApiOkResponse({ description: 'Returns 200 if the template has been rendered successfully' })
+  @ApiOkResponse({
+    description: 'Returns 200 if the template has been rendered successfully',
+  })
   @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
   @UseGuards(IsLoggedGuard)
   @Get('/profile')
   @Render('profile')
-  getProfile(@Request() req: any, @Res() res: Response): {user: any} {
+  getProfile(@Request() req: any, @Res() res: Response): { user: any } {
     return { user: req.user };
   }
 }

@@ -18,12 +18,14 @@ async function bootstrap() {
     .setTitle('Api v1')
     .setDescription('The boilerplate API for nestjs devs')
     .setVersion('1.0')
-    .addCookieAuth('connect.sid')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
 
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(port, () => console.log(`The server is running on ${port} port`));
+  await app.listen(port, () =>
+    console.log(`The server is running on ${port} port`),
+  );
 }
 bootstrap();

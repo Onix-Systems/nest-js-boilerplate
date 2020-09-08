@@ -3,5 +3,4 @@
  * Saving configurations and configure the project
  */
 
-module.exports = function () {
-};
+module.exports = function() {};
