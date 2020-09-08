@@ -1,6 +1,7 @@
 # compiled output
 /dist
 /node_modules
+/generators/node_modules
 
 # Logs
 logs

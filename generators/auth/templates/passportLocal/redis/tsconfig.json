@@ -12,6 +12,7 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
+      "@filters/*": ["./src/filters/*"],
       "@guards/*": ["./src/guards/*"],
       "@shared/*": ["./src/components/shared/*"],
       "@components/*": ["./src/components/*"],
