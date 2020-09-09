@@ -1,6 +1,6 @@
 {
   "name": "@onix-systems/generator-nestjs-boilerplate",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "",
   "author": "wimmmly",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "yeoman"
   ],
   "repository": {
-    "url": "https://gitlab.onix.ua/template/nest-js-jwt-starter.git"
+    "url": "https://github.com/Onix-Systems/nest-js-boilerplate"
   },
   "scripts": {
     "commit": "git-cz"
@@ -20,9 +20,9 @@
   "dependencies": {
     "chalk": "4.1.0",
     "husky": "4.2.5",
-    "print-message": "^3.0.1",
-    "yeoman-generator": "^4.12.0",
-    "yosay": "^2.0.2"
+    "print-message": "3.0.1",
+    "yeoman-generator": "4.12.0",
+    "yosay": "2.0.2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "3.0.2",
