@@ -84,7 +84,7 @@ App Skeleton
 To start the application in development mode, run:
 
 ```bash
-npm start
+npm start:dev
 ```
 
 Start the application in production env:
