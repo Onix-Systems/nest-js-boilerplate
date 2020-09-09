@@ -1,18 +1,32 @@
 {
   "name": "@onix-systems/generator-nestjs-boilerplate",
-  "version": "0.1.0",
+  "version": "1.0.0-beta",
   "description": "",
-  "author": "wimmmly",
+  "author": "onix-systems",
   "license": "MIT",
   "files": [
     "generators"
   ],
   "keywords": [
     "yeoman-generator",
-    "yeoman"
+    "typescript",
+    "node",
+    "nodejs",
+    "rest",
+    "restfull",
+    "api",
+    "builder",
+    "generator",
+    "mongo",
+    "ts",
+    "starter",
+    "mongodb",
+    "auth",
+    "js",
+    "swagger"
   ],
   "repository": {
-    "url": "https://gitlab.onix.ua/template/nest-js-jwt-starter.git"
+    "url": "https://github.com/Onix-Systems/nest-js-boilerplate"
   },
   "scripts": {
     "prebuild": "rimraf dist",
