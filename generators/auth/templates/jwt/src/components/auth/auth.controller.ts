@@ -27,6 +27,7 @@ import AuthService from '@components/auth/auth.service';
 import UsersService from '@components/users/users.service';
 import UserDto from '@components/users/dto/user.dto';
 import RefreshTokenDto from '@components/auth/dto/refreshToken.dto';
+import JwtAuthGuard from '@guards/jwt-auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -89,6 +90,7 @@ export default class AuthController {
   @ApiOkResponse({ description: '200, returns new jwt tokens' })
   @ApiUnauthorizedResponse({ description: '401. Token has been expired' })
   @ApiInternalServerErrorResponse({ description: '500. InternalServerError ' })
+  @UseGuards(JwtAuthGuard)
   @Delete('logout/:token')
   @HttpCode(204)
   async logout(@Param('token') token: string): Promise<boolean | never> {
@@ -104,7 +106,8 @@ export default class AuthController {
   }
 
   @ApiOkResponse({ description: '200, returns new jwt tokens' })
-  @ApiInternalServerErrorResponse({ description: '500. InternalServerError ' })
+  @ApiInternalServerErrorResponse({ description: '500. InternalServerError' })
+  @UseGuards(JwtAuthGuard)
   @Delete('logoutAll')
   @HttpCode(204)
   async logoutAll(): Promise<boolean> {

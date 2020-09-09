@@ -4,7 +4,6 @@
 ![onix](https://img.shields.io/badge/onix-systems-blue.svg)
 
 > Node.js Nest.js API with TypeScript 3. Supports MongoDB
-> See [node-nest-quick-start](https://github.com/igrokqq/nestjs-jwt-boilderplate) if you need vanilla JS
 
 ## Description
 This generator will help you to build your own Nest.js Mongodb API using TypeScript 3.
@@ -12,6 +11,13 @@ This generator will help you to build your own Nest.js Mongodb API using TypeScr
 ### Project Introduction
 - support ES6/ES7 features
 - using tslint followed [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
+- Husky
+- Commitizen
+- MIT license and Code of conduct
+- Eslint
+- Prettier
+- Jest because testing matters
+- Typescript for coding with static type checking
 
 ## Features
 ##### Authentication:
@@ -31,16 +37,16 @@ This generator will help you to build your own Nest.js Mongodb API using TypeScr
 
 - node >= 12
 - npm >= 6
-- mongodb >= 3.0
+- mongodb >= 4.0
 - typescript >= 3.0
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-node-express-typescript-api using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and generator-nestjs-boilerplate using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
-npm install -g generator-node-express-typescript-api
+npm install -g generator-nestjs-boilerplate
 ```
 
 Then generate your new project:
@@ -105,22 +111,20 @@ npm test
 
 ## Set up environment
 In root folder you can find `.env`. You can use this config or change it for your purposes.
-If you want to add some new variables, you also need to add them to interface and config object (Look `src/config/index.ts`)
-
-## Usage as OAuth2.0 Server
-To use this generator as OAuth2.0 server you should implement client side, that will be handle your redirectUris and make requests to `/auth/token/` route. [Read more about OAuth2.0](https://alexbilbie.com/guide-to-oauth-2-grants/)
 
 ## Swagger
-```bash
-npm install -g swagger-jsdoc
-swagger-jsdoc -d swaggerDef.js -o swagger.json
-```
 Swagger documentation will be available on route: 
 ```bash
-http://localhost:3000/docs
+http://localhost:3000/api
 ```
-![Alt Text](https://i.ibb.co/b6SdyQV/gif1.gif)
+![Alt Text1](https://media.giphy.com/media/XEUyeEL03IcaZYw6SB/giphy.gif)
 
+### Jwt auth
+![Alt Text2](https://media.giphy.com/media/QUKuolFMyd0WsNFIUH/giphy.gif)
+
+### Oauth2 auth
+![Alt Text3](https://media.giphy.com/media/RiWDyLQwXaJXu972SM/giphy.gif)
+- When you go by http://localhost:3000/google route, google'll ask you to authorize into your account. After successfully sign in to your account you will be redirected to http://localhost:3000/google/redirect route
 ## Getting To Know Yeoman
 
  * Yeoman has a heart of gold.
