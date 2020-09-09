@@ -26,6 +26,8 @@
   "repository": {
     "url": "https://github.com/Onix-Systems/nest-js-boilerplate"
   },
+
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
