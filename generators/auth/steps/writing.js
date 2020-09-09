@@ -33,7 +33,7 @@ module.exports = function() {
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(`${authFolder}/.env`),
+    this.templatePath(`${authFolder}/_.env`),
     this.destinationPath(`${answers.identifier}/.env`),
     payload,
   );
