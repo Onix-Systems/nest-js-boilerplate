@@ -1,6 +1,6 @@
 {
   "name": "generator-nest-js-boilerplate",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "This generator will help you to build your own Nest.js Mongodb API using TypeScript 3.",
   "author": "onix-systems",
   "license": "MIT",
@@ -26,9 +26,11 @@
     "swagger"
   ],
   "repository": {
+    "name": "onix-systems",
+    "email": "help@onix-systems.com",
     "url": "https://github.com/Onix-Systems/nest-js-boilerplate"
   },
-  "homepage": "https://onix-systems.com",
+  "homepage": "https://github.com/Onix-Systems/nest-js-boilerplate",
   "scripts": {
     "commit": "git-cz"
   },
