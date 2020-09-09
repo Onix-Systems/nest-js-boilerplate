@@ -2,12 +2,11 @@
  * Step 8
  * Called last, cleanup, say good bye, etc
  */
-
 const chalk = require('chalk');
 const printMessage = require('print-message');
 
 module.exports = function() {
-  this.composeWith('@onix-systems/nestjs-boilerplate:auth', {
+  this.composeWith('nest-js-boilerplate:auth', {
     answers: this.answers,
   });
 
