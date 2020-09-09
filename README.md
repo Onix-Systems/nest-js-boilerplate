@@ -42,7 +42,7 @@ This generator will help you to build your own Nest.js Mongodb API using TypeScr
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-nestjs-boilerplate using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and generator-nest-js-boilerplate using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
