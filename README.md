@@ -46,13 +46,13 @@ First, install [Yeoman](http://yeoman.io) and generator-nestjs-boilerplate using
 
 ```bash
 npm install -g yo
-npm install -g generator-nestjs-boilerplate
+npm install -g generator-nest-js-boilerplate
 ```
 
 Then generate your new project:
 
 ```bash
-yo @onix-systems/nestjs-boilerplate
+yo nest-js-boilerplate
 ```
 
 App Skeleton
@@ -104,7 +104,7 @@ Express server listening on http://localhost:3000/, in development mode
 The developer mode will watch your changes then will transpile the TypeScript code and re-run the node application automatically.
 
 ### Testing
-To run integration tests: 
+To run integration tests:
 ```bash
 npm test
 ```
@@ -113,7 +113,7 @@ npm test
 In root folder you can find `.env`. You can use this config or change it for your purposes.
 
 ## Swagger
-Swagger documentation will be available on route: 
+Swagger documentation will be available on route:
 ```bash
 http://localhost:3000/api
 ```

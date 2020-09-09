@@ -1,6 +1,6 @@
 {
-  "name": "@onix-systems/generator-nestjs-boilerplate",
-  "version": "1.0.0-beta",
+  "name": "generator-nest-js-boilerplate",
+  "version": "1.0.1-beta",
   "description": "",
   "author": "onix-systems",
   "license": "MIT",
@@ -28,6 +28,7 @@
   "repository": {
     "url": "https://github.com/Onix-Systems/nest-js-boilerplate"
   },
+  "homepage": "https://onix-systems.com",
   "scripts": {
     "commit": "git-cz"
   },

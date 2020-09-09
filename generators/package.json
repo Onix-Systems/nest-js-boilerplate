@@ -1,5 +1,5 @@
 {
-  "name": "@onix-systems/generator-nestjs-boilerplate",
+  "name": "generator-nest-js-boilerplate",
   "version": "1.0.0-beta",
   "description": "",
   "author": "onix-systems",
@@ -7,6 +7,7 @@
   "files": [
     "generators"
   ],
+  "homepage": "https://onix-systems.com",
   "keywords": [
     "yeoman-generator",
     "typescript",
