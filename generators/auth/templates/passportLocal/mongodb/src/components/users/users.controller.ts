@@ -1,8 +1,6 @@
 import {
   Controller,
   Get,
-  NotFoundException,
-  Param,
   UseGuards,
   Render,
   Res,
@@ -16,8 +14,8 @@ import {
 } from '@nestjs/swagger';
 import { Response } from 'express';
 
-import ParseObjectIdPipe from '@pipes/parseObjectId.pipe';
 import IsLoggedGuard from '@guards/isLogged.guard';
+import ProfileDto from './dto/profile.dto';
 import UsersService from './users.service';
 
 @ApiTags('Users')
@@ -27,13 +25,14 @@ export default class UsersController {
 
   @ApiCookieAuth()
   @ApiOkResponse({
+    type: ProfileDto,
     description: 'Returns 200 if the template has been rendered successfully',
   })
   @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
   @UseGuards(IsLoggedGuard)
   @Get('/profile')
   @Render('profile')
-  getProfile(@Request() req: any, @Res() res: Response): { user: any } {
+  getProfile(@Request() req: any, @Res() res: Response): ProfileDto {
     return { user: req.user };
   }
 }

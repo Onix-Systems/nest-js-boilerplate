@@ -17,7 +17,7 @@ export default class IsLoggedGuard implements CanActivate {
     const res = http.getResponse();
 
     if (req.isUnauthenticated()) {
-      return res.redirect('/auth/login');
+      res.redirect('/auth/login');
     }
 
     return true;

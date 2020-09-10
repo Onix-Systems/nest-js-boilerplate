@@ -12,22 +12,25 @@ import {
 } from '@nestjs/common';
 import {
   ApiTags,
+  ApiBody,
   ApiOkResponse,
   ApiInternalServerErrorResponse,
   ApiUnauthorizedResponse,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtService } from '@nestjs/jwt';
 
-import { IAuthLoginOutput } from '@components/auth/interfaces/IAuthLoginOutput.interface';
-import { ICreatedResponse } from '@interfaces/responses/ICreatedResponse.interface';
-import { IVerbUnauthorized } from '@interfaces/responses/IVerbUnauthorized.interface';
-
-import LocalAuthGuard from '@components/auth/guards/local-auth.guard';
-import AuthService from '@components/auth/auth.service';
 import UsersService from '@components/users/users.service';
 import UserDto from '@components/users/dto/user.dto';
-import RefreshTokenDto from '@components/auth/dto/refreshToken.dto';
 import JwtAuthGuard from '@guards/jwt-auth.guard';
+import CreatedResponse from '@dto/createdResponse.dto';
+
+import { IAuthLoginOutput } from './interfaces/IAuthLoginOutput.interface';
+import LocalAuthGuard from './guards/local-auth.guard';
+import AuthService from './auth.service';
+import RefreshTokenDto from './dto/refreshToken.dto';
+import SignInDto from './dto/signIn.dto';
+import SignUpDto from './dto/signUp.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -38,18 +41,22 @@ export default class AuthController {
     private readonly usersService: UsersService,
   ) {}
 
+  @ApiBody({ type: SignInDto })
   @ApiOkResponse({ description: 'Returns jwt tokens' })
   @ApiInternalServerErrorResponse({ description: '500. InternalServerError' })
+  @ApiBearerAuth()
+  @HttpCode(200)
   @UseGuards(LocalAuthGuard)
-  @Post('login')
-  async login(@Request() req) {
+  @Post('sign-in')
+  async signIn(@Request() req) {
     return this.authService.login(req.user);
   }
 
+  @ApiBody({ type: SignUpDto })
   @ApiOkResponse({ description: '200, Success' })
   @ApiInternalServerErrorResponse({ description: '500. InternalServerError' })
-  @Post('register')
-  async register(@Body() userDto: UserDto): Promise<ICreatedResponse> {
+  @Post('sign-up')
+  async signUp(@Body() userDto: UserDto): Promise<CreatedResponse> {
     await this.usersService.create(userDto);
 
     return {
@@ -60,10 +67,11 @@ export default class AuthController {
   @ApiOkResponse({ description: '200, returns new jwt tokens' })
   @ApiUnauthorizedResponse({ description: '401. Token has been expired' })
   @ApiInternalServerErrorResponse({ description: '500. InternalServerError ' })
+  @ApiBearerAuth()
   @Post('refreshToken')
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
-  ): Promise<IAuthLoginOutput | IVerbUnauthorized> {
+  ): Promise<IAuthLoginOutput | never> {
     const verifiedUser = this.jwtService.verify(refreshTokenDto.refreshToken);
 
     const oldRefreshToken: string = await this.authService.getRefreshTokenByEmail(
@@ -72,9 +80,7 @@ export default class AuthController {
 
     // if the old refresh token is not equal to request refresh token then this user is unauthorized
     if (!oldRefreshToken || oldRefreshToken !== refreshTokenDto.refreshToken) {
-      throw new UnauthorizedException(
-        'Authentication credentials were missing or incorrect',
-      );
+      throw new UnauthorizedException('Authentication credentials were missing or incorrect');
     }
 
     const payload = {
@@ -90,10 +96,11 @@ export default class AuthController {
   @ApiOkResponse({ description: '200, returns new jwt tokens' })
   @ApiUnauthorizedResponse({ description: '401. Token has been expired' })
   @ApiInternalServerErrorResponse({ description: '500. InternalServerError ' })
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Delete('logout/:token')
   @HttpCode(204)
-  async logout(@Param('token') token: string): Promise<boolean | never> {
+  async logout(@Param('token') token: string): Promise<void | never> {
     const { email } = this.jwtService.verify(token);
 
     const deletedUserCount = await this.authService.deleteTokenByEmail(email);
@@ -101,18 +108,15 @@ export default class AuthController {
     if (deletedUserCount === 0) {
       throw new NotFoundException('The item does not exist');
     }
-
-    return true;
   }
 
   @ApiOkResponse({ description: '200, returns new jwt tokens' })
   @ApiInternalServerErrorResponse({ description: '500. InternalServerError' })
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Delete('logoutAll')
   @HttpCode(204)
-  async logoutAll(): Promise<boolean> {
+  async logoutAll(): Promise<void> {
     await this.authService.deleteAllTokens();
-
-    return true;
   }
 }

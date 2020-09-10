@@ -9,6 +9,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import AppModule from '@components/app/app.module';
+import AllExceptionsFilter from '@filters/allException.filter';
 
 const MongoDBStore = require('connect-mongodb-session')(session);
 
@@ -16,6 +17,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   app.use(
     session({
@@ -45,8 +47,6 @@ async function bootstrap() {
 
   const port = process.env.SERVER_PORT || 3000;
 
-  await app.listen(port, () =>
-    console.log(`The server is running on ${port} port`),
-  );
+  await app.listen(port, () => console.log(`The server is running on ${port} port`));
 }
 bootstrap();

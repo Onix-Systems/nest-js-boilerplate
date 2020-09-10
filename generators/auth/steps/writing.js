@@ -57,4 +57,18 @@ module.exports = function() {
       payload,
     );
   }
+  if (fs.existsSync(`${fullPathToAuthFolder}/src/dto`)) {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/dto`),
+      this.destinationPath(`${answers.identifier}/src/dto`),
+      payload,
+    );
+  }
+  if (fs.existsSync(`${fullPathToAuthFolder}/src/interfaces`)) {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/interfaces`),
+      this.destinationPath(`${answers.identifier}/src/interfaces`),
+      payload,
+    );
+  }
 };

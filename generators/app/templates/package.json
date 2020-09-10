@@ -94,7 +94,8 @@
     "@filters": "./dist/filters",
     "@guards": "./dist/guards",
     "@interfaces": "./dist/interfaces",
-    "@pipes": "./dist/pipes"
+    "@pipes": "./dist/pipes",
+    "@dto": "./dist/dto"
   },
   "husky": {
     "hooks": {

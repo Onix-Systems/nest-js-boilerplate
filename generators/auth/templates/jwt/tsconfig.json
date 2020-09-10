@@ -12,11 +12,13 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
+      "@filters/*": ["./src/filters/*"],
       "@guards/*": ["./src/guards/*"],
       "@shared/*": ["./src/components/shared/*"],
       "@components/*": ["./src/components/*"],
       "@pipes/*": ["./src/pipes/*"],
-      "@interfaces/*": ["../../../app/templates/src/interfaces/*"]
+      "@interfaces/*": ["../../../app/templates/src/interfaces/*"],
+      "@dto/*": ["./src/dto/*"]
     }
   }
 }

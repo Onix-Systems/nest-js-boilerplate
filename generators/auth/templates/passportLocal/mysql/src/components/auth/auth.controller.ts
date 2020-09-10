@@ -1,14 +1,13 @@
 import {
   Body,
   Controller,
-  HttpCode,
   Post,
-  Delete,
   Request,
   UseGuards,
   Res,
   Render,
   Get,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -16,16 +15,16 @@ import {
   ApiUnauthorizedResponse,
   ApiInternalServerErrorResponse,
   ApiCookieAuth,
+  ApiMovedPermanentlyResponse,
+  ApiBody,
 } from '@nestjs/swagger';
 import { Response } from 'express';
-import { ICreatedResponse } from '@interfaces/responses/ICreatedResponse.interface';
 
-import LocalAuthGuard from '@components/auth/guards/local-auth.guard';
-import AuthService from '@components/auth/auth.service';
 import UsersService from '@components/users/users.service';
-import UserDto from '@components/users/dto/user.dto';
-import IsLoggedGuard from '@guards/isLogged.guard';
-import IsNotLoggedGuard from '@guards/isNotLogged.guard';
+import SignInDto from '@components/auth/dto/signIn.dto';
+import LocalAuthGuard from './guards/local-auth.guard';
+import AuthService from './auth.service';
+import SignUpDto from './dto/signUp.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -49,12 +48,12 @@ export default class AuthController {
   @Render('signup')
   async signup(@Request() req, @Res() res: Response): Promise<void> {}
 
-  @ApiOkResponse({ description: 'Creates a user' })
+  @ApiMovedPermanentlyResponse({ description: 'Redirects to home' })
   @ApiInternalServerErrorResponse({ description: 'Returns the 500 error' })
   @Post('/register')
   @Render('create')
   async create(
-    @Body() params,
+    @Body() params: SignUpDto,
     @Request() req,
     @Res() res: Response,
   ): Promise<void> {
@@ -63,7 +62,7 @@ export default class AuthController {
     res.redirect('/');
   }
 
-  @ApiOkResponse({ description: 'If logout is success' })
+  @ApiMovedPermanentlyResponse({ description: '301. If logout is success' })
   @ApiInternalServerErrorResponse({ description: 'Internal error' })
   @Get('/logout')
   logout(@Request() req, @Res() res: Response): void {
@@ -72,10 +71,12 @@ export default class AuthController {
   }
 
   @ApiCookieAuth()
-  @ApiOkResponse({ description: 'Returns 200 if login is ok' })
+  @ApiBody({ type: SignInDto })
+  @ApiMovedPermanentlyResponse({ description: 'Returns 301 if login is ok' })
   @ApiInternalServerErrorResponse({
     description: 'Returns 500 if smth has been failed',
   })
+  @HttpCode(301)
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   login(@Request() req, @Res() res: Response): void {
