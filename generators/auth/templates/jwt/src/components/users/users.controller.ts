@@ -23,7 +23,6 @@ import UserEntity from './entities/user.entity';
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @ApiBearerAuth()
   @ApiOkResponse({
     type: UserEntity,
     description: '200. Success. Returns a user',
