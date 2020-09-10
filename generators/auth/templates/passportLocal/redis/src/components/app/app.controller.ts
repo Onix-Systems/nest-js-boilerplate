@@ -1,4 +1,6 @@
-import { Controller, Render, UseGuards, Get, Res, Req } from '@nestjs/common';
+import {
+  Controller, Render, UseGuards, Get, Res, Req,
+} from '@nestjs/common';
 import {
   ApiTags,
   ApiCookieAuth,
@@ -8,12 +10,16 @@ import {
 import { Response } from 'express';
 
 import IsLoggedGuard from '@guards/isLogged.guard';
+import UserEntity from '@components/users/entities/user.entity';
 
 @ApiTags('App')
 @Controller()
 export default class AppController {
   @ApiCookieAuth()
-  @ApiOkResponse({ description: 'Returns the logged user' })
+  @ApiOkResponse({
+    type: UserEntity,
+    description: 'Returns the logged user',
+  })
   @ApiUnauthorizedResponse({
     status: 401,
     description: 'Returns the unauthorized error',

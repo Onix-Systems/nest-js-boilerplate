@@ -10,10 +10,12 @@ import {
   ApiOkResponse,
   ApiNotFoundResponse,
   ApiBearerAuth,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import UsersService from './users.service';
 import JwtAuthGuard from '@guards/jwt-auth.guard';
 import ParseObjectIdPipe from '@pipes/parseObjectId.pipe';
+import UsersService from './users.service';
+import UserEntity from './entities/user.entity';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -21,13 +23,22 @@ import ParseObjectIdPipe from '@pipes/parseObjectId.pipe';
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @ApiOkResponse({ description: '200. Success. Returns a user' })
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    type: UserEntity,
+    description: '200. Success. Returns a user',
+  })
   @ApiNotFoundResponse({
     description: '404. NotFoundException. User was not found',
   })
+  @ApiUnauthorizedResponse({
+    description: '401. UnauthorizedException.',
+  })
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  async getById(@Param('id', ParseObjectIdPipe) id: string) {
+  async getById(
+    @Param('id', ParseObjectIdPipe) id: string,
+  ): Promise<UserEntity | never> {
     const foundUser = await this.usersService.getById(id);
 
     if (!foundUser) {

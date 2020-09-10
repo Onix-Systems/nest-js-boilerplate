@@ -1,12 +1,12 @@
 import * as bcrypt from 'bcrypt';
 
+import { ObjectID } from 'mongodb';
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ObjectID } from 'mongodb';
 
-import UserEntity from '@components/users/entities/user.entity';
-import UserDto from '@components/users/dto/user.dto';
+import UserEntity from './entities/user.entity';
+import UserDto from './dto/user.dto';
 
 @Injectable()
 export default class UsersService {
@@ -34,8 +34,8 @@ export default class UsersService {
 
   getById(id: ObjectID, verified = true): Promise<UserEntity> {
     return this.usersRepository.findOne({
-      _id: new ObjectID(id),
       verified,
+      _id: new ObjectID(id),
     });
   }
 }

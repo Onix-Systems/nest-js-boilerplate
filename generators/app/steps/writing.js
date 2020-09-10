@@ -1,16 +1,18 @@
 const path = require('path');
-const walkDir = require('../../../utils/walkDir');
+const fs = require('fs');
 
 module.exports = function() {
   const payload = {
     config: this.answers,
   };
 
-  this.fs.copyTpl(
-    this.templatePath(path.join(`./src`)),
-    this.destinationPath(`${this.answers.identifier}/src`),
-    payload,
-  );
+  if (fs.existsSync(`./src`)) {
+    this.fs.copyTpl(
+      this.templatePath(path.join(`./src`)),
+      this.destinationPath(`${this.answers.identifier}/src`),
+      payload,
+    );
+  }
 
   this.fs.copyTpl(
     this.templatePath(path.join(`./index.js`)),

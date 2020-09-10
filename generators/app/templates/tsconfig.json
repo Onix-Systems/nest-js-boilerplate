@@ -17,7 +17,8 @@
       "@interfaces/*": ["./src/interfaces/*"],
       "@shared/*": ["./src/components/shared/*"],
       "@components/*": ["./src/components/*"],
-      "@pipes/*": ["./src/pipes/*"]
+      "@pipes/*": ["./src/pipes/*"],
+      "@dto/*": ["./src/dto/*"]
     }
   }
 }

@@ -9,6 +9,7 @@ import * as session from 'express-session';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import AllExceptionsFilter from '@filters/allException.filter';
 
 import AppModule from '@components/app/app.module';
 
@@ -19,6 +20,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   app.use(
     session({
@@ -49,8 +51,6 @@ async function bootstrap() {
 
   const port = process.env.SERVER_PORT || 3000;
 
-  await app.listen(port, () =>
-    console.log(`The server is running on ${port} port`),
-  );
+  await app.listen(port, () => console.log(`The server is running on ${port} port`));
 }
 bootstrap();

@@ -14,10 +14,10 @@ import {
   ApiTags,
   ApiNoContentResponse,
 } from '@nestjs/swagger';
-import { ICreatedResponse } from '@interfaces/responses/ICreatedResponse.interface';
 
 import UsersService from '@components/users/users.service';
 import IsLoggedGuard from '@guards/isLogged.guard';
+import CreatedResponseDto from '@dto/createdResponse.dto';
 import AuthService from './auth.service';
 import GoogleAuthGuard from './guards/google-auth.guard';
 
@@ -34,13 +34,16 @@ export default class AuthController {
   @UseGuards(GoogleAuthGuard)
   async googleAuth(@Req() req) {}
 
-  @ApiOkResponse({ description: 'User registered/authorized successfully ' })
+  @ApiOkResponse({
+    type: CreatedResponseDto,
+    description: 'User registered/authorized successfully ',
+  })
   @ApiInternalServerErrorResponse({
     description: 'InternalServerError. User was not authorized/registered',
   })
   @Get('redirect')
   @UseGuards(GoogleAuthGuard)
-  async googleAuthRedirect(@Req() req): Promise<ICreatedResponse | never> {
+  async googleAuthRedirect(@Req() req): Promise<CreatedResponseDto | never> {
     if (!req.user) {
       throw new ForbiddenException('No user from google');
     }
@@ -58,13 +61,11 @@ export default class AuthController {
     };
   }
 
-  @ApiNoContentResponse({ description: 'user was deleted successfully' })
+  @ApiNoContentResponse({ description: 'User was signed out successfully' })
   @UseGuards(IsLoggedGuard)
   @Delete('logout')
   @HttpCode(204)
-  async logout(@Req() req): Promise<boolean | never> {
+  async logout(@Req() req): Promise<void | never> {
     await req.logout();
-
-    return true;
   }
 }

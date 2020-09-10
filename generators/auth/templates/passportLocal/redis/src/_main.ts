@@ -15,7 +15,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import AppModule from '@components/app/app.module';
-import NotFoundExceptionFilter from '@filters/404.filter';
+import AllExceptionsFilter from '@filters/allExceptions.filter';
 
 const redisClient = redis.createClient();
 const RedisStore = redisStore(session);
@@ -24,7 +24,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new NotFoundExceptionFilter());
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   const viewsPath = join(__dirname, '../public/views');
 
@@ -62,8 +62,6 @@ async function bootstrap() {
 
   const port = process.env.SERVER_PORT || 3000;
 
-  await app.listen(port, () =>
-    console.log(`The server is running on ${port} port`),
-  );
+  await app.listen(port, () => console.log(`The server is running on ${port} port`));
 }
 bootstrap();
