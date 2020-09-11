@@ -52,7 +52,7 @@ npm install -g generator-nest-js-boilerplate
 Then generate your new project:
 
 ```bash
-yo nest-js-boilerplate
+yo @onix-systems/nestjs-boilerplate
 ```
 
 App Skeleton
@@ -109,6 +109,18 @@ To run integration tests:
 npm test
 ```
 
+### Docker
+
+ * [Install Docker](https://docs.docker.com/get-docker/)
+ * [Install docker-compose](https://docs.docker.com/compose/install/)
+
+ To run your app in docker containers choose "Yes" when the generator asks you about docker.
+ 
+ #### Now, lift up your app in docker 
+``` 
+  docker-compose up 
+```
+  
 ## Set up environment
 In root folder you can find `.env`. You can use this config or change it for your purposes.
 
