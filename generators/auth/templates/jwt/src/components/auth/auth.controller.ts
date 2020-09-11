@@ -23,7 +23,6 @@ import { JwtService } from '@nestjs/jwt';
 import UsersService from '@components/users/users.service';
 import UserEntity from '@components/users/entities/user.entity';
 import JwtAuthGuard from '@guards/jwtAuth.guard';
-import CreateUserDto from '@components/users/dto/createUser.dto';
 
 import OkResponseDto from '@dto/okResponse.dto';
 import { IAuthLoginOutput } from './interfaces/IAuthLoginOutput.interface';
@@ -58,7 +57,7 @@ export default class AuthController {
   @ApiOkResponse({ description: '200, Success' })
   @ApiInternalServerErrorResponse({ description: '500. InternalServerError' })
   @Post('sign-up')
-  async signUp(@Body() user: CreateUserDto): Promise<OkResponseDto> {
+  async signUp(@Body() user: SignUpDto): Promise<OkResponseDto> {
     await this.usersService.create(user);
 
     return {
