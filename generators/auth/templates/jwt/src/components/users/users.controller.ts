@@ -12,7 +12,7 @@ import {
   ApiBearerAuth,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import JwtAuthGuard from '@guards/jwt-auth.guard';
+import JwtAuthGuard from '@guards/jwtAuth.guard';
 import ParseObjectIdPipe from '@pipes/parseObjectId.pipe';
 import UsersService from './users.service';
 import UserEntity from './entities/user.entity';
@@ -45,5 +45,20 @@ export default class UsersController {
     }
 
     return foundUser;
+  }
+
+  @ApiOkResponse({
+    type: [UserEntity],
+    description: '200. Success. Returns all users',
+  })
+  @ApiUnauthorizedResponse({
+    description: '401. UnauthorizedException.',
+  })
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getAllVerifiedUsers(): Promise<UserEntity[] | []> {
+    const foundUsers = await this.usersService.getAll(true);
+
+    return foundUsers;
   }
 }

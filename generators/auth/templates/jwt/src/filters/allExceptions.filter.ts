@@ -1,4 +1,5 @@
 import {
+  HttpStatus,
   ExceptionFilter,
   Catch,
   ArgumentsHost,
@@ -15,6 +16,17 @@ export default class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
+
+    const mongodbCodes = {
+      bulkWriteError: 11000,
+    };
+
+    if (exception.code === mongodbCodes.bulkWriteError) {
+      return res.status(HttpStatus.CONFLICT).json({
+        statusCode: HttpStatus.CONFLICT,
+        message: 'Entities conflict',
+      });
+    }
 
     if (
       exception instanceof NotFoundException

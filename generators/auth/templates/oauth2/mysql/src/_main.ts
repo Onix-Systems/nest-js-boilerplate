@@ -25,11 +25,11 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       store: new MySQLStore({
-        host: 'localhost',
+        host: 'mysql',
         port: 3306,
         user: 'root',
         password: '1234',
-        database: 'sessions',
+        database: 'app',
       }),
     }),
   );

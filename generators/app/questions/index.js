@@ -4,6 +4,7 @@ const authType = require('./authType');
 const additionalAuthQuestions = require('./additionalAuthQuestions');
 const identifier = require('./identifier');
 const description = require('./description');
+const docker = require('./docker');
 
 module.exports = {
   packageManager,
@@ -14,4 +15,5 @@ module.exports = {
   },
   identifier,
   description,
+  docker,
 };

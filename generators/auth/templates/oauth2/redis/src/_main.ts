@@ -13,7 +13,9 @@ import AllExceptionsFilter from '@filters/allException.filter';
 
 import AppModule from '@components/app/app.module';
 
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({
+  url: 'redis://redis:6379',
+});
 const RedisStore = redisStore(session);
 
 async function bootstrap() {

@@ -16,7 +16,7 @@ export default class UsersService {
   create(user: UserDto): Promise<UserEntity> {
     return this.usersRepository.save({
       ...user,
-      verified: false,
+      verified: true,
     });
   }
 

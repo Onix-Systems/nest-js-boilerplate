@@ -21,7 +21,7 @@ export default class UsersService {
     return this.usersRepository.save({
       password: hashedPassword,
       email: userDto.email,
-      verified: false,
+      verified: true,
     });
   }
 
@@ -37,5 +37,9 @@ export default class UsersService {
       _id: new ObjectID(id),
       verified,
     });
+  }
+
+  getAll(): Promise<UserEntity[] | []> {
+    return this.usersRepository.find();
   }
 }

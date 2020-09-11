@@ -35,7 +35,7 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       store: new MongoDBStore({
-        uri: 'mongodb+srv://root:1234@cluster0-ilpdw.mongodb.net/nestjs-test-api',
+        uri: 'mongodb://mongodb:27017/app',
         collection: 'sessions',
       }),
     }),

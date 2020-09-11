@@ -17,7 +17,9 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import AppModule from '@components/app/app.module';
 import AllExceptionsFilter from '@filters/allExceptions.filter';
 
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({
+  url: 'redis://redis:6379',
+});
 const RedisStore = redisStore(session);
 
 async function bootstrap() {

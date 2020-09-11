@@ -11,6 +11,7 @@ import { IAuthValidateUserOutput } from '@components/auth/interfaces/IAuthValida
 import { IAuthLoginOutput } from '@components/auth/interfaces/IAuthLoginOutput.interface';
 
 import UsersService from '@components/users/users.service';
+import UserEntity from '@components/users/entities/user.entity';
 
 @Injectable()
 export default class AuthService {
@@ -28,7 +29,7 @@ export default class AuthService {
     email: string,
     password: string,
   ): Promise<null | IAuthValidateUserOutput> {
-    const user = await this.usersService.getVerifiedByEmail(email);
+    const user = await this.usersService.getByEmail(email);
 
     if (!user) {
       throw new NotFoundException('The item does not exist');

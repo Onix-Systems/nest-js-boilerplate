@@ -1,12 +1,13 @@
 import * as bcrypt from 'bcrypt';
 
 import { ObjectID } from 'mongodb';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import UserEntity from './entities/user.entity';
-import UserDto from './dto/user.dto';
+import UpdateUserDto from './dto/updateUser.dto';
+import CreateUserDto from './dto/createUser.dto';
 
 @Injectable()
 export default class UsersService {
@@ -15,20 +16,20 @@ export default class UsersService {
     private readonly usersRepository: Repository<UserEntity>,
   ) {}
 
-  async create(userDto: UserDto): Promise<UserEntity> {
-    const hashedPassword = await bcrypt.hash(userDto.password, 10);
+  async create(user: CreateUserDto): Promise<UserEntity> {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
 
     return this.usersRepository.save({
       password: hashedPassword,
-      email: userDto.email,
+      email: user.email,
       verified: false,
     });
   }
 
-  getVerifiedByEmail(email: string): Promise<UserEntity> {
+  getByEmail(email: string, verified = true): Promise<UserEntity> {
     return this.usersRepository.findOne({
       email,
-      verified: true,
+      verified,
     });
   }
 
@@ -36,6 +37,18 @@ export default class UsersService {
     return this.usersRepository.findOne({
       verified,
       _id: new ObjectID(id),
+    });
+  }
+
+  update(id: ObjectID, data: UpdateUserDto): Promise<UpdateResult> {
+    return this.usersRepository.update(id, data);
+  }
+
+  getAll(verified : boolean = true): Promise<UserEntity[] | []> {
+    return this.usersRepository.find({
+      where: {
+        verified,
+      },
     });
   }
 }
