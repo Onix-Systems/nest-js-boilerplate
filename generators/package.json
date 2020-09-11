@@ -26,7 +26,9 @@
   "repository": {
     "url": "https://github.com/Onix-Systems/nest-js-boilerplate"
   },
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -84,7 +86,8 @@
     "ts-node": "8.6.2",
     "typeorm": "0.2.25",
     "yeoman-generator": "4.12.0",
-    "yosay": "2.0.2"
+    "yosay": "2.0.2",
+    "open": "7.2.1"
   },
   "devDependencies": {
     "@nestjs/cli": "7.0.0",

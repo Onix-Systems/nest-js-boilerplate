@@ -6,6 +6,7 @@ import AuthModule from '@components/auth/auth.module';
 import UsersModule from '@components/users/users.module';
 
 import AppController from './app.controller';
+import AppService from './app.service';
 
 @Module({
   imports: [
@@ -32,6 +33,6 @@ import AppController from './app.controller';
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [AppService],
 })
 export default class AppModule {}

@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RedisModule } from 'nestjs-redis';
+import { ConfigModule } from '@nestjs/config';
 
 import AuthModule from '@components/auth/auth.module';
 import UsersModule from '@components/users/users.module';
-import { ConfigModule } from '@nestjs/config';
+
+import AppService from './app.service';
 
 @Module({
   imports: [
@@ -40,6 +42,6 @@ import { ConfigModule } from '@nestjs/config';
     UsersModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [AppService],
 })
 export default class AppModule {}

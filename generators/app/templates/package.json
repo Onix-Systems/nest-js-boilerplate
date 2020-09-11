@@ -39,7 +39,8 @@
     "rxjs": "6.5.4",
     "typeorm": "0.2.25",
     "@nestjs/swagger": "4.6.0",
-    "swagger-ui-express": "4.1.4"
+    "swagger-ui-express": "4.1.4",
+    "open": "7.2.1"
   },
   "devDependencies": {
     "@nestjs/cli": "7.0.0",
