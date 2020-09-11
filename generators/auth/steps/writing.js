@@ -71,4 +71,13 @@ module.exports = function() {
       payload,
     );
   }
+
+  // DOCKER
+  if (answers.wantedDocker.toLowerCase() === 'yes') {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/docker-compose.yml`),
+      this.destinationPath(`${answers.identifier}/docker-compose.yml`),
+      payload,
+    );
+  }
 };

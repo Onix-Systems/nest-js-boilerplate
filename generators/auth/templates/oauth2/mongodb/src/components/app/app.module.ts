@@ -15,7 +15,7 @@ import AppService from './app.service';
     }),
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: 'mongodb+srv://root:1234@cluster0-ilpdw.mongodb.net/nestjs-test-api',
+      url: 'mongodb://mongodb:27017/app',
       // automatically try to reconnect when it loses connection
       autoReconnect: true,
       // reconnect every reconnectInterval milliseconds

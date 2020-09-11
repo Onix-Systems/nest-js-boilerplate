@@ -16,21 +16,22 @@ import {
   ApiOkResponse,
   ApiInternalServerErrorResponse,
   ApiUnauthorizedResponse,
-  ApiBearerAuth,
+  ApiBearerAuth, ApiNotFoundResponse,
 } from '@nestjs/swagger';
 import { JwtService } from '@nestjs/jwt';
 
 import UsersService from '@components/users/users.service';
-import UserDto from '@components/users/dto/user.dto';
-import JwtAuthGuard from '@guards/jwt-auth.guard';
-import CreatedResponse from '@dto/createdResponse.dto';
+import UserEntity from '@components/users/entities/user.entity';
+import JwtAuthGuard from '@guards/jwtAuth.guard';
 
+import OkResponseDto from '@dto/okResponse.dto';
 import { IAuthLoginOutput } from './interfaces/IAuthLoginOutput.interface';
-import LocalAuthGuard from './guards/local-auth.guard';
+import LocalAuthGuard from './guards/localAuth.guard';
 import AuthService from './auth.service';
 import RefreshTokenDto from './dto/refreshToken.dto';
 import SignInDto from './dto/signIn.dto';
 import SignUpDto from './dto/signUp.dto';
+import VerifyUserDto from './dto/verifyUser.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -56,8 +57,8 @@ export default class AuthController {
   @ApiOkResponse({ description: '200, Success' })
   @ApiInternalServerErrorResponse({ description: '500. InternalServerError' })
   @Post('sign-up')
-  async signUp(@Body() userDto: UserDto): Promise<CreatedResponse> {
-    await this.usersService.create(userDto);
+  async signUp(@Body() user: SignUpDto): Promise<OkResponseDto> {
+    await this.usersService.create(user);
 
     return {
       message: 'The item was created successfully',
@@ -91,6 +92,29 @@ export default class AuthController {
     const newTokens = await this.authService.login(payload);
 
     return newTokens;
+  }
+
+  @ApiOkResponse({
+    type: OkResponseDto,
+    description: 'User was successfully verified',
+  })
+  @ApiNotFoundResponse({
+    description: 'User was not found',
+  })
+  @Post('verify')
+  async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<boolean | never> {
+    const foundUser: UserEntity = await this.usersService.getByEmail(
+      verifyUserDto.email,
+      false,
+    );
+
+    if (!foundUser) {
+      throw new NotFoundException('The user does not exist');
+    }
+
+    await this.usersService.update(foundUser._id, { verified: true });
+
+    return true;
   }
 
   @ApiOkResponse({ description: '200, returns new jwt tokens' })

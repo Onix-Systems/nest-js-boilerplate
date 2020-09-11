@@ -72,6 +72,10 @@ const authTypeDependencies = {
       mysql: [
         'passport-local',
         'express-session',
+        'hbs',
+        'express-handlebars',
+        'cookie-parser',
+        'connect-flash',
         'express-mysql-session',
       ],
     },

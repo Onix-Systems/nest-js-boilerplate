@@ -15,9 +15,13 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import AppModule from '@components/app/app.module';
+import AppService from '@components/app/app.service';
+
 import AllExceptionsFilter from '@filters/allExceptions.filter';
 
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({
+  url: 'redis://redis:6379',
+});
 const RedisStore = redisStore(session);
 
 async function bootstrap() {
@@ -62,6 +66,12 @@ async function bootstrap() {
 
   const port = process.env.SERVER_PORT || 3000;
 
-  await app.listen(port, () => console.log(`The server is running on ${port} port`));
+  await app.listen(port, async () => {
+    const appService = app.get<AppService>(AppService);
+
+    await appService.openSwagger();
+
+    console.log(`The server is running on ${port} port`);
+  });
 }
 bootstrap();

@@ -6,6 +6,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import AppModule from './components/app/app.module';
+import AppService from './components/app/app.service';
+
 import AllExceptionsFilter from './filters/allExceptions.filter';
 
 async function bootstrap() {
@@ -26,6 +28,12 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(port, () => console.log(`The server is running on ${port} port`));
+  await app.listen(port, async () => {
+    const appService = app.get<AppService>(AppService);
+
+    await appService.openSwagger();
+
+    console.log(`The server is running on ${port} port`);
+  });
 }
 bootstrap();

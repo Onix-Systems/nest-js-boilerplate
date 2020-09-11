@@ -41,6 +41,10 @@ module.exports = {
     );
   },
 
+  askWouldHeLikeDocker() {
+    askQuestions.call(this, 'Docker', questions.docker, this.async());
+  },
+
   askAppIdentifier() {
     askQuestions.call(
       this,

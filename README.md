@@ -9,12 +9,12 @@
 This generator will help you to build your own Nest.js Mongodb API using TypeScript 3.
 
 ### Project Introduction
-- support ES6/ES7 features
-- using tslint followed [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
+- Support ES6/ES7 features
+- Using Eslint followed [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
 - Husky
 - Commitizen
 - MIT license and Code of conduct
-- Eslint
+- Docker
 - Prettier
 - Jest because testing matters
 - Typescript for coding with static type checking
@@ -57,26 +57,33 @@ yo nest-js-boilerplate
 
 App Skeleton
 
-```├── index.js
+```
+├── src
+│├── components
+││├── app
+│││   └── ...
+││├── auth
+│││   └── ...
+││└── users
+││    └── ...
+│├── dto
+││└── ...
+│├── filters
+││└── ...
+│├── guards
+││└── ...
+│├── main.ts
+│└── pipes
+│    └── ...
+├── docker-compose.yml
+├── index.js
 ├── nest-cli.json
 ├── package.json
 ├── package-lock.json
 ├── README.md
-├── src
-│ ├── components
-│ │ ├── app...
-│ │ ├── auth
-│ │ │ ├── guards...
-│ │ │ ├── serializers...
-│ │ │ └── strategies...
-│ │ └── users...
-│ ├── guards...
-│ ├── interfaces
-│ │ └── responses...
-│ ├── main.ts
-│ └── pipes...
 ├── tsconfig.build.json
 └── tsconfig.json
+
 ```
 
 ## Running the API
@@ -109,6 +116,18 @@ To run integration tests:
 npm test
 ```
 
+### Docker
+
+ * [Install Docker](https://docs.docker.com/get-docker/)
+ * [Install docker-compose](https://docs.docker.com/compose/install/)
+
+ To run your app in docker containers choose "Yes" when the generator asks you about docker.
+ 
+ #### Now, lift up your app in docker 
+``` 
+  docker-compose up 
+```
+  
 ## Set up environment
 In root folder you can find `.env`. You can use this config or change it for your purposes.
 

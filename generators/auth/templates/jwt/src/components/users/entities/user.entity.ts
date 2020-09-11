@@ -1,5 +1,9 @@
 import {
-  Entity, Column, ObjectIdColumn, ObjectID, Index,
+  Entity,
+  Column,
+  ObjectIdColumn,
+  ObjectID,
+  Index,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
