@@ -131,6 +131,13 @@ npm test
 ## Set up environment
 In root folder you can find `.env`. You can use this config or change it for your purposes.
 
+## Deploy 
+ - Heroku
+    - npm run deploy:heroku
+    - NOTICES 
+        - Check all urls to dbs if they are true, they must connect to dbs which located at them own servers like mongodb on Mlab
+        - When you'll run npm run deploy:heroku you'll need to sign in on heroku. You will be redirected to login form.
+        
 ## Swagger
 Swagger documentation will be available on route:
 ```bash
