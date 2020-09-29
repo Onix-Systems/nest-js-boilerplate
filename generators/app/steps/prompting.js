@@ -41,6 +41,10 @@ module.exports = {
     );
   },
 
+  askAboutDatabase() {
+    askQuestions.call(this, 'Database', questions.db, this.async());
+  },
+  
   askWouldHeLikeDocker() {
     askQuestions.call(this, 'Docker', questions.docker, this.async());
   },

@@ -5,8 +5,8 @@ module.exports = function() {
   const { answers } = this.options;
 
   const authFolder = answers.sessionsStorage
-    ? `${answers.authType}/${answers.sessionsStorage}`
-    : answers.authType;
+    ? `${answers.db.toLowerCase()}/${answers.authType}/${answers.sessionsStorage}`
+    : `${answers.db.toLowerCase()}/${answers.authType}`;
 
   if (!authFolder) {
     throw new Error('The auth folder is not existing');
@@ -27,11 +27,7 @@ module.exports = function() {
     this.destinationPath(`${answers.identifier}/src/guards/`),
     payload,
   );
-  this.fs.copyTpl(
-    this.templatePath(`${authFolder}/src/pipes/`),
-    this.destinationPath(`${answers.identifier}/src/pipes/`),
-    payload,
-  );
+
   this.fs.copyTpl(
     this.templatePath(`${authFolder}/_.env`),
     this.destinationPath(`${answers.identifier}/.env`),
@@ -47,6 +43,13 @@ module.exports = function() {
     this.fs.copyTpl(
       this.templatePath(`${authFolder}/public`),
       this.destinationPath(`${answers.identifier}/public`),
+      payload,
+    );
+  }
+  if (fs.existsSync(`${fullPathToAuthFolder}/src/pipes`)) {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/pipes/`),
+      this.destinationPath(`${answers.identifier}/src/pipes/`),
       payload,
     );
   }

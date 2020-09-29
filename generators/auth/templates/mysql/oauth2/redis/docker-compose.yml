@@ -1,0 +1,30 @@
+version: "3"
+services:
+  app:
+    image: node:12
+    container_name: app
+    command: bash -c "npm run start:dev"
+    working_dir: /var/www/app
+    volumes:
+      - ./:/var/www/app:cached
+    restart: always
+    ports:
+      - 3000:3000
+    links:
+      - mysql
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=app
+      - MYSQL_ROOT_PASSWORD=1234
+
+  redis:
+    image: redis:6
+    restart: always
+    ports:
+      - 6379:6379

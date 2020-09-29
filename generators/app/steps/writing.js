@@ -36,6 +36,11 @@ module.exports = function() {
     payload,
   );
   this.fs.copyTpl(
+    this.templatePath(path.join('./deployHeroku.sh')),
+    this.destinationPath(`${this.answers.identifier}/deployHeroku.sh`),
+    payload,
+  );
+  this.fs.copyTpl(
     this.templatePath(path.join('./README.md')),
     this.destinationPath(`${this.answers.identifier}/README.md`),
     payload,
