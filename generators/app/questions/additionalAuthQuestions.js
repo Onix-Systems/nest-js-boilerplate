@@ -51,6 +51,18 @@ module.exports = {
       message: 'Type your expiration time for access token',
       default: '1d',
     },
+    {
+      type: 'input',
+      name: 'accessTokenSecret',
+      message: 'Type your secret for access token',
+      default: '283f01ccce922bcc2399e7f8ded981285963cec349daba382eb633c1b3a5f282',
+    },
+    {
+      type: 'input',
+      name: 'refreshTokenSecret',
+      message: 'Type your secret for refresh token',
+      default: 'c15476aec025be7a094f97aac6eba4f69268e706e603f9e1ec4d815396318c86',
+    },
   ],
   passportLocal: [
     {

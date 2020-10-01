@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import usersConstants from '../constants';
+import usersConstants from '../users-constants';
 
 const UserSchema = new Schema({
   email: {
@@ -13,6 +13,7 @@ const UserSchema = new Schema({
   },
   verified: {
     type: Boolean,
+    default: false,
     required: true,
   },
 }, {

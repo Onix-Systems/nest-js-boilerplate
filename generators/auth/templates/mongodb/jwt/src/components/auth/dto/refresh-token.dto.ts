@@ -8,5 +8,5 @@ export default class RefreshTokenDto {
   @IsNotEmpty()
   @MinLength(32)
   @IsString()
-  refreshToken: string;
+  readonly refreshToken: string = '';
 }

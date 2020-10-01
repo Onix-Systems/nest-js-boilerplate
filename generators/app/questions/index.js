@@ -6,6 +6,7 @@ const identifier = require('./identifier');
 const description = require('./description');
 const docker = require('./docker');
 const db = require('./db');
+const deploy = require('./deploy');
 
 module.exports = {
   packageManager,
@@ -18,4 +19,5 @@ module.exports = {
   description,
   docker,
   db,
+  deploy,
 };

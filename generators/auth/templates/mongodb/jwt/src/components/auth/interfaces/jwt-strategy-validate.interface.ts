@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-export interface IJwtStrategyValidate {
+export interface JwtStrategyValidate {
   id: Types.ObjectId;
   email: string;
 }

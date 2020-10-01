@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-export interface IAuthValidateUserOutput {
+export interface ValidateUserOutput {
   id: Types.ObjectId;
   email?: string;
 }

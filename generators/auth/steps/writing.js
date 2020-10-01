@@ -74,7 +74,28 @@ module.exports = function() {
       payload,
     );
   }
-
+  if (fs.existsSync(`${fullPathToAuthFolder}/src/responses`)) {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/responses`),
+      this.destinationPath(`${answers.identifier}/src/responses`),
+      payload,
+    );
+  }
+  if (fs.existsSync(`${fullPathToAuthFolder}/src/interceptors`)) {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/interceptors`),
+      this.destinationPath(`${answers.identifier}/src/interceptors`),
+      payload,
+    );
+  }
+  if (fs.existsSync(`${fullPathToAuthFolder}/src/decorators`)) {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/decorators`),
+      this.destinationPath(`${answers.identifier}/src/decorators`),
+      payload,
+    );
+  }
+  
   // DOCKER
   if (answers.wantedDocker.toLowerCase() === 'yes') {
     this.fs.copyTpl(

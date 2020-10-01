@@ -36,11 +36,6 @@ module.exports = function() {
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(path.join('./deployHeroku.sh')),
-    this.destinationPath(`${this.answers.identifier}/deployHeroku.sh`),
-    payload,
-  );
-  this.fs.copyTpl(
     this.templatePath(path.join('./README.md')),
     this.destinationPath(`${this.answers.identifier}/README.md`),
     payload,
@@ -82,4 +77,12 @@ module.exports = function() {
     this.destinationPath(`${this.answers.identifier}/.prettierrc`),
     payload,
   );
+
+  if (answers['deploy:heroku'] === 'Yes') {
+    this.fs.copyTpl(
+      this.templatePath(path.join('./deploy-heroku.sh')),
+      this.destinationPath(`${this.answers.identifier}/deploy-heroku.sh`),
+      payload,
+    );
+  }
 };

@@ -5,11 +5,11 @@ import { ObjectID } from 'mongodb';
 import { Injectable } from '@nestjs/common';
 
 import { InjectModel } from '@nestjs/mongoose';
+import SignUpDto from '@components/auth/dto/sign-up.dto';
 import UserEntity from './entities/user.entity';
 
-import UpdateUserDto from './dto/updateUser.dto';
-import CreateUserDto from './dto/createUser.dto';
-import usersConstants from './constants';
+import UpdateUserDto from './dto/update-user.dto';
+import usersConstants from './users-constants';
 
 @Injectable()
 export default class UsersService {
@@ -19,27 +19,26 @@ export default class UsersService {
     ) private usersRepository: Model<UserEntity>,
   ) {}
 
-  async create(user: CreateUserDto): Promise<UserEntity> {
+  async create(user: SignUpDto): Promise<UserEntity> {
     const hashedPassword = await bcrypt.hash(user.password, 10);
 
     return this.usersRepository.create({
       password: hashedPassword,
       email: user.email,
-      verified: false,
     });
   }
 
-  getByEmail(email: string, verified = true): Promise<UserEntity> {
+  getByEmail(email: string, verified = true): Promise<UserEntity | null> {
     return this.usersRepository.findOne({
       email,
       verified,
     }).exec();
   }
 
-  getById(id: ObjectID, verified = true): Promise<UserEntity> {
+  getById(id: ObjectID, verified = true): Promise<UserEntity | null> {
     return this.usersRepository.findOne({
       verified,
-      _id: new ObjectID(id),
+      _id: id,
     }).exec();
   }
 

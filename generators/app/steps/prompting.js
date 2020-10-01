@@ -44,9 +44,13 @@ module.exports = {
   askAboutDatabase() {
     askQuestions.call(this, 'Database', questions.db, this.async());
   },
-  
+
   askWouldHeLikeDocker() {
     askQuestions.call(this, 'Docker', questions.docker, this.async());
+  },
+
+  askWouldHeLikeToDeployOnHeroku() {
+    askQuestions.call(this, 'Deploy on heroku', questions.deploy, this.async());
   },
 
   askAppIdentifier() {

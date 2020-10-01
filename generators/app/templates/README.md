@@ -3,7 +3,7 @@
 
 ![onix](https://img.shields.io/badge/onix-systems-blue.svg)
 
-> Node.js Nest.js API with TypeScript 3. Supports MongoDB
+> Node.js Nest.js API. Supports MongoDB, Mysql, Redis ;)
 
 ## Description
 This generator will help you to build your own Nest.js Mongodb API using TypeScript 3.
@@ -132,7 +132,7 @@ npm test
 In root folder you can find `.env`. You can use this config or change it for your purposes.
 
 ## Deploy 
- - Heroku
+ - Heroku (http://heroku.com)
     - npm run deploy:heroku
     - NOTICES 
         - Check all urls to dbs if they are true, they must connect to dbs which located at them own servers like mongodb on Mlab

@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
-export interface IDecodedUser {
-  readonly _id: Types.ObjectId;
+export interface DecodedUser {
+  readonly id: Types.ObjectId;
 
   readonly email: string;
 

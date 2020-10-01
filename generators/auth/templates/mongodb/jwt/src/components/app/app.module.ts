@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import AuthModule from '@components/auth/auth.module';
 import UsersModule from '@components/users/users.module';
 
+import AppController from './app.controller';
 import AppService from './app.service';
 
 @Module({
@@ -13,7 +14,7 @@ import AppService from './app.service';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot('mongodb://mongodb:27017/app', {
+    MongooseModule.forRoot(process.env.MONGODB_URL as string, {
       // automatically try to reconnect when it loses connection
       autoReconnect: true,
       useCreateIndex: true,
@@ -27,18 +28,22 @@ import AppService from './app.service';
       useUnifiedTopology: true,
     }),
     RedisModule.register({
-      url: 'redis://redis:6379',
+      url: process.env.REDIS_URL,
       onClientReady: async (client): Promise<void> => {
         client.on('error', console.error);
-        client.on('ready', () => console.log('redis is running on 6379 port'));
-        client.on('restart', () => console.log('attempt to restart the redis server'));
+        client.on('ready', () => {
+          console.log('redis is running on 6379 port');
+        });
+        client.on('restart', () => {
+          console.log('attempt to restart the redis server');
+        });
       },
       reconnectOnError: (): boolean => true,
     }),
     AuthModule,
     UsersModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [AppService],
 })
 export default class AppModule {}

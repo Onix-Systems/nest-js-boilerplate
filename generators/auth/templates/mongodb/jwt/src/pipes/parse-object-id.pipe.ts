@@ -3,7 +3,7 @@ import { ObjectID } from 'mongodb';
 
 @Injectable()
 export default class ParseObjectIdPipe implements PipeTransform<any, ObjectID> {
-  public transform(value): ObjectID {
+  public transform(value: string): ObjectID {
     try {
       return ObjectID.createFromHexString(value);
     } catch (error) {
