@@ -4,14 +4,15 @@ import * as bcrypt from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { RedisService } from 'nestjs-redis';
-import jwtConstants from '@components/auth/constants';
-
-import { IAuthLoginInput } from '@components/auth/interfaces/IAuthLoginInput.interface';
-import { IAuthValidateUserOutput } from '@components/auth/interfaces/IAuthValidateUserOutput.interface';
-import { IAuthLoginOutput } from '@components/auth/interfaces/IAuthLoginOutput.interface';
 
 import UsersService from '@components/users/users.service';
-import UserEntity from '@components/users/entities/user.entity';
+
+import { DecodedUser } from '@components/auth/interfaces/decoded-user.interface';
+import JwtTokensDto from './dto/jwt-tokens.dto';
+import { ValidateUserOutput } from './interfaces/validate-user-output.interface';
+import { LoginPayload } from './interfaces/login-payload.interface';
+
+import authConstants from './auth-constants';
 
 @Injectable()
 export default class AuthService {
@@ -28,7 +29,7 @@ export default class AuthService {
   async validateUser(
     email: string,
     password: string,
-  ): Promise<null | IAuthValidateUserOutput> {
+  ): Promise<null | ValidateUserOutput> {
     const user = await this.usersService.getByEmail(email);
 
     if (!user) {
@@ -47,20 +48,27 @@ export default class AuthService {
     return null;
   }
 
-  async login(data: IAuthLoginInput): Promise<IAuthLoginOutput> {
-    const payload = {
+  async login(data: LoginPayload): Promise<JwtTokensDto> {
+    const payload: LoginPayload = {
       id: data.id,
       email: data.email,
     };
 
     const accessToken = this.jwtService.sign(payload, {
-      expiresIn: jwtConstants.accessTokenExpirationTime,
+      expiresIn: authConstants.jwt.expirationTime.accessToken,
+      secret: authConstants.jwt.secrets.accessToken,
     });
     const refreshToken = this.jwtService.sign(payload, {
-      expiresIn: jwtConstants.refreshTokenExpirationTime,
+      expiresIn: authConstants.jwt.expirationTime.refreshToken,
+      secret: authConstants.jwt.secrets.refreshToken,
     });
 
-    await this.redisClient.set(payload.email, refreshToken, 'EX', 86400);
+    await this.redisClient.set(
+      payload.email as string,
+      refreshToken,
+      'EX',
+      authConstants.redis.expirationTime.jwt.refreshToken,
+    );
 
     return {
       accessToken,
@@ -68,7 +76,7 @@ export default class AuthService {
     };
   }
 
-  getRefreshTokenByEmail(email: string): Promise<string> {
+  getRefreshTokenByEmail(email: string): Promise<string | null> {
     return this.redisClient.get(email);
   }
 
@@ -78,5 +86,15 @@ export default class AuthService {
 
   deleteAllTokens(): Promise<string> {
     return this.redisClient.flushall();
+  }
+
+  async verifyToken(token: string, secret: string): Promise<DecodedUser | null> {
+    try {
+      const user = await this.jwtService.verifyAsync(token, { secret });
+
+      return user;
+    } catch (error) {
+      return null;
+    }
   }
 }

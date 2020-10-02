@@ -1,13 +1,13 @@
 import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { IsBoolean, IsOptional } from 'class-validator';
 
-import CreateUserDto from './createUser.dto';
+import SignUpDto from '@components/auth/dto/sign-up.dto';
 
-export default class UpdateUserDto extends PartialType(CreateUserDto) {
+export default class UpdateUserDto extends PartialType(SignUpDto) {
   @ApiPropertyOptional({
     type: Boolean,
   })
   @IsOptional()
   @IsBoolean()
-  readonly verified: boolean;
+  readonly verified: boolean = false;
 }

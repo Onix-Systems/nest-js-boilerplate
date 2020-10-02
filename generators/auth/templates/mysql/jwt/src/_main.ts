@@ -8,7 +8,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import AppModule from './components/app/app.module';
 import AppService from './components/app/app.service';
 
-import AllExceptionsFilter from './filters/allExceptions.filter';
+import AllExceptionsFilter from './filters/all-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

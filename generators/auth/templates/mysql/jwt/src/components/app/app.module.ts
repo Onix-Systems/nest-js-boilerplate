@@ -7,6 +7,7 @@ import AuthModule from '@components/auth/auth.module';
 import UsersModule from '@components/users/users.module';
 
 import AppService from './app.service';
+import AppController from './app.controller';
 
 @Module({
   imports: [
@@ -15,7 +16,9 @@ import AppService from './app.service';
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      url: process.env.MYSQL_URL,
+      host: process.env.MYSQL_HOST,
+      port: process.env.MYSQL_PORT as unknown as number,
+      database: process.env.MYSQL_DB,
       username: process.env.MYSQL_ROOT_USER,
       password: process.env.MYSQL_PASSWORD,
       entities: ['dist/**/*.entity{.ts,.js}'],
@@ -37,7 +40,7 @@ import AppService from './app.service';
     AuthModule,
     UsersModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [AppService],
 })
 export default class AppModule {}
