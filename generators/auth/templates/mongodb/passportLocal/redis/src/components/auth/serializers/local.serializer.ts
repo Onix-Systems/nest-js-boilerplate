@@ -9,7 +9,7 @@ export default class LocalSerializer extends PassportSerializer {
     super();
   }
 
-  serializeUser(user, done: CallableFunction) {
+  serializeUser(user: UserEntity, done: CallableFunction) {
     done(null, user);
   }
 

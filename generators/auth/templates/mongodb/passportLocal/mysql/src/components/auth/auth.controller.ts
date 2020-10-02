@@ -8,6 +8,8 @@ import {
   Render,
   Get,
   HttpCode,
+  Req,
+  HttpStatus,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -18,13 +20,19 @@ import {
   ApiMovedPermanentlyResponse,
   ApiBody,
 } from '@nestjs/swagger';
-import { Response } from 'express';
+import {
+  Response as ExpressResponse,
+  Request as ExpressRequest,
+} from 'express';
 
 import UsersService from '@components/users/users.service';
-import SignInDto from '@components/auth/dto/signIn.dto';
+import SignInDto from '@components/auth/dto/sign-in.dto';
+import IsNotLoggedGuard from '@guards/is-not-logged.guard';
+import RedirectIfLoggedGuard from '@guards/redirect-if-logged.guard';
+import UnauthorizedResponse from '@responses/unauthorized.response';
 import LocalAuthGuard from './guards/local-auth.guard';
 import AuthService from './auth.service';
-import SignUpDto from './dto/signUp.dto';
+import SignUpDto from './dto/sign-up.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -36,38 +44,42 @@ export default class AuthController {
 
   @ApiOkResponse({ description: 'Renders a login page' })
   @ApiUnauthorizedResponse({ description: 'Returns an unauthorized ' })
+  @UseGuards(RedirectIfLoggedGuard)
   @Get('/login')
   @Render('login')
-  index(@Request() req, @Res() res: Response): { message: string } {
-    return { message: req.flash('loginError') };
+  index(@Req() req: ExpressRequest, @Res() res: ExpressResponse): UnauthorizedResponse {
+    return new UnauthorizedResponse(null, {
+      message: req.flash('loginError'),
+    });
   }
 
   @ApiOkResponse({ description: 'Redners a sign up page' })
   @ApiUnauthorizedResponse({ description: 'Returns the unauthorized error' })
+  @UseGuards(IsNotLoggedGuard)
   @Get('/sign-up')
   @Render('signup')
-  async signup(@Request() req, @Res() res: Response): Promise<void> {}
+  async signUp(): Promise<void> {}
 
   @ApiMovedPermanentlyResponse({ description: 'Redirects to home' })
   @ApiInternalServerErrorResponse({ description: 'Returns the 500 error' })
   @Post('/register')
-  @Render('create')
   async create(
     @Body() params: SignUpDto,
-    @Request() req,
-    @Res() res: Response,
+    @Request() req: ExpressRequest,
+    @Res() res: ExpressResponse,
   ): Promise<void> {
     await this.usersService.create(params);
 
-    res.redirect('/');
+    return res.redirect('/auth/login');
   }
 
   @ApiMovedPermanentlyResponse({ description: '301. If logout is success' })
   @ApiInternalServerErrorResponse({ description: 'Internal error' })
   @Get('/logout')
-  logout(@Request() req, @Res() res: Response): void {
+  logout(@Request() req: ExpressRequest, @Res() res: ExpressResponse): void {
     req.logout();
-    res.redirect('/');
+
+    return res.redirect('/auth/login');
   }
 
   @ApiCookieAuth()
@@ -76,10 +88,10 @@ export default class AuthController {
   @ApiInternalServerErrorResponse({
     description: 'Returns 500 if smth has been failed',
   })
-  @HttpCode(301)
+  @HttpCode(HttpStatus.MOVED_PERMANENTLY)
   @UseGuards(LocalAuthGuard)
   @Post('/login')
-  login(@Request() req, @Res() res: Response): void {
-    res.redirect('/home');
+  login(@Request() req: ExpressRequest, @Res() res: ExpressResponse): void {
+    return res.redirect('/home');
   }
 }

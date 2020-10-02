@@ -5,6 +5,7 @@ import {
   Render,
   Res,
   Request,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -12,40 +13,48 @@ import {
   ApiOkResponse,
   ApiInternalServerErrorResponse,
 } from '@nestjs/swagger';
-import { Response } from 'express';
+import {
+  Response as ExpressResponse,
+  Request as ExpressRequest,
+} from 'express';
 
-import IsLoggedGuard from '@guards/isLogged.guard';
-import ProfileDto from './dto/profile.dto';
+import IsLoggedGuard from '@guards/is-logged.guard';
+import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
+import SuccessResponse from '@responses/success.response';
+import AppUtils from '@components/app/app.utils';
 import UsersService from './users.service';
 import UserEntity from './entities/user.entity';
 
 @ApiTags('Users')
+@UseInterceptors(WrapResponseInterceptor)
 @Controller('users')
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiCookieAuth()
   @ApiOkResponse({
-    type: ProfileDto,
+    type: AppUtils.DtoFactory.wrap(UserEntity),
     description: 'Returns 200 if the template has been rendered successfully',
   })
   @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
   @UseGuards(IsLoggedGuard)
   @Get('/profile')
   @Render('profile')
-  getProfile(@Request() req: any, @Res() res: Response): ProfileDto {
-    return { user: req.user };
+  getProfile(@Request() req: ExpressRequest, @Res() res: ExpressResponse): SuccessResponse {
+    return new SuccessResponse(null, req.user as UserEntity);
   }
 
   @ApiCookieAuth()
   @ApiOkResponse({
-    type: [UserEntity],
+    type: AppUtils.DtoFactory.wrap([UserEntity]),
     description: 'Returns 200 if the template has been rendered successfully',
   })
   @Get()
-  async getAllUsers(): Promise<UserEntity[] | []> {
+  async getAllUsers(): Promise<SuccessResponse> {
     const foundUsers = await this.usersService.getAll();
 
-    return foundUsers;
+    return new SuccessResponse(null, {
+      ...foundUsers,
+    });
   }
 }

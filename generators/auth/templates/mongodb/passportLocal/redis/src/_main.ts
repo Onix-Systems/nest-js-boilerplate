@@ -1,6 +1,7 @@
 // registers aliases, DON'T REMOVE THIS LINE!
 import 'module-alias/register';
 
+// @ts-ignore
 import * as flash from 'connect-flash';
 import * as redisStore from 'connect-redis';
 import * as redis from 'redis';
@@ -17,12 +18,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import AppModule from '@components/app/app.module';
 import AppService from '@components/app/app.service';
 
-import AllExceptionsFilter from '@filters/allExceptions.filter';
-
-const redisClient = redis.createClient({
-  url: 'redis://redis:6379',
-});
-const RedisStore = redisStore(session);
+import AllExceptionsFilter from '@filters/all-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -36,14 +32,19 @@ async function bootstrap() {
   app.set('views', viewsPath);
   app.set('view engine', '.hbs');
 
+  const redisClient = redis.createClient({
+    url: process.env.REDIS_URL,
+  });
+  const RedisStore = redisStore(session);
+
   app.use(
     session({
-      secret: process.env.PASSPORT_SESSION_SECRET,
+      secret: process.env.PASSPORT_SESSION_SECRET as string,
       resave: false,
       saveUninitialized: false,
       store: new RedisStore({
-        host: 'redis',
-        port: 6379,
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT as unknown as number,
         client: redisClient,
         ttl: 666,
       }),

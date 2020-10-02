@@ -13,7 +13,7 @@ import AppService from './app.service';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot('mongodb://mongodb:27017/app', {
+    MongooseModule.forRoot(process.env.MONGODB_URL as string, {
       // automatically try to reconnect when it loses connection
       autoReconnect: true,
       useCreateIndex: true,

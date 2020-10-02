@@ -80,9 +80,26 @@ const authTypeDependencies = {
       ],
     },
     dev: {
-      redis: ['@types/passport-local'],
-      mongodb: ['@types/passport-local'],
-      mysql: ['@types/passport-local'],
+      redis: [
+        '@types/passport-local',
+        '@types/connect-flash',
+        '@types/express-handlebars',
+        '@types/express-session',
+        '@types/redis',
+        '@types/connect-redis',
+      ],
+      mongodb: [
+        '@types/passport-local',
+        '@types/connect-flash',
+        '@types/express-handlebars',
+        '@types/express-session',
+      ],
+      mysql: [
+        '@types/passport-local',
+        '@types/connect-flash',
+        '@types/express-handlebars',
+        '@types/express-session',
+      ],
     },
   },
 };

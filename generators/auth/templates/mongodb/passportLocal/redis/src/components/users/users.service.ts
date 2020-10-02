@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 
 import { InjectModel } from '@nestjs/mongoose';
-import usersConstants from '@components/users/constants';
+import usersConstants from '@components/users/users-constants';
 import UserDto from './dto/user.dto';
 import UserEntity from './entities/user.entity';
 
@@ -17,7 +17,7 @@ export default class UsersService {
   ) {}
 
   async create(userDto: UserDto): Promise<UserEntity> {
-    const hashedPassword = await bcrypt.hash(userDto.password, 10);
+    const hashedPassword: string = await bcrypt.hash(userDto.password, 10);
 
     return this.usersRepository.create({
       password: hashedPassword,
@@ -26,14 +26,14 @@ export default class UsersService {
     });
   }
 
-  getVerifiedByEmail(email: string): Promise<UserEntity> {
+  getVerifiedByEmail(email: string): Promise<UserEntity | null> {
     return this.usersRepository.findOne({
       email,
       verified: true,
     }).exec();
   }
 
-  getById(id: ObjectID, verified = true): Promise<UserEntity> {
+  getById(id: ObjectID, verified = true): Promise<UserEntity | null> {
     return this.usersRepository.findOne({
       _id: id,
       verified,

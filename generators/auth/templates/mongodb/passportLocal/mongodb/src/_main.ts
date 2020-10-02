@@ -1,6 +1,7 @@
 // registers aliases, DON'T REMOVE THIS LINE!
 import 'module-alias/register';
 
+// @ts-ignore
 import * as flash from 'connect-flash';
 import * as exphbs from 'express-handlebars';
 import * as passport from 'passport';
@@ -15,7 +16,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import AppModule from '@components/app/app.module';
 import AppService from '@components/app/app.service';
 
-import AllExceptionsFilter from '@filters/allExceptions.filter';
+import AllExceptionsFilter from '@filters/all-exceptions.filter';
 
 const MongoDBStore = require('connect-mongodb-session')(session);
 
@@ -33,11 +34,11 @@ async function bootstrap() {
 
   app.use(
     session({
-      secret: process.env.PASSPORT_SESSION_SECRET,
+      secret: process.env.PASSPORT_SESSION_SECRET as string,
       resave: false,
       saveUninitialized: false,
       store: new MongoDBStore({
-        uri: 'mongodb://mongodb:27017/app',
+        uri: process.env.MONGODB_URL,
         collection: 'sessions',
       }),
     }),
