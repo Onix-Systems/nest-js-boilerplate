@@ -19,17 +19,21 @@ export default class UsersService {
     });
   }
 
-  getByEmail(email: string, verified = true): Promise<UserEntity> {
-    return this.usersRepository.findOne({
+  async getByEmail(email: string, verified = true): Promise<UserEntity | null> {
+    const foundUser = await this.usersRepository.findOne({
       email,
       verified,
     });
+
+    return foundUser || null;
   }
 
-  getById(id: number, verified = true): Promise<UserEntity> {
-    return this.usersRepository.findOne({
+  async getById(id: number, verified = true): Promise<UserEntity | null> {
+    const foundUser = await this.usersRepository.findOne({
       id,
       verified,
     });
+
+    return foundUser || null;
   }
 }

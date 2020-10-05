@@ -1,22 +1,22 @@
 // registers aliases, DON'T REMOVE THIS LINE!
 import 'module-alias/register';
 
-import * as redisStore from 'connect-redis';
-import * as redis from 'redis';
-import * as passport from 'passport';
-import * as session from 'express-session';
+import redisStore from 'connect-redis';
+import redis from 'redis';
+import passport from 'passport';
+import session from 'express-session';
 
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
-import AllExceptionsFilter from '@filters/allException.filter';
+import AllExceptionsFilter from '@filters/all-exception.filter';
 
 import AppModule from '@components/app/app.module';
 import AppService from '@components/app/app.service';
 
 const redisClient = redis.createClient({
-  url: 'redis://redis:6379',
+  url: process.env.REDIS_URL,
 });
 const RedisStore = redisStore(session);
 
@@ -28,12 +28,12 @@ async function bootstrap() {
 
   app.use(
     session({
-      secret: process.env.PASSPORT_SESSION_SECRET,
+      secret: process.env.PASSPORT_SESSION_SECRET as string,
       resave: false,
       saveUninitialized: false,
       store: new RedisStore({
-        host: 'redis',
-        port: 6379,
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT as unknown as number,
         client: redisClient,
         ttl: 666,
       }),

@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import usersConstants from '@components/users/constants';
+import usersConstants from '@components/users/users-constants';
 import UserEntity from './entities/user.entity';
 import UserDto from './dto/user.dto';
 
@@ -39,7 +39,7 @@ export default class UsersService {
     return foundUser || null;
   }
 
-  async createIfDoesNotExist(user: UserDto): Promise<UserEntity> {
+  async createIfDoesNotExist(user: UserDto): Promise<UserEntity | null> {
     const foundUser = await this.usersRepository.findOne({
       email: user.email,
     });

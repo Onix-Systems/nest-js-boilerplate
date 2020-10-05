@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import * as open from 'open';
+import open from 'open';
 
 @Injectable()
 export default class AppService {

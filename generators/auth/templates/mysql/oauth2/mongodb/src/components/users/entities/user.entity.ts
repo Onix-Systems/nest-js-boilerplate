@@ -10,26 +10,26 @@ import { ApiProperty } from '@nestjs/swagger';
 export default class UserEntity {
   @ApiProperty({ type: Number })
   @PrimaryGeneratedColumn()
-  id: number;
+  readonly id: number = 0;
 
   @ApiProperty({ type: String })
   @Column()
-  picture: string;
+  readonly picture: string = '';
 
   @ApiProperty({ type: String })
   @Column()
-  firstName: string;
+  readonly firstName: string = '';
 
   @ApiProperty({ type: String })
   @Column()
-  lastName: string;
+  readonly lastName: string = '';
 
   @ApiProperty({ type: String })
   @Column()
   @Index({ unique: true })
-  email: string;
+  readonly email: string = '';
 
   @ApiProperty({ type: Boolean })
   @Column()
-  verified: boolean;
+  readonly verified: boolean = false;
 }

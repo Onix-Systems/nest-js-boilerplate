@@ -13,8 +13,8 @@ import {
 } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 
-import ParseObjectIdPipe from '@pipes/parseObjectId.pipe';
-import IsLoggedGuard from '@guards/isLogged.guard';
+import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
+import IsLoggedGuard from '@guards/is-logged.guard';
 import UserEntity from './entities/user.entity';
 import UsersService from './users.service';
 

@@ -41,9 +41,29 @@ const authTypeDependencies = {
       ],
     },
     dev: {
-      redis: ['@types/passport-google-oauth20'],
-      mongodb: ['@types/passport-google-oauth20'],
-      mysql: ['@types/passport-google-oauth20'],
+      redis: [
+        '@types/passport-google-oauth20',
+        '@types/passport-local',
+        '@types/connect-flash',
+        '@types/express-handlebars',
+        '@types/express-session',
+        '@types/redis',
+        '@types/connect-redis',
+      ],
+      mongodb: [
+        '@types/passport-google-oauth20',
+        '@types/passport-local',
+        '@types/connect-flash',
+        '@types/express-handlebars',
+        '@types/express-session',
+      ],
+      mysql: [
+        '@types/passport-google-oauth20',
+        '@types/passport-local',
+        '@types/connect-flash',
+        '@types/express-handlebars',
+        '@types/express-session',
+      ],
     },
   },
   passportLocal: {

@@ -10,7 +10,8 @@ import {
   ApiOkResponse,
   ApiNotFoundResponse,
 } from '@nestjs/swagger';
-import IsLoggedGuard from '@guards/isLogged.guard';
+
+import IsLoggedGuard from '@guards/is-logged.guard';
 import UserEntity from './entities/user.entity';
 import UsersService from './users.service';
 

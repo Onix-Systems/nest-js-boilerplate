@@ -12,23 +12,23 @@ export default class UserDto {
   @IsString()
   @MinLength(1)
   @IsEmail()
-  readonly email: string;
+  readonly email: string = '';
 
   @ApiProperty({ type: String })
   @IsNotEmpty()
   @IsString()
   @MinLength(1)
-  readonly picture: string;
+  readonly picture: string = '';
 
   @ApiProperty({ type: String })
   @IsNotEmpty()
   @IsString()
   @MinLength(1)
-  readonly firstName: string;
+  readonly firstName: string = '';
 
   @ApiProperty({ type: String })
   @IsNotEmpty()
   @IsString()
   @MinLength(1)
-  readonly lastName?: string;
+  readonly lastName?: string = '';
 }

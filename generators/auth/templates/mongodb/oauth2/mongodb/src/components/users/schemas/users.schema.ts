@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import usersConstants from '../constants';
+import usersConstants from '../users-constants';
 
 const UserSchema = new Schema({
   picture: {

@@ -6,7 +6,7 @@ import GoogleAuthGuard from './guards/google-auth.guard';
 import AuthController from './auth.controller';
 import AuthService from './auth.service';
 import GoogleStrategy from './strategies/google.strategy';
-import AuthDataSerializer from './serializers/authData.serializer';
+import GoogleDataSerializer from './serializers/google-data.serializer';
 
 @Module({
   imports: [
@@ -16,7 +16,12 @@ import AuthDataSerializer from './serializers/authData.serializer';
       session: true,
     }),
   ],
-  providers: [AuthService, GoogleStrategy, GoogleAuthGuard, AuthDataSerializer],
+  providers: [
+    AuthService,
+    GoogleStrategy,
+    GoogleAuthGuard,
+    GoogleDataSerializer,
+  ],
   controllers: [AuthController],
   exports: [AuthService],
 })
