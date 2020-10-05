@@ -1,27 +1,16 @@
 # Nest.js boilerplate
 
-
 [![onix](https://img.shields.io/badge/onix-systems-blue.svg)](https://onix-systems.com/)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-[![Downloads Day](https://img.shields.io/jsdelivr/npm/hd/generator-nestjs-boilerplate?style=flat)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
-[![Downloads Week](https://img.shields.io/jsdelivr/npm/hw/generator-nestjs-boilerplate?style=flat)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
-[![Downloads Month](https://img.shields.io/jsdelivr/npm/hm/generator-nestjs-boilerplate?style=flat)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
-[![Downloads Year](https://img.shields.io/jsdelivr/npm/hy/generator-nestjs-boilerplate?style=flat)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
+[![Downloads Month](https://img.shields.io/jsdelivr/npm/hm/generator-nestjs-boilerplate?style=flat&color=green)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
 [![Typescript for types](https://img.shields.io/npm/types/typescript)](https://www.typescriptlang.org/)
-[![Our rating](https://img.shields.io/librariesio/sourcerank/npm/@onix-systems/generator-nestjs-boilerplate)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
+[![Our rating](https://img.shields.io/librariesio/sourcerank/npm/@onix-systems/generator-nestjs-boilerplate?color=green&label=Rating)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
 [![License](https://img.shields.io/npm/l/generator-nest-js-boilerplate)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
-[![Top language](https://img.shields.io/github/languages/top/Onix-systems/nest-js-boilerplate)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
-[![Issues](https://img.shields.io/bitbucket/issues/Onix-systems/nest-js-boilerplate)](https://github.com/Onix-Systems/nest-js-boilerplate/issues)
-[![Open pull requests](https://img.shields.io/github/issues-pr/Onix-Systems/nest-js-boilerplate)](https://github.com/Onix-Systems/nest-js-boilerplate/pulls)
-[![Github repository size](https://img.shields.io/github/repo-size/Onix-Systems/nest-js-boilerplate)](https://github.com/Onix-Systems/nest-js-boilerplate)
+[![Issues](https://img.shields.io/github/issues/Onix-Systems/nest-js-boilerplate?color=green)](https://github.com/Onix-Systems/nest-js-boilerplate/issues)
 [![Latest package version](https://img.shields.io/npm/v/generator-nest-js-boilerplate)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
 [![Dependencies](https://img.shields.io/librariesio/release/npm/@onix-systems/generator-nestjs-boilerplate)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
-[![Node version](https://img.shields.io/node/v/@onix-systems/generator-nestjs-boilerplate)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
-[![Node Lts](https://img.shields.io/node/v-lts/@onix-systems/generator-nestjs-boilerplate)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
-[![Github forks](https://img.shields.io/github/forks/Onix-Systems/nest-js-boilerplate?style=social)](https://github.com/Onix-Systems/nest-js-boilerplate)
 [![Organization stars](https://img.shields.io/github/stars/Onix-Systems?label=Onix%20Stars&style=social)](https://github.com/Onix-Systems)
-[![Repo Watchers](https://img.shields.io/github/watchers/Onix-Systems/nest-js-boilerplate?style=social)](https://github.com/Onix-Systems/nest-js-boilerplate)
-[![Repo stars](https://img.shields.io/github/stars/Onix-Systems/nest-js-boilerplate?label=Boilerplate%20stars&style=social)](https://github.com/Onix-Systems/nest-js-boilerplate)
+[![Travis build passing](https://img.shields.io/travis/onix-systems/nest-js-boilerplate)](https://github.com/Onix-Systems/nest-js-boilerplate)
 
 > Node.js Nest.js API. Supports MongoDB, Mysql, Redis
 
@@ -171,10 +160,10 @@ When you go by http://localhost:3000/google route, google'll ask you to authoriz
 ## Diagnose and pinpoint performance issues
 
 ### Bubble
-![Bubble](https://lh3.googleusercontent.com/FrY_5KHKuIyhH6desMYw0s7NugBCS4xPBgxJ3N3NaLonALINRZ0JuKMOVt114pNB29_dh7_XCGATyg=w1848-h944-rw)
+![Bubble](https://i.ibb.co/tY6MQKR/Screenshot-from-2020-10-01-17-08-03.png)
 
 ### Doctor
-![Doctor](https://lh5.googleusercontent.com/_hmK-AoG1NeZ-qlLaK9HTuq3Od4vurM-m1beORLT6HfjMVBcpkWH2RRTTYPYl05asuNjAgrP6jX4dw=w1205-h944-rw)
+![Doctor](https://i.ibb.co/FmD5dSk/Screenshot-from-2020-10-01-17-11-41.png)
 
 ## Getting To Know Yeoman
 

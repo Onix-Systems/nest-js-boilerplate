@@ -160,10 +160,10 @@ When you go by http://localhost:3000/google route, google'll ask you to authoriz
 ## Diagnose and pinpoint performance issues
 
 ### Bubble
-![Bubble](https://lh3.googleusercontent.com/FrY_5KHKuIyhH6desMYw0s7NugBCS4xPBgxJ3N3NaLonALINRZ0JuKMOVt114pNB29_dh7_XCGATyg=w1848-h944-rw)
+![Bubble](https://i.ibb.co/tY6MQKR/Screenshot-from-2020-10-01-17-08-03.png)
 
 ### Doctor
-![Doctor](https://lh5.googleusercontent.com/_hmK-AoG1NeZ-qlLaK9HTuq3Od4vurM-m1beORLT6HfjMVBcpkWH2RRTTYPYl05asuNjAgrP6jX4dw=w1205-h944-rw)
+![Doctor](https://i.ibb.co/FmD5dSk/Screenshot-from-2020-10-01-17-11-41.png)
 
 ## Getting To Know Yeoman
 
