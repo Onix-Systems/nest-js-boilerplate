@@ -4,13 +4,13 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Downloads Month](https://img.shields.io/jsdelivr/npm/hm/generator-nestjs-boilerplate?style=flat&color=green)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
 [![Typescript for types](https://img.shields.io/npm/types/typescript)](https://www.typescriptlang.org/)
-[![Our rating](https://img.shields.io/librariesio/sourcerank/npm/@onix-systems/generator-nestjs-boilerplate?color=green&label=Rating)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
+[![Our rating](https://img.shields.io/librariesio/sourcerank/npm/generator-nest-js-boilerplate?color=green&label=Rating)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
 [![License](https://img.shields.io/npm/l/generator-nest-js-boilerplate)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
 [![Issues](https://img.shields.io/github/issues/Onix-Systems/nest-js-boilerplate?color=green)](https://github.com/Onix-Systems/nest-js-boilerplate/issues)
 [![Latest package version](https://img.shields.io/npm/v/generator-nest-js-boilerplate)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
 [![Dependencies](https://img.shields.io/librariesio/release/npm/@onix-systems/generator-nestjs-boilerplate)](https://www.npmjs.com/package/@onix-systems/generator-nestjs-boilerplate)
 [![Organization stars](https://img.shields.io/github/stars/Onix-Systems?label=Onix%20Stars&style=social)](https://github.com/Onix-Systems)
-[![Travis build passing](https://img.shields.io/travis/onix-systems/nest-js-boilerplate)](https://github.com/Onix-Systems/nest-js-boilerplate)
+[![Travis build passing](https://api.travis-ci.org/Onix-Systems/nest-js-boilerplate.svg?branch=master)](https://github.com/Onix-Systems/nest-js-boilerplate)
 
 > Node.js Nest.js API. Supports MongoDB, Mysql, Redis
 
