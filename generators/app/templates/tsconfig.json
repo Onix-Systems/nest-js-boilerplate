@@ -12,6 +12,7 @@
     "baseUrl": "./",
     "incremental": true,
     "strict": true,
+    "esModuleInterop": true,
     "paths": {
       "@filters/*": ["./src/filters/*"],
       "@guards/*": ["./src/guards/*"],

@@ -1,10 +1,10 @@
 // registers aliases, DON'T REMOVE THIS LINE!
 import 'module-alias/register';
 
-import * as flash from 'connect-flash';
-import * as exphbs from 'express-handlebars';
-import * as passport from 'passport';
-import * as session from 'express-session';
+import flash from 'connect-flash';
+import exphbs from 'express-handlebars';
+import passport from 'passport';
+import session from 'express-session';
 
 import { join } from 'path';
 import { NestFactory } from '@nestjs/core';
@@ -15,7 +15,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import AppModule from '@components/app/app.module';
 import AppService from '@components/app/app.service';
 
-import AllExceptionsFilter from '@filters/allExceptions.filter';
+import AllExceptionsFilter from '@filters/all-exceptions.filter';
 
 const MySQLStore = require('express-mysql-session')(session);
 
@@ -33,15 +33,15 @@ async function bootstrap() {
 
   app.use(
     session({
-      secret: process.env.PASSPORT_SESSION_SECRET,
+      secret: process.env.PASSPORT_SESSION_SECRET as string,
       resave: false,
       saveUninitialized: false,
       store: new MySQLStore({
-        host: 'mysql',
-        port: 3306,
-        user: 'root',
-        password: '1234',
-        database: 'app',
+        host: process.env.MYSQL_HOST,
+        port: process.env.MYSQL_PORT,
+        user: process.env.MYSQL_ROOT_USER,
+        password: process.env.MYSQL_PASSWORD,
+        database: process.env.MYSQL_DB,
       }),
     }),
   );

@@ -2,9 +2,8 @@ import * as bcrypt from 'bcrypt';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { IAuthValidateUserOutput } from '@components/auth/interfaces/IAuthValidateUserOutput.interface';
-
 import UsersService from '@components/users/users.service';
+import { ValidateUserOutput } from './interfaces/validate-user-output.interface';
 
 @Injectable()
 export default class AuthService {
@@ -13,7 +12,7 @@ export default class AuthService {
   async validateUser(
     email: string,
     password: string,
-  ): Promise<null | IAuthValidateUserOutput> {
+  ): Promise<null | ValidateUserOutput> {
     const user = await this.usersService.getVerifiedByEmail(email);
 
     if (!user) {

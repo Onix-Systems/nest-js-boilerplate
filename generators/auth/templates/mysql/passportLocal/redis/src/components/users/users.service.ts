@@ -24,18 +24,22 @@ export default class UsersService {
     });
   }
 
-  getVerifiedByEmail(email: string): Promise<UserEntity> {
-    return this.usersRepository.findOne({
+  async getVerifiedByEmail(email: string): Promise<UserEntity | null> {
+    const foundUser = await this.usersRepository.findOne({
       email,
       verified: true,
     });
+
+    return foundUser || null;
   }
 
-  getById(id: number, verified = true): Promise<UserEntity> {
-    return this.usersRepository.findOne({
+  async getById(id: number, verified = true): Promise<UserEntity | null> {
+    const foundUser = await this.usersRepository.findOne({
       id,
       verified,
     });
+
+    return foundUser || null;
   }
 
   getAll(): Promise<UserEntity[] | []> {

@@ -11,14 +11,18 @@
     "outDir": "../../../../app/templates/dist",
     "baseUrl": "./",
     "incremental": true,
+    "esModuleInterop": true,
     "paths": {
       "@filters/*": ["./src/filters/*"],
       "@guards/*": ["./src/guards/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
       "@shared/*": ["./src/components/shared/*"],
       "@components/*": ["./src/components/*"],
       "@pipes/*": ["./src/pipes/*"],
-      "@interfaces/*": ["../../../../app/templates/src/interfaces/*"],
-      "@dto/*": ["./src/dto/*"]
+      "@dto/*": ["./src/dto/*"],
+      "@responses/*": ["./src/responses/*"],
+      "@interceptors/*": ["./src/interceptors/*"],
+      "@decorators/*": ["./src/decorators/*"]
     }
   }
 }

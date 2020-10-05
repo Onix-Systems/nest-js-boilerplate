@@ -14,7 +14,7 @@ export default class UserDto {
   @IsString()
   @MinLength(1)
   @IsEmail()
-  email: string;
+  readonly email: string = '';
 
   @ApiProperty({
     type: String,
@@ -22,5 +22,5 @@ export default class UserDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(1)
-  password: string;
+  readonly password: string = '';
 }

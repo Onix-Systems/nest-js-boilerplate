@@ -12,6 +12,7 @@ services:
       - 3000:3000
     links:
       - mysql
+      - redis
 
   mysql:
     container_name: mysql

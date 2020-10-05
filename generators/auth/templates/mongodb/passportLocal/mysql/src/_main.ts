@@ -1,11 +1,10 @@
 // registers aliases, DON'T REMOVE THIS LINE!
 import 'module-alias/register';
 
-// @ts-ignore
-import * as flash from 'connect-flash';
-import * as exphbs from 'express-handlebars';
-import * as passport from 'passport';
-import * as session from 'express-session';
+import flash from 'connect-flash';
+import exphbs from 'express-handlebars';
+import passport from 'passport';
+import session from 'express-session';
 
 import { join } from 'path';
 import { NestFactory } from '@nestjs/core';

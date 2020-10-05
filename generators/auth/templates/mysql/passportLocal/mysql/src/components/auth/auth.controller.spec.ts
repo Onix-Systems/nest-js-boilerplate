@@ -3,7 +3,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import AuthController from '@components/auth/auth.controller';
 import AuthService from '@components/auth/auth.service';
 import UsersService from '@components/users/users.service';
-import { JwtService } from '@nestjs/jwt';
 
 describe('Auth Controller', () => {
   let controller: AuthController;
@@ -18,10 +17,6 @@ describe('Auth Controller', () => {
         },
         {
           provide: UsersService,
-          useValue: {},
-        },
-        {
-          provide: JwtService,
           useValue: {},
         },
       ],

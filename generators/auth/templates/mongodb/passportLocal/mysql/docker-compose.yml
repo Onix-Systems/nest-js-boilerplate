@@ -12,6 +12,7 @@ services:
       - "3000:3000"
     links:
       - mongodb
+      - mysql
 
   mongodb:
     container_name: mongodb
