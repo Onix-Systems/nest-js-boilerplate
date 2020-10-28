@@ -29,11 +29,8 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   await app.listen(port, async () => {
-    const appService = app.get<AppService>(AppService);
-
-    await appService.openSwagger();
-
-    console.log(`The server is running on ${port} port`);
+    // eslint-disable-next-line no-console
+    console.log(`The server is running on ${port} port: http://localhost:${port}/api`);
   });
 }
 bootstrap();
