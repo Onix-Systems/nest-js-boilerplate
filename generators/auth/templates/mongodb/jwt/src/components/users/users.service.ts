@@ -2,7 +2,7 @@ import * as bcrypt from 'bcrypt';
 
 import { Model } from 'mongoose';
 import { ObjectID } from 'mongodb';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { InjectModel } from '@nestjs/mongoose';
 import SignUpDto from '@components/auth/dto/sign-up.dto';
@@ -28,11 +28,17 @@ export default class UsersService {
     });
   }
 
-  getByEmail(email: string, verified = true): Promise<UserEntity | null> {
-    return this.usersRepository.findOne({
+  async getByEmail(email: string, verified = true): Promise<UserEntity> {
+    const user = await this.usersRepository.findOne({
       email,
       verified,
     }).exec();
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   getById(id: ObjectID, verified = true): Promise<UserEntity | null> {

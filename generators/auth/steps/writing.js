@@ -27,7 +27,6 @@ module.exports = function() {
     this.destinationPath(`${answers.identifier}/src/guards/`),
     payload,
   );
-
   this.fs.copyTpl(
     this.templatePath(`${authFolder}/_.env`),
     this.destinationPath(`${answers.identifier}/.env`),
@@ -101,6 +100,27 @@ module.exports = function() {
     this.fs.copyTpl(
       this.templatePath(`${authFolder}/docker-compose.yml`),
       this.destinationPath(`${answers.identifier}/docker-compose.yml`),
+      payload,
+    );
+  }
+
+  // MAILER
+  if (answers.wantedMailer.toLowerCase() === 'yes') {
+    this.fs.copyTpl(
+      this.templatePath(`./mailer/module`),
+      this.destinationPath(`${answers.identifier}/src/components/mailer`),
+      payload,
+    );
+
+    this.fs.copyTpl(
+      this.templatePath(`./mailer/${authFolder}/src/components/auth`),
+      this.destinationPath(`${answers.identifier}/src/components/auth`),
+      payload,
+    );
+
+    this.fs.copyTpl(
+      this.templatePath(`./mailer/${authFolder}/_.env`),
+      this.destinationPath(`${answers.identifier}/.env`),
       payload,
     );
   }

@@ -25,9 +25,8 @@ module.exports = function() {
 
   const folderName = this.answers.identifier;
   const { packageManager, db } = this.answers;
-
+  
   const { general, dev } = dbDependencies[db.toLowerCase()];
-
   if (packageManager === 'npm') {
     // at the first, install all common packages in the package.json with npm
     this.npmInstall(null, { save: true }, { cwd: folderName });
