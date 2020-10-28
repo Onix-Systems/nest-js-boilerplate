@@ -48,8 +48,8 @@
     "@types/node": "13.9.1",
     "@types/supertest": "2.0.8",
     "@types/bcrypt": "3.0.0",
-    "@typescript-eslint/eslint-plugin": "3.0.2",
-    "@typescript-eslint/parser": "3.0.2",
+    "@typescript-eslint/eslint-plugin": "4.5.0",
+    "@typescript-eslint/parser": "4.5.0",
     "cz-conventional-changelog": "3.2.0",
     "eslint": "7.10.0",
     "eslint-config-airbnb-base": "14.2.0",
@@ -68,7 +68,15 @@
   "jest": {
     "moduleNameMapper": {
       "^@shared(.*)$": "<rootDir>/components/shared$1",
-      "^@components(.*)$": "<rootDir>/components$1"
+      "^@components(.*)$": "<rootDir>/components$1",
+      "^@filters(.*)$": "<rootDir>/filters$1",
+      "^@guards(.*)$": "<rootDir>/guards$1",
+      "^@interfaces(.*)$": "<rootDir>/interfaces$1",
+      "^@pipes(.*)$": "<rootDir>/pipes$1",
+      "^@dto(.*)$": "<rootDir>/dto$1",
+      "^@responses(.*)$": "<rootDir>/responses$1",
+      "^@interceptors(.*)$": "<rootDir>/interceptors$1",
+      "^@decorators(.*)$": "<rootDir>/decorators$1"
     },
     "moduleFileExtensions": [
       "js",
