@@ -1,25 +1,18 @@
 import * as bcrypt from 'bcrypt';
 
-import { Model } from 'mongoose';
 import { ObjectID } from 'mongodb';
 import { Injectable } from '@nestjs/common';
-
-import { InjectModel } from '@nestjs/mongoose';
 import SignUpDto from '@components/auth/dto/sign-up.dto';
-import UserEntity from './entities/user.entity';
+import { UserEntity } from './schemas/users.schema';
 
+import UsersRepository from './users.repository';
 import UpdateUserDto from './dto/update-user.dto';
-import usersConstants from './users-constants';
 
 @Injectable()
 export default class UsersService {
-  constructor(
-    @InjectModel(
-      usersConstants.models.users,
-    ) private usersRepository: Model<UserEntity>,
-  ) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
-  async create(user: SignUpDto): Promise<UserEntity> {
+  public async create(user: SignUpDto): Promise<UserEntity> {
     const hashedPassword = await bcrypt.hash(user.password, 10);
 
     return this.usersRepository.create({
@@ -28,34 +21,19 @@ export default class UsersService {
     });
   }
 
-  getByEmail(email: string, verified = true): Promise<UserEntity | null> {
-    return this.usersRepository.findOne({
-      email,
-      verified,
-    }).exec();
+  public getByEmail(email: string, verified = true): Promise<UserEntity | null> {
+    return this.usersRepository.getByEmail(email, verified);
   }
 
-  getById(id: ObjectID, verified = true): Promise<UserEntity | null> {
-    return this.usersRepository.findOne({
-      verified,
-      _id: id,
-    }).exec();
+  public getById(id: ObjectID, verified = true): Promise<UserEntity | null> {
+    return this.usersRepository.getById(id, verified);
   }
 
-  update(id: ObjectID, data: UpdateUserDto): Promise<UserEntity> {
-    return this.usersRepository.updateOne(
-      {
-        _id: id,
-      },
-      {
-        $set: data,
-      },
-    ).exec();
+  public update(id: ObjectID, data: UpdateUserDto): Promise<UserEntity> {
+    return this.usersRepository.updateById(id, data);
   }
 
-  getAll(verified : boolean = true): Promise<UserEntity[] | []> {
-    return this.usersRepository.find({
-      verified,
-    }).exec();
+  public getAll(verified: boolean = true): Promise<UserEntity[] | []> {
+    return this.usersRepository.getAll(verified);
   }
 }

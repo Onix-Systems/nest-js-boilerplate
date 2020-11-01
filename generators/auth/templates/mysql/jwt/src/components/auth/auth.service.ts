@@ -1,9 +1,7 @@
-import * as Redis from 'ioredis';
 import * as bcrypt from 'bcrypt';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { RedisService } from 'nestjs-redis';
 
 import UsersService from '@components/users/users.service';
 
@@ -13,18 +11,15 @@ import { ValidateUserOutput } from './interfaces/validate-user-output.interface'
 import { LoginPayload } from './interfaces/login-payload.interface';
 
 import authConstants from './auth-constants';
+import AuthRepository from './auth.repository';
 
 @Injectable()
 export default class AuthService {
-  private readonly redisClient: Redis.Redis;
-
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    private readonly redisService: RedisService,
-  ) {
-    this.redisClient = redisService.getClient();
-  }
+    private readonly authRepository: AuthRepository,
+  ) {}
 
   async validateUser(
     email: string,
@@ -63,11 +58,9 @@ export default class AuthService {
       secret: authConstants.jwt.secrets.refreshToken,
     });
 
-    await this.redisClient.set(
+    await this.authRepository.addRefreshToken(
       payload.email as string,
       refreshToken,
-      'EX',
-      authConstants.redis.expirationTime.jwt.refreshToken,
     );
 
     return {
@@ -77,15 +70,15 @@ export default class AuthService {
   }
 
   getRefreshTokenByEmail(email: string): Promise<string | null> {
-    return this.redisClient.get(email);
+    return this.authRepository.getToken(email);
   }
 
   deleteTokenByEmail(email: string): Promise<number> {
-    return this.redisClient.del(email);
+    return this.authRepository.removeToken(email);
   }
 
   deleteAllTokens(): Promise<string> {
-    return this.redisClient.flushall();
+    return this.authRepository.removeAllTokens();
   }
 
   async verifyToken(token: string, secret: string): Promise<DecodedUser | null> {
