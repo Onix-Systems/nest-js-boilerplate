@@ -13,7 +13,14 @@ services:
       - 3000:3000
     links:
       - mysql
-      - redis
+      - mongodb
+
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
 
   mysql:
     container_name: mysql
@@ -24,9 +31,3 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=1234
       - MYSQL_DATABASE=app
-
-  redis:
-    image: redis:6
-    restart: always
-    ports:
-      - "6379:6379"

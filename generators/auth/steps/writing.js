@@ -1,16 +1,16 @@
 const fs = require('fs');
 const { join } = require('path');
 
-module.exports = function() {
+module.exports = function () {
   const { answers } = this.options;
 
-  const authFolder = answers.sessionsStorage
-    ? `${answers.db.toLowerCase()}/${answers.authType}/${answers.sessionsStorage}`
-    : `${answers.db.toLowerCase()}/${answers.authType}`;
+  const authFolder = `${answers.db.toLowerCase()}/${answers.authType}`;
+  const { sessionsStorage } = answers;
 
-  if (!authFolder) {
-    throw new Error('The auth folder is not existing');
-  }
+  // file what's different for every session storage (Main.ts is our app bootstrap/runner)
+  const pathToTmpMainFile = sessionsStorage
+    ? `${authFolder}/src/_${sessionsStorage}-main.ts`
+    : `${authFolder}/src/_main.ts`;
 
   const fullPathToAuthFolder = join(`${__dirname}/../templates/${authFolder}`);
   const payload = {
@@ -34,7 +34,7 @@ module.exports = function() {
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(`${authFolder}/src/_main.ts`),
+    this.templatePath(pathToTmpMainFile),
     this.destinationPath(`${answers.identifier}/src/main.ts`),
     payload,
   );
@@ -95,7 +95,7 @@ module.exports = function() {
       payload,
     );
   }
-  
+
   // DOCKER
   if (answers.wantedDocker.toLowerCase() === 'yes') {
     this.fs.copyTpl(

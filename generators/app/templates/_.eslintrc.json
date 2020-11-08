@@ -24,6 +24,9 @@
         "import/no-unresolved": "off",
         "no-useless-constructor": "off",
         "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "error"
+        ],
         "import/extensions": "off",
         "no-empty-function": "off",
         "indent": [
@@ -33,5 +36,16 @@
         "arrow-body-style": "off",
         "class-methods-use-this": "off",
         "no-underscore-dangle": "off"
-    }
+    },
+    "overrides": [
+        {
+            "files": [
+                "./src/main.ts",
+                "./src/components/app/app.module.ts"
+            ],
+            "rules": {
+                "no-console": "off"
+            }
+        }
+    ]
 }
