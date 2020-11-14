@@ -9,7 +9,7 @@ import { ValidateUserOutput } from './interfaces/validate-user-output.interface'
 export default class AuthService {
   constructor(private readonly usersService: UsersService) {}
 
-  async validateUser(
+  public async validateUser(
     email: string,
     password: string,
   ): Promise<null | ValidateUserOutput> {

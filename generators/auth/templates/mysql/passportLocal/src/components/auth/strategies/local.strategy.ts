@@ -13,14 +13,16 @@ export default class LocalStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(
+  public async validate(
     email: string,
     password: string,
   ): Promise<ValidateUserOutput> {
     const user = await this.authService.validateUser(email, password);
+
     if (!user) {
       throw new UnauthorizedException();
     }
+
     return user;
   }
 }

@@ -4,12 +4,11 @@ import {
   Post,
   Request,
   UseGuards,
-  Res,
   Render,
   Get,
   HttpCode,
   Req,
-  HttpStatus,
+  HttpStatus, Redirect,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -20,10 +19,7 @@ import {
   ApiMovedPermanentlyResponse,
   ApiBody,
 } from '@nestjs/swagger';
-import {
-  Response as ExpressResponse,
-  Request as ExpressRequest,
-} from 'express';
+import { Request as ExpressRequest } from 'express';
 
 import UsersService from '@components/users/users.service';
 import SignInDto from '@components/auth/dto/sign-in.dto';
@@ -47,7 +43,7 @@ export default class AuthController {
   @UseGuards(RedirectIfLoggedGuard)
   @Get('/login')
   @Render('login')
-  index(@Req() req: ExpressRequest, @Res() res: ExpressResponse): UnauthorizedResponse {
+  public index(@Req() req: ExpressRequest): UnauthorizedResponse {
     return new UnauthorizedResponse(null, {
       message: req.flash('loginError'),
     });
@@ -58,28 +54,22 @@ export default class AuthController {
   @UseGuards(IsNotLoggedGuard)
   @Get('/sign-up')
   @Render('signup')
-  async signUp(): Promise<void> {}
+  public async signUp(): Promise<void> {}
 
   @ApiMovedPermanentlyResponse({ description: 'Redirects to home' })
   @ApiInternalServerErrorResponse({ description: 'Returns the 500 error' })
   @Post('/register')
-  async create(
-    @Body() params: SignUpDto,
-    @Request() req: ExpressRequest,
-    @Res() res: ExpressResponse,
-  ): Promise<void> {
+  @Redirect('/auth/login')
+  public async create(@Body() params: SignUpDto): Promise<void> {
     await this.usersService.create(params);
-
-    return res.redirect('/auth/login');
   }
 
   @ApiMovedPermanentlyResponse({ description: '301. If logout is success' })
   @ApiInternalServerErrorResponse({ description: 'Internal error' })
   @Get('/logout')
-  logout(@Request() req: ExpressRequest, @Res() res: ExpressResponse): void {
+  @Redirect('/auth/login')
+  public logout(@Request() req: ExpressRequest): void {
     req.logout();
-
-    return res.redirect('/auth/login');
   }
 
   @ApiCookieAuth()
@@ -91,7 +81,6 @@ export default class AuthController {
   @HttpCode(HttpStatus.MOVED_PERMANENTLY)
   @UseGuards(LocalAuthGuard)
   @Post('/login')
-  login(@Request() req: ExpressRequest, @Res() res: ExpressResponse): void {
-    return res.redirect('/home');
-  }
+  @Redirect('/home')
+  public login(): void {}
 }

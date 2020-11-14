@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
+import HomeModule from '@components/home/home.module';
 import AuthModule from '@components/auth/auth.module';
 import UsersModule from '@components/users/users.module';
 
@@ -23,6 +24,7 @@ import AppService from './app.service';
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+    HomeModule,
     AuthModule,
     UsersModule,
   ],

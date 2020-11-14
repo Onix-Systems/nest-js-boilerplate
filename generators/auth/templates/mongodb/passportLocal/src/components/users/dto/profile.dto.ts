@@ -1,4 +1,4 @@
-import UserEntity from '@components/users/entities/user.entity';
+import { UserEntity } from '@components/users/schemas/users.schema';
 import { ApiProperty } from '@nestjs/swagger';
 
 export default class ProfileDto {

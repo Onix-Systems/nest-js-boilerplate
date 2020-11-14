@@ -3,8 +3,6 @@ import {
   Get,
   UseGuards,
   Render,
-  Res,
-  Request,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -13,15 +11,11 @@ import {
   ApiOkResponse,
   ApiInternalServerErrorResponse,
 } from '@nestjs/swagger';
-import {
-  Response as ExpressResponse,
-  Request as ExpressRequest,
-} from 'express';
-
 import IsLoggedGuard from '@guards/is-logged.guard';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import SuccessResponse from '@responses/success.response';
 import AppUtils from '@components/app/app.utils';
+import RequestUser from '@decorators/request-user.decorator';
 import UsersService from './users.service';
 import UserEntity from './entities/user.entity';
 
@@ -40,8 +34,8 @@ export default class UsersController {
   @UseGuards(IsLoggedGuard)
   @Get('/profile')
   @Render('profile')
-  getProfile(@Request() req: ExpressRequest, @Res() res: ExpressResponse): SuccessResponse {
-    return new SuccessResponse(null, req.user as UserEntity);
+  public getProfile(@RequestUser() user: UserEntity): SuccessResponse {
+    return new SuccessResponse(null, user);
   }
 
   @ApiCookieAuth()
@@ -50,11 +44,9 @@ export default class UsersController {
     description: 'Returns 200 if the template has been rendered successfully',
   })
   @Get()
-  async getAllUsers(): Promise<SuccessResponse> {
-    const foundUsers = await this.usersService.getAll();
+  public async getAllVerified(): Promise<SuccessResponse> {
+    const users: UserEntity[] | [] = await this.usersService.getAllVerified();
 
-    return new SuccessResponse(null, {
-      ...foundUsers,
-    });
+    return new SuccessResponse(null, users);
   }
 }

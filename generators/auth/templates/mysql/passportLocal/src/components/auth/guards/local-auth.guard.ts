@@ -10,7 +10,7 @@ export default class LocalAuthGuard extends AuthGuard('local') {
     });
   }
 
-  async canActivate(context: ExecutionContext): Promise<boolean | never> {
+  public async canActivate(context: ExecutionContext): Promise<boolean | never> {
     const can = (await super.canActivate(context)) as boolean;
     const request = context.switchToHttp().getRequest();
 
@@ -19,7 +19,7 @@ export default class LocalAuthGuard extends AuthGuard('local') {
     return can;
   }
 
-  static getRequest(context: ExecutionContext) {
+  public static getRequest(context: ExecutionContext) {
     return context.switchToHttp().getRequest();
   }
 }
