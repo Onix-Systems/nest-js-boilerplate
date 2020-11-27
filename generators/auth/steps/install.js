@@ -124,9 +124,13 @@ const authTypeDependencies = {
   },
 };
 
+const mailerDependencies = [
+  '@nestjs-modules/mailer'
+]
+
 module.exports = function() {
   const folderName = this.options.answers.identifier;
-  const { authType, packageManager, sessionsStorage } = this.options.answers;
+  const { authType, packageManager, sessionsStorage, wantedMailer } = this.options.answers;
 
   const { hasSessionsStorage } = authTypeDependencies[authType];
 
@@ -137,12 +141,18 @@ module.exports = function() {
     ? authTypeDependencies[authType].dev[sessionsStorage]
     : authTypeDependencies[authType].dev;
 
-  const mergedGeneralDependencies = generalDependencies.concat(
+  let mergedGeneralDependencies = generalDependencies.concat(
     authTypeDependencies.common.general,
   );
-  const mergedDevDependencies = devDependencies.concat(
+  let mergedDevDependencies = devDependencies.concat(
     authTypeDependencies.common.dev,
   );
+  
+  if (wantedMailer) {
+    mergedGeneralDependencies = mergedGeneralDependencies.concat(
+      mailerDependencies
+    )
+  }
 
   if (packageManager === 'npm') {
     this.npmInstall(mergedGeneralDependencies, { save: true }, { cwd: folderName });

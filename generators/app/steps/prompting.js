@@ -45,6 +45,19 @@ module.exports = {
     askQuestions.call(this, 'Database', questions.db, this.async());
   },
 
+  askAboutMailer() {
+    askQuestions.call(this, 'Mailer module', questions.mailer.isNeeded, this.async());
+  },
+
+  askAdditionalMailerQuestions() {
+    askQuestions.call(
+      this,
+      'Mailer additional questions',
+      questions.mailer.additionalQuestions[this.answers.wantedMailer],
+      this.async(),
+    )
+  },
+  
   askWouldHeLikeDocker() {
     askQuestions.call(this, 'Docker', questions.docker, this.async());
   },
