@@ -1,87 +1,98 @@
-const path = require('path');
+const { join } = require('path');
 const fs = require('fs');
 
-module.exports = function() {
-  const answers = this.answers;
+module.exports = function () {
+  const { answers } = this;
   const payload = {
     config: answers,
   };
+  const pathToApp = answers.identifier;
 
   if (fs.existsSync('./src')) {
     this.fs.copyTpl(
-      this.templatePath(path.join('./src')),
-      this.destinationPath(`${this.answers.identifier}/src`),
+      this.templatePath(join('./src')),
+      this.destinationPath(`${pathToApp}/src`),
       payload,
     );
   }
 
   this.fs.copyTpl(
-    this.templatePath(path.join('./index.js')),
-    this.destinationPath(`${this.answers.identifier}/index.js`),
+    this.templatePath(join('./index.js')),
+    this.destinationPath(`${pathToApp}/index.js`),
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(path.join('./nest-cli.json')),
-    this.destinationPath(`${this.answers.identifier}/nest-cli.json`),
+    this.templatePath(join('./nest-cli.json')),
+    this.destinationPath(`${pathToApp}/nest-cli.json`),
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(path.join('./package.json')),
-    this.destinationPath(`${this.answers.identifier}/package.json`),
+    this.templatePath(join('./package.json')),
+    this.destinationPath(`${pathToApp}/package.json`),
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(path.join('./package-lock.json')),
-    this.destinationPath(`${this.answers.identifier}/package-lock.json`),
+    this.templatePath(join('./package-lock.json')),
+    this.destinationPath(`${pathToApp}/package-lock.json`),
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(path.join('./README.md')),
-    this.destinationPath(`${this.answers.identifier}/README.md`),
+    this.templatePath(join('./README.md')),
+    this.destinationPath(`${pathToApp}/README.md`),
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(path.join('./tsconfig.build.json')),
-    this.destinationPath(`${this.answers.identifier}/tsconfig.build.json`),
+    this.templatePath(join('./tsconfig.build.json')),
+    this.destinationPath(`${pathToApp}/tsconfig.build.json`),
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(path.join('./tsconfig.json')),
-    this.destinationPath(`${this.answers.identifier}/tsconfig.json`),
+    this.templatePath(join('./tsconfig.json')),
+    this.destinationPath(`${pathToApp}/tsconfig.json`),
     payload,
   );
 
   // files with "_" prefix
   this.fs.copyTpl(
-    this.templatePath(path.join('./_.editorconfig')),
-    this.destinationPath(`${this.answers.identifier}/.editorconfig`),
+    this.templatePath(join('./_.editorconfig')),
+    this.destinationPath(`${pathToApp}/.editorconfig`),
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(path.join('./_.env.example')),
-    this.destinationPath(`${this.answers.identifier}/.env.example`),
+    this.templatePath(join('./_.env.example')),
+    this.destinationPath(`${pathToApp}/.env.example`),
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(path.join('./_.eslintrc.json')),
-    this.destinationPath(`${this.answers.identifier}/.eslintrc.json`),
+    this.templatePath(join('./_.eslintrc.json')),
+    this.destinationPath(`${pathToApp}/.eslintrc.json`),
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(path.join('./_.gitignore')),
-    this.destinationPath(`${this.answers.identifier}/.gitignore`),
+    this.templatePath(join('./_.gitignore')),
+    this.destinationPath(`${pathToApp}/.gitignore`),
     payload,
   );
   this.fs.copyTpl(
-    this.templatePath(path.join('./_.prettierrc')),
-    this.destinationPath(`${this.answers.identifier}/.prettierrc`),
+    this.templatePath(join('./_.prettierrc')),
+    this.destinationPath(`${pathToApp}/.prettierrc`),
     payload,
   );
 
+  // DOCKER
+  if (answers.wantedDocker.toLowerCase() === 'yes') {
+    this.fs.copyTpl(
+      this.templatePath(join('./docker')),
+      this.destinationPath(`${pathToApp}/docker`),
+      payload,
+    );
+  }
+
+  // DEPLOYS ON CLOUD
   if (answers['deploy:heroku'] === 'Yes') {
     this.fs.copyTpl(
-      this.templatePath(path.join('./deploy-heroku.sh')),
-      this.destinationPath(`${this.answers.identifier}/deploy-heroku.sh`),
+      this.templatePath(join('./deploy-heroku.sh')),
+      this.destinationPath(`${pathToApp}/deploy-heroku.sh`),
       payload,
     );
   }

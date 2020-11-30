@@ -1,36 +1,30 @@
-import * as Redis from 'ioredis';
 import * as bcrypt from 'bcrypt';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { RedisService } from 'nestjs-redis';
 
-import UsersService from '@components/users/users.service';
-
-import { DecodedUser } from '@components/auth/interfaces/decoded-user.interface';
+import UsersRepository from '@components/users/users.repository';
+import { DecodedUser } from './interfaces/decoded-user.interface';
 import JwtTokensDto from './dto/jwt-tokens.dto';
 import { ValidateUserOutput } from './interfaces/validate-user-output.interface';
 import { LoginPayload } from './interfaces/login-payload.interface';
 
 import authConstants from './auth-constants';
+import AuthRepository from './auth.repository';
 
 @Injectable()
 export default class AuthService {
-  private readonly redisClient: Redis.Redis;
-
   constructor(
-    private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    private readonly redisService: RedisService,
-  ) {
-    this.redisClient = redisService.getClient();
-  }
+    private readonly usersRepository: UsersRepository,
+    private readonly authRepository: AuthRepository,
+  ) {}
 
-  async validateUser(
+  public async validateUser(
     email: string,
     password: string,
   ): Promise<null | ValidateUserOutput> {
-    const user = await this.usersService.getByEmail(email);
+    const user = await this.usersRepository.getByEmail(email);
 
     if (!user) {
       throw new NotFoundException('The item does not exist');
@@ -48,7 +42,7 @@ export default class AuthService {
     return null;
   }
 
-  async login(data: LoginPayload): Promise<JwtTokensDto> {
+  public async login(data: LoginPayload): Promise<JwtTokensDto> {
     const payload: LoginPayload = {
       id: data.id,
       email: data.email,
@@ -63,11 +57,9 @@ export default class AuthService {
       secret: authConstants.jwt.secrets.refreshToken,
     });
 
-    await this.redisClient.set(
+    await this.authRepository.addRefreshToken(
       payload.email as string,
       refreshToken,
-      'EX',
-      authConstants.redis.expirationTime.jwt.refreshToken,
     );
 
     return {
@@ -76,21 +68,21 @@ export default class AuthService {
     };
   }
 
-  getRefreshTokenByEmail(email: string): Promise<string | null> {
-    return this.redisClient.get(email);
+  public getRefreshTokenByEmail(email: string): Promise<string | null> {
+    return this.authRepository.getToken(email);
   }
 
-  deleteTokenByEmail(email: string): Promise<number> {
-    return this.redisClient.del(email);
+  public deleteTokenByEmail(email: string): Promise<number> {
+    return this.authRepository.removeToken(email);
   }
 
-  deleteAllTokens(): Promise<string> {
-    return this.redisClient.flushall();
+  public deleteAllTokens(): Promise<string> {
+    return this.authRepository.removeAllTokens();
   }
 
-  async verifyToken(token: string, secret: string): Promise<DecodedUser | null> {
+  public async verifyToken(token: string, secret: string): Promise<DecodedUser | null> {
     try {
-      const user = await this.jwtService.verifyAsync(token, { secret });
+      const user = (await this.jwtService.verifyAsync(token, { secret })) as DecodedUser | null;
 
       return user;
     } catch (error) {

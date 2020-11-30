@@ -6,7 +6,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import AppModule from './components/app/app.module';
-import AppService from './components/app/app.service';
 
 import AllExceptionsFilter from './filters/all-exceptions.filter';
 
@@ -29,7 +28,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   await app.listen(port, async () => {
-    // eslint-disable-next-line no-console
     console.log(`The server is running on ${port} port: http://localhost:${port}/api`);
   });
 }

@@ -17,7 +17,7 @@ import {
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
 import SuccessResponse from '@responses/success.response';
-import UserEntity from '@components/users/entities/user.entity';
+import { UserEntity } from '@components/users/schemas/users.schema';
 import UnauthorizedResponse from '@responses/unauthorized.response';
 import NotFoundResponse from '@responses/not-found.response';
 import AppUtils from '@components/app/app.utils';

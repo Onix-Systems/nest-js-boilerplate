@@ -1,17 +1,19 @@
 version: "3"
 services:
   app:
-    image: node:12
+    build:
+      context: .
+      dockerfile: ./docker/App.Dockerfile
     container_name: app
-    command: bash -c "npm run start:dev"
-    working_dir: /var/www/app
     volumes:
       - ./:/var/www/app:cached
+      - /var/www/app/node_modules # anonymous volume for node_modules only
     restart: always
     ports:
-      - "3000:3000"
+      - 3000:3000
     links:
       - mysql
+      - redis
 
   mysql:
     container_name: mysql

@@ -3,6 +3,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 
 import UsersModule from '@components/users/users.module';
+import AuthRepository from './auth.repository';
 import LocalStrategy from './strategies/local.strategy';
 import JwtAccessStrategy from './strategies/jwt-access.strategy';
 import JwtRefreshStrategy from './strategies/jwt-refresh.strategy';
@@ -25,6 +26,7 @@ import AuthService from './auth.service';
     LocalStrategy,
     JwtAccessStrategy,
     JwtRefreshStrategy,
+    AuthRepository,
   ],
   controllers: [AuthController],
   exports: [AuthService],

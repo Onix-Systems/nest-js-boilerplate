@@ -32,7 +32,7 @@ import { Request as ExpressRequest } from 'express';
 
 import UsersService from '@components/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
-import UserEntity from '@components/users/entities/user.entity';
+import { UserEntity } from '@components/users/schemas/users.schema';
 import SuccessResponse from '@responses/success.response';
 import CreatedResponse from '@responses/created.response';
 import NoContentResponse from '@responses/no-content.response';

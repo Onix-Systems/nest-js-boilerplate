@@ -11,20 +11,19 @@ const dbDependencies = {
   },
 };
 
-module.exports = function() {
+module.exports = function () {
+  const { packageManager, db, identifier: folderName } = this.answers;
+
   if (this.options['skip-install']) {
     this.log(
       chalk.green(`
         To install dependencies, run
-        ${chalk.white('$')} cd ${this.answers.identifier}/
+        ${chalk.white('$')} cd ${folderName}/
         ${chalk.white('$')} npm install
       `),
     );
     return;
   }
-
-  const folderName = this.answers.identifier;
-  const { packageManager, db } = this.answers;
 
   const { general, dev } = dbDependencies[db.toLowerCase()];
 
