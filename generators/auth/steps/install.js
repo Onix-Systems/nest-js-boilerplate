@@ -12,10 +12,7 @@ const authTypeDependencies = {
       'nestjs-redis',
       'ioredis',
     ],
-    dev: [
-      '@types/passport-local',
-      '@types/passport-jwt',
-    ],
+    dev: ['@types/passport-local', '@types/passport-jwt'],
   },
   oauth2: {
     hasSessionsStorage: true,
@@ -124,6 +121,11 @@ const authTypeDependencies = {
   },
 };
 
+const mailerDependencies = {
+  general: ['@nestjs-modules/mailer', 'nodemailer'],
+  dev: ['@types/nodemailer'],
+};
+
 module.exports = function() {
   const folderName = this.options.answers.identifier;
   const { authType, packageManager, sessionsStorage } = this.options.answers;
@@ -137,19 +139,41 @@ module.exports = function() {
     ? authTypeDependencies[authType].dev[sessionsStorage]
     : authTypeDependencies[authType].dev;
 
-  const mergedGeneralDependencies = generalDependencies.concat(
+  let mergedGeneralDependencies = generalDependencies.concat(
     authTypeDependencies.common.general,
   );
-  const mergedDevDependencies = devDependencies.concat(
+  let mergedDevDependencies = devDependencies.concat(
     authTypeDependencies.common.dev,
   );
 
+  // if (wantedMailer) {
+  //   mergedGeneralDependencies = mergedGeneralDependencies.concat(
+  //     mailerDependencies,
+  //   );
+  // }
+
   if (packageManager === 'npm') {
-    this.npmInstall(mergedGeneralDependencies, { save: true }, { cwd: folderName });
-    this.npmInstall(mergedDevDependencies, { saveDev: true }, { cwd: folderName });
+    this.npmInstall(
+      mergedGeneralDependencies,
+      { save: true },
+      { cwd: folderName },
+    );
+    this.npmInstall(
+      mergedDevDependencies,
+      { saveDev: true },
+      { cwd: folderName },
+    );
   }
   if (packageManager === 'yarn') {
-    this.yarnInstall(mergedGeneralDependencies, { save: true }, { cwd: folderName });
-    this.yarnInstall(mergedDevDependencies, { saveDev: true }, { cwd: folderName });
+    this.yarnInstall(
+      mergedGeneralDependencies,
+      { save: true },
+      { cwd: folderName },
+    );
+    this.yarnInstall(
+      mergedDevDependencies,
+      { saveDev: true },
+      { cwd: folderName },
+    );
   }
 };

@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@filters/*": ["./src/filters/*"],
+      "@guards/*": ["./src/guards/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@shared/*": ["./src/components/shared/*"],
+      "@components/*": ["./src/components/*"],
+      "@pipes/*": ["./src/pipes/*"],
+      "@dto/*": ["./src/dto/*"],
+      "@responses/*": ["./src/responses/*"],
+      "@interceptors/*": ["./src/interceptors/*"],
+      "@decorators/*": ["./src/decorators/*"]
+    }
+  }
+}
