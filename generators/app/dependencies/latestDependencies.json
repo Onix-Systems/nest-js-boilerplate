@@ -1,0 +1,10 @@
+{
+  "mongodb": {
+    "general": ["mongoose", "@nestjs/mongoose", "mongodb"],
+    "dev": ["@types/mongoose"]
+  },
+  "mysql": {
+    "general": ["mysql", "@nestjs/typeorm", "typeorm"],
+    "dev": ["@types/typeorm"]
+  }
+}
