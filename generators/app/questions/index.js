@@ -7,9 +7,11 @@ const description = require('./description');
 const docker = require('./docker');
 const db = require('./db');
 const deploy = require('./deploy');
+const dependencies = require('./dependenciesVersions');
 
 module.exports = {
   packageManager,
+  dependencies,
   app,
   auth: {
     type: authType,
