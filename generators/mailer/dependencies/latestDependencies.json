@@ -1,0 +1,4 @@
+{
+  "general": ["@nestjs-modules/mailer", "nodemailer"],
+  "dev": ["@types/nodemailer"]
+}

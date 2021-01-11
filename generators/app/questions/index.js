@@ -9,9 +9,11 @@ const db = require('./db');
 const deploy = require('./deploy');
 const mailer = require('./mailer');
 const additionalMailerQuestions = require('./additionalMailerQuestions');
+const dependencies = require('./dependenciesVersions');
 
 module.exports = {
   packageManager,
+  dependencies,
   app,
   auth: {
     type: authType,

@@ -36,5 +36,6 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-/test*
-/my-project
+# Test projects
+/test-*
+/my-*

@@ -3,4 +3,6 @@
  * Where conflicts are handled (used internally)
  */
 
-module.exports = function() {};
+module.exports = function() {
+    this.conflicter.force = true
+};

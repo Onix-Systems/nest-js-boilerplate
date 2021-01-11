@@ -1,33 +1,15 @@
-const mailerDependencies = {
-  general: ['@nestjs-modules/mailer', 'nodemailer'],
-  dev: ['@types/nodemailer'],
-};
+const chooseDependencies = require('../dependencies');
 
 module.exports = function() {
-  const { packageManager, identifier: folderName } = this.options.answers;
-  console.log('answer: ', this.options.answers);
+  const { packageManager, identifier: folderName, needStableDependencies } = this.options.answers;
+  const { general, dev } = chooseDependencies(needStableDependencies);
+
   if (packageManager === 'npm') {
-    this.npmInstall(
-      mailerDependencies.general,
-      { save: true },
-      { cwd: folderName },
-    );
-    this.npmInstall(
-      mailerDependencies.dev,
-      { saveDev: true },
-      { cwd: folderName },
-    );
+    this.npmInstall(general, { save: true }, { cwd: folderName });
+    this.npmInstall(dev, { saveDev: true }, { cwd: folderName });
   }
   if (packageManager === 'yarn') {
-    this.yarnInstall(
-      mailerDependencies.general,
-      { save: true },
-      { cwd: folderName },
-    );
-    this.yarnInstall(
-      mailerDependencies.dev,
-      { saveDev: true },
-      { cwd: folderName },
-    );
+    this.yarnInstall(general, { save: true }, { cwd: folderName });
+    this.yarnInstall(dev, { saveDev: true }, { cwd: folderName });
   }
 };

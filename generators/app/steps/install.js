@@ -1,18 +1,13 @@
 const chalk = require('chalk');
+const chooseDependencies = require('../dependencies');
 
-const dbDependencies = {
-  mongodb: {
-    general: ['mongoose', '@nestjs/mongoose', 'mongodb'],
-    dev: ['@types/mongoose'],
-  },
-  mysql: {
-    general: ['mysql', '@nestjs/typeorm', 'typeorm'],
-    dev: ['@types/typeorm'],
-  },
-};
-
-module.exports = function () {
-  const { packageManager, db, identifier: folderName } = this.answers;
+module.exports = function() {
+  const {
+    packageManager,
+    db,
+    identifier: folderName,
+    needStableDependencies,
+  } = this.answers;
 
   if (this.options['skip-install']) {
     this.log(
@@ -25,18 +20,18 @@ module.exports = function () {
     return;
   }
 
-  const { general, dev } = dbDependencies[db.toLowerCase()];
+  const { general, dev } = chooseDependencies(needStableDependencies, db);
 
   if (packageManager === 'npm') {
     // at the first, install all common packages in the package.json with npm
     this.npmInstall(null, { save: true }, { cwd: folderName });
-    this.npmInstall(general, { save: true }, { cwd: folderName });
-    this.npmInstall(dev, { saveDev: true }, { cwd: folderName });
+    this.npmInstall(general.join(' '), { save: true }, { cwd: folderName });
+    this.npmInstall(dev.join(' '), { saveDev: true }, { cwd: folderName });
   }
   if (packageManager === 'yarn') {
     // at the first, install all common packages in the package.json with yarn
     this.yarnInstall(null, { save: true }, { cwd: folderName });
-    this.yarnInstall(general, { save: true }, { cwd: folderName });
-    this.yarnInstall(dev, { saveDev: true }, { cwd: folderName });
+    this.yarnInstall(general.join(' '), { save: true }, { cwd: folderName });
+    this.yarnInstall(dev.join(' '), { saveDev: true }, { cwd: folderName });
   }
 };
