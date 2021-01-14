@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common';
 import UserDto from '@components/users/dto/user.dto';
 import usersConstants from './users-constants';
 import { UserEntity } from './schemas/users.schema';
+import { IUpdateUser } from './interfaces/update-user-fields';
 
 @Injectable()
 export default class UsersRepository {
@@ -16,25 +17,21 @@ export default class UsersRepository {
   public create(user: UserDto): Promise<UserEntity> {
     return this.userModel.create({
       ...user,
-      verified: true,
+      verified: false,
     });
   }
 
-  public async getVerifiedByEmail(email: string): Promise<UserEntity | null> {
+  public async getByEmail(email: string): Promise<UserEntity | null> {
     const foundUser: UserEntity | null = await this.userModel.findOne({
       email,
-      verified: true,
     });
-
     return foundUser || null;
   }
 
-  public async getVerifiedById(id: ObjectID): Promise<UserEntity | null> {
+  public async getById(id: ObjectID): Promise<UserEntity | null> {
     const foundUser: UserEntity | null = await this.userModel.findOne({
       _id: id,
-      verified: true,
     });
-
     return foundUser || null;
   }
 
@@ -42,5 +39,9 @@ export default class UsersRepository {
     const foundUsers: UserEntity[] | [] = await this.userModel.find();
 
     return foundUsers.length > 0 ? foundUsers : [];
+  }
+
+  public findOneAndUpdate(_id: ObjectID, fieldForUpdate: IUpdateUser) {
+    return this.userModel.findByIdAndUpdate({ _id }, fieldForUpdate);
   }
 }

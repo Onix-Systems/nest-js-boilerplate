@@ -20,15 +20,19 @@ export default class UsersService {
     });
   }
 
-  getVerifiedByEmail(email: string): Promise<UserEntity | null> {
-    return this.usersRepository.getVerifiedByEmail(email);
+  getByEmail(email: string): Promise<UserEntity | null> {
+    return this.usersRepository.getByEmail(email);
   }
 
-  getVerifiedById(id: ObjectID): Promise<UserEntity | null> {
-    return this.usersRepository.getVerifiedById(id);
+  getById(id: ObjectID): Promise<UserEntity | null> {
+    return this.usersRepository.getById(id);
   }
 
   getAll(): Promise<UserEntity[] | []> {
     return this.usersRepository.getAll();
+  }
+
+  verifyUser(_id: ObjectID) {
+    return this.usersRepository.findOneAndUpdate(_id, { verified: true });
   }
 }

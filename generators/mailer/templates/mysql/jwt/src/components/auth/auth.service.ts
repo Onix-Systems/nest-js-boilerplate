@@ -81,9 +81,28 @@ export default class AuthService {
     return this.authRepository.removeAllTokens();
   }
 
-  async verifyToken(token: string, secret: string): Promise<DecodedUser | null> {
+  public createVerifyToken(id: number): string {
+    return this.jwtService.sign(
+      { id },
+      {
+        expiresIn: authConstants.jwt.expirationTime.accessToken,
+        secret: authConstants.jwt.secrets.accessToken,
+      },
+    );
+  }
+
+  public verifyEmailVerToken(token: string, secret: string) {
+    return this.jwtService.verifyAsync(token, { secret });
+  }
+
+  public async verifyToken(
+    token: string,
+    secret: string,
+  ): Promise<DecodedUser | null> {
     try {
-      const user = await this.jwtService.verifyAsync(token, { secret });
+      const user = (await this.jwtService.verifyAsync(token, {
+        secret,
+      })) as DecodedUser | null;
 
       return user;
     } catch (error) {

@@ -10,6 +10,12 @@ const authConstants = {
       refreshToken: '<%= config.refreshTokenSecret %>',
     },
   },
+    mailer: {
+    verifyEmail: {
+      subject: 'Email Verification',
+      template: 'verify-password',
+    },
+  },
   redis: {
     expirationTime: {
       jwt: {

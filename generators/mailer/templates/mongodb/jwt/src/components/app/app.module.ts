@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { RedisModule } from 'nestjs-redis';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-//new
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 

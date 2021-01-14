@@ -72,9 +72,9 @@
         "hbs@4.1.1",
         "express-handlebars@5.2.0",
         "cookie-parser@1.4.5",
-        "connect-redis@1.4.5",
-        "connect-flash@1.4.5",
-        "redis@@3.0.2"
+        "connect-redis@5.0.0",
+        "connect-flash@0.1.1",
+        "redis@3.0.2"
       ],
       "mongodb": [
         "passport-local@1.0.0",
@@ -83,7 +83,7 @@
         "express-handlebars@5.2.0",
         "cookie-parser@1.4.5",
         "connect-mongodb-session@2.4.1",
-        "connect-flash@1.4.5",
+        "connect-flash@0.1.1",
         "mongodb@3.6.3"
       ],
       "mysql": [
@@ -92,7 +92,7 @@
         "hbs@4.1.1",
         "express-handlebars@5.2.0",
         "cookie-parser@1.4.5",
-        "connect-flash@1.4.5",
+        "connect-flash@0.1.1",
         "express-mysql-session@2.1.4"
       ]
     },
@@ -103,7 +103,7 @@
         "@types/express-handlebars@3.1.0",
         "@types/express-session@1.17.3",
         "@types/redis@2.8.28",
-        "@types/connect-redis@@0.0.16"
+        "@types/connect-redis@0.0.16"
       ],
       "mongodb": [
         "@types/passport-local@1.0.33",

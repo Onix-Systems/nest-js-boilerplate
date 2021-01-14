@@ -14,7 +14,7 @@ export default class LocalSerializer extends PassportSerializer {
   }
 
   async deserializeUser(user: UserEntity, done: CallableFunction) {
-    const foundUser = await this.usersService.getVerifiedById(user._id);
+    const foundUser = await this.usersService.getById(user._id);
 
     if (!foundUser) {
       return done(new UnauthorizedException('The user does not exist'));

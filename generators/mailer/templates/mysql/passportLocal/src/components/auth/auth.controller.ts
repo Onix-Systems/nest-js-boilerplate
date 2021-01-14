@@ -8,7 +8,9 @@ import {
   Get,
   HttpCode,
   Req,
-  HttpStatus, Redirect,
+  HttpStatus,
+  Redirect,
+  Param,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -20,6 +22,7 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import { Request as ExpressRequest } from 'express';
+import { MailerService } from '@nestjs-modules/mailer';
 
 import UsersService from '@components/users/users.service';
 import SignInDto from '@components/auth/dto/sign-in.dto';
@@ -36,6 +39,7 @@ export default class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
+    private readonly mailerService: MailerService,
   ) {}
 
   @ApiOkResponse({ description: 'Renders a login page' })
@@ -61,7 +65,19 @@ export default class AuthController {
   @Post('/register')
   @Redirect('/auth/login')
   public async create(@Body() params: SignUpDto): Promise<void> {
-    await this.usersService.create(params);
+    const { email, id } = await this.usersService.create(params);
+    const token = await this.authService.createVerifyToken(id);
+    await this.mailerService.sendMail({
+      to: email,
+      from: process.env.MAILER_FROM_EMAIL,
+      subject: 'Email Verification',
+      template: 'verify-password',
+      context: {
+        token,
+        email,
+        host: process.env.SERVER_HOST,
+      },
+    });
   }
 
   @ApiMovedPermanentlyResponse({ description: '301. If logout is success' })
@@ -83,4 +99,24 @@ export default class AuthController {
   @Post('/login')
   @Redirect('/home')
   public login(): void {}
+
+  @Get('verify/:token')
+  @Redirect('/home')
+  async verifyUser(
+    @Req() req: ExpressRequest,
+    @Param('token') token: string,
+  ): Promise<void | UnauthorizedResponse> {
+    const id = await this.authService.verifyEmailVerToken(token);
+    if (!id) {
+      return new UnauthorizedResponse(null, {
+        message: req.flash('The user does not exist'),
+      });
+    }
+    const foundUser = await this.usersService.verifyUser(id);
+    if (!foundUser) {
+      return new UnauthorizedResponse(null, {
+        message: req.flash('The user does not exist'),
+      });
+    }
+  }
 }
