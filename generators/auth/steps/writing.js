@@ -1,10 +1,16 @@
 const fs = require('fs');
 const { join } = require('path');
 
-module.exports = function () {
+module.exports = function() {
   const { answers } = this.options;
 
+  // const mailerFolder =
+  //   answers.wantedMailer.toLowerCase() === 'yes' ? '/withMailer' : '';
+  // const authFolder = `${answers.db.toLowerCase()}${mailerFolder}/${
+  //   answers.authType
+  // }`;
   const authFolder = `${answers.db.toLowerCase()}/${answers.authType}`;
+
   const { sessionsStorage } = answers;
 
   // file what's different for every session storage (Main.ts is our app bootstrap/runner)
@@ -101,9 +107,11 @@ module.exports = function () {
   if (answers.wantedDocker.toLowerCase() === 'yes') {
     if (sessionsStorage) {
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/_${sessionsStorage}-docker-compose.yml`),
-        this.destinationPath(`${rootFolder}/docker-compose.yml`)
-      )
+        this.templatePath(
+          `${authFolder}/_${sessionsStorage}-docker-compose.yml`,
+        ),
+        this.destinationPath(`${rootFolder}/docker-compose.yml`),
+      );
     } else {
       this.fs.copyTpl(
         this.templatePath(`${authFolder}/docker-compose.yml`),

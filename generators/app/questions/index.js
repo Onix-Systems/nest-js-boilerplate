@@ -7,6 +7,8 @@ const description = require('./description');
 const docker = require('./docker');
 const db = require('./db');
 const deploy = require('./deploy');
+const mailer = require('./mailer');
+const additionalMailerQuestions = require('./additionalMailerQuestions');
 const dependencies = require('./dependenciesVersions');
 
 module.exports = {
@@ -22,4 +24,8 @@ module.exports = {
   docker,
   db,
   deploy,
+  mailer: {
+    isNeeded: mailer,
+    additionalQuestions: additionalMailerQuestions,
+  },
 };

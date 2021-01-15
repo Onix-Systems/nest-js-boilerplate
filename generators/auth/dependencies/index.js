@@ -22,6 +22,7 @@ module.exports = function({
   const mergedGeneralDependencies = generalDependencies.concat(
     dependencies.common.general,
   );
+
   const mergedDevDependencies = devDependencies.concat(dependencies.common.dev);
 
   return {

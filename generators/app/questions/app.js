@@ -11,4 +11,10 @@ module.exports = [
     message: 'Server port',
     default: 3000,
   },
+  {
+    type: 'input',
+    name: 'serverHost',
+    message: 'Server host',
+    default: 'http://localhost',
+  },
 ];
