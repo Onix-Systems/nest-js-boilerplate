@@ -1,0 +1,18 @@
+{
+  "mongodb": {
+    "general": {
+      "mongoose": "5.10.17",
+      "@nestjs/mongoose": "7.1.2",
+      "mongodb": "3.6.3"
+    },
+    "dev": { "@types/mongoose": "5.10.2" }
+  },
+  "mysql": {
+    "general": {
+      "mysql": "2.18.1",
+      "@nestjs/typeorm": "7.1.5",
+      "typeorm": "0.2.30"
+    },
+    "dev": {}
+  }
+}
