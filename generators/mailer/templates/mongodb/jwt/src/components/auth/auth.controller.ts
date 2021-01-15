@@ -5,7 +5,6 @@ import {
   Get,
   Post,
   Delete,
-  Put,
   Param,
   Request,
   UnauthorizedException,
@@ -26,6 +25,8 @@ import {
   ApiBadRequestResponse,
   ApiConflictResponse,
   ApiNoContentResponse,
+  ApiExtraModels,
+  getSchemaPath,
 } from '@nestjs/swagger';
 import { JwtService } from '@nestjs/jwt';
 import { Request as ExpressRequest } from 'express';
@@ -39,7 +40,6 @@ import CreatedResponse from '@responses/created.response';
 import NoContentResponse from '@responses/no-content.response';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
-import AppUtils from '@components/app/app.utils';
 import ServerErrorResponse from '@responses/server-error.response';
 import BadRequestResponse from '@responses/bad-request.response';
 import ConflictResponse from '@responses/conflict.response';
@@ -57,6 +57,7 @@ import JwtTokensDto from './dto/jwt-tokens.dto';
 
 @ApiTags('Auth')
 @UseInterceptors(WrapResponseInterceptor)
+@ApiExtraModels(JwtTokensDto)
 @Controller('auth')
 export default class AuthController {
   constructor(
@@ -68,7 +69,14 @@ export default class AuthController {
 
   @ApiBody({ type: SignInDto })
   @ApiOkResponse({
-    type: AppUtils.DtoFactory.wrap(JwtTokensDto),
+    schema: {
+      type: 'object',
+      properties: {
+        data: {
+          $ref: getSchemaPath(JwtTokensDto),
+        },
+      },
+    },
     description: 'Returns jwt tokens',
   })
   @ApiInternalServerErrorResponse({
@@ -129,7 +137,14 @@ export default class AuthController {
   }
 
   @ApiOkResponse({
-    type: AppUtils.DtoFactory.wrap(JwtTokensDto),
+    schema: {
+      type: 'object',
+      properties: {
+        data: {
+          $ref: getSchemaPath(JwtTokensDto),
+        },
+      },
+    },
     description: '200, returns new jwt tokens',
   })
   @ApiUnauthorizedResponse({
@@ -255,7 +270,14 @@ export default class AuthController {
   }
 
   @ApiOkResponse({
-    type: AppUtils.DtoFactory.wrap(UserEntity),
+    schema: {
+      type: 'object',
+      properties: {
+        data: {
+          $ref: getSchemaPath(JwtTokensDto),
+        },
+      },
+    },
     description: '200, returns a decoded user from access token',
   })
   @ApiUnauthorizedResponse({

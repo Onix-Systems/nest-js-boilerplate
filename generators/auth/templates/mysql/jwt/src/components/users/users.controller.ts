@@ -14,25 +14,34 @@ import {
   ApiBearerAuth,
   ApiUnauthorizedResponse,
   ApiParam,
+  ApiExtraModels,
+  getSchemaPath,
 } from '@nestjs/swagger';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import SuccessResponse from '@responses/success.response';
 import UserEntity from '@components/users/entities/user.entity';
 import UnauthorizedResponse from '@responses/unauthorized.response';
 import NotFoundResponse from '@responses/not-found.response';
-import AppUtils from '@components/app/app.utils';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import UsersService from './users.service';
 
 @ApiTags('Users')
 @ApiBearerAuth()
 @UseInterceptors(WrapResponseInterceptor)
+@ApiExtraModels(UserEntity)
 @Controller('users')
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiOkResponse({
-    type: AppUtils.DtoFactory.wrap(UserEntity),
+    schema: {
+      type: 'object',
+      properties: {
+        data: {
+          $ref: getSchemaPath(UserEntity),
+        },
+      },
+    },
     description: '200. Success. Returns a user',
   })
   @ApiNotFoundResponse({
@@ -59,8 +68,15 @@ export default class UsersController {
   }
 
   @ApiOkResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        data: {
+          $ref: getSchemaPath(UserEntity),
+        },
+      },
+    },
     description: '200. Success. Returns all users',
-    type: AppUtils.DtoFactory.wrap([UserEntity]),
   })
   @ApiUnauthorizedResponse({
     type: UnauthorizedResponse,
