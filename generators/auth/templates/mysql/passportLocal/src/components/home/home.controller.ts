@@ -1,25 +1,30 @@
-import {
-  Controller,
-  Get,
-  Render,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Render, UseGuards } from '@nestjs/common';
 import {
   ApiCookieAuth,
   ApiOkResponse,
   ApiUnauthorizedResponse,
+  ApiExtraModels,
+  getSchemaPath,
 } from '@nestjs/swagger';
-import AppUtils from '@components/app/app.utils';
+
 import UserEntity from '@components/users/entities/user.entity';
 import IsLoggedGuard from '@guards/is-logged.guard';
 import RequestUser from '@decorators/request-user.decorator';
 import SuccessResponse from '@responses/success.response';
 
+@ApiExtraModels(UserEntity)
 @Controller('home')
 export default class HomeController {
   @ApiCookieAuth()
   @ApiOkResponse({
-    type: AppUtils.DtoFactory.wrap(UserEntity),
+    schema: {
+      type: 'object',
+      properties: {
+        data: {
+          $ref: getSchemaPath(UserEntity),
+        },
+      },
+    },
     description: 'Returns the logged user',
   })
   @ApiUnauthorizedResponse({

@@ -26,6 +26,8 @@ import {
   ApiBadRequestResponse,
   ApiConflictResponse,
   ApiNoContentResponse,
+  ApiExtraModels,
+  getSchemaPath,
 } from '@nestjs/swagger';
 import { JwtService } from '@nestjs/jwt';
 import { Request as ExpressRequest } from 'express';
@@ -38,7 +40,6 @@ import CreatedResponse from '@responses/created.response';
 import NoContentResponse from '@responses/no-content.response';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
-import AppUtils from '@components/app/app.utils';
 import ServerErrorResponse from '@responses/server-error.response';
 import BadRequestResponse from '@responses/bad-request.response';
 import ConflictResponse from '@responses/conflict.response';
@@ -56,6 +57,7 @@ import JwtTokensDto from './dto/jwt-tokens.dto';
 
 @ApiTags('Auth')
 @UseInterceptors(WrapResponseInterceptor)
+@ApiExtraModels(JwtTokensDto)
 @Controller('auth')
 export default class AuthController {
   constructor(
@@ -66,7 +68,14 @@ export default class AuthController {
 
   @ApiBody({ type: SignInDto })
   @ApiOkResponse({
-    type: AppUtils.DtoFactory.wrap(JwtTokensDto),
+    schema: {
+      type: 'object',
+      properties: {
+        data: {
+          $ref: getSchemaPath(JwtTokensDto),
+        },
+      },
+    },
     description: 'Returns jwt tokens',
   })
   @ApiInternalServerErrorResponse({
@@ -77,7 +86,10 @@ export default class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
-  async signIn(@Request() req: ExpressRequest, @Body() input: SignInDto): Promise<SuccessResponse> {
+  async signIn(
+    @Request() req: ExpressRequest,
+    @Body() input: SignInDto,
+  ): Promise<SuccessResponse> {
     const { password, ...user } = req.user as UserEntity;
 
     const tokens = await this.authService.login(user);
@@ -111,7 +123,14 @@ export default class AuthController {
   }
 
   @ApiOkResponse({
-    type: AppUtils.DtoFactory.wrap(JwtTokensDto),
+    schema: {
+      type: 'object',
+      properties: {
+        data: {
+          $ref: getSchemaPath(JwtTokensDto),
+        },
+      },
+    },
     description: '200, returns new jwt tokens',
   })
   @ApiUnauthorizedResponse({
@@ -127,19 +146,23 @@ export default class AuthController {
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
   ): Promise<SuccessResponse | never> {
-    const decodedUser = this.jwtService.decode(refreshTokenDto.refreshToken) as DecodedUser;
+    const decodedUser = this.jwtService.decode(
+      refreshTokenDto.refreshToken,
+    ) as DecodedUser;
 
     if (!decodedUser) {
       throw new ForbiddenException('Incorrect token');
     }
 
-    const oldRefreshToken: string | null = await this.authService.getRefreshTokenByEmail(
-      decodedUser.email,
-    );
+    const oldRefreshToken:
+      | string
+      | null = await this.authService.getRefreshTokenByEmail(decodedUser.email);
 
     // if the old refresh token is not equal to request refresh token then this user is unauthorized
     if (!oldRefreshToken || oldRefreshToken !== refreshTokenDto.refreshToken) {
-      throw new UnauthorizedException('Authentication credentials were missing or incorrect');
+      throw new UnauthorizedException(
+        'Authentication credentials were missing or incorrect',
+      );
     }
 
     const payload = {
@@ -162,7 +185,9 @@ export default class AuthController {
   })
   @HttpCode(HttpStatus.NO_CONTENT)
   @Put('verify')
-  async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<NoContentResponse | never> {
+  async verifyUser(
+    @Body() verifyUserDto: VerifyUserDto,
+  ): Promise<NoContentResponse | never> {
     const foundUser = await this.usersService.getByEmail(
       verifyUserDto.email,
       false,
@@ -192,16 +217,21 @@ export default class AuthController {
   @UseGuards(JwtAccessGuard)
   @Delete('logout/:token')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async logout(@Param('token') token: string): Promise<NoContentResponse | never> {
+  async logout(
+    @Param('token') token: string,
+  ): Promise<NoContentResponse | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
-      token, authConstants.jwt.secrets.accessToken,
+      token,
+      authConstants.jwt.secrets.accessToken,
     );
 
     if (!decodedUser) {
       throw new ForbiddenException('Incorrect token');
     }
 
-    const deletedUsersCount = await this.authService.deleteTokenByEmail(decodedUser.email);
+    const deletedUsersCount = await this.authService.deleteTokenByEmail(
+      decodedUser.email,
+    );
 
     if (deletedUsersCount === 0) {
       throw new NotFoundException();
@@ -225,7 +255,14 @@ export default class AuthController {
   }
 
   @ApiOkResponse({
-    type: AppUtils.DtoFactory.wrap(UserEntity),
+    schema: {
+      type: 'object',
+      properties: {
+        data: {
+          $ref: getSchemaPath(JwtTokensDto),
+        },
+      },
+    },
     description: '200, returns a decoded user from access token',
   })
   @ApiUnauthorizedResponse({
@@ -235,7 +272,9 @@ export default class AuthController {
   @ApiBearerAuth()
   @UseGuards(JwtAccessGuard)
   @Get('token')
-  async getUserByAccessToken(@AuthBearer() token: string): Promise<SuccessResponse> | never {
+  async getUserByAccessToken(
+    @AuthBearer() token: string,
+  ): Promise<SuccessResponse> | never {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
       authConstants.jwt.secrets.accessToken,
@@ -245,11 +284,7 @@ export default class AuthController {
       throw new ForbiddenException('Incorrect token');
     }
 
-    const {
-      exp,
-      iat,
-      ...user
-    } = decodedUser;
+    const { exp, iat, ...user } = decodedUser;
 
     return new SuccessResponse(null, user);
   }
