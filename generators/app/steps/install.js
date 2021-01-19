@@ -25,13 +25,13 @@ module.exports = function() {
   if (packageManager === 'npm') {
     // at the first, install all common packages in the package.json with npm
     this.npmInstall(null, { save: true }, { cwd: folderName });
-    this.npmInstall(general.join(' '), { save: true }, { cwd: folderName });
-    this.npmInstall(dev.join(' '), { saveDev: true }, { cwd: folderName });
+    this.npmInstall(general, { save: true }, { cwd: folderName });
+    this.npmInstall(dev, { saveDev: true }, { cwd: folderName });
   }
   if (packageManager === 'yarn') {
     // at the first, install all common packages in the package.json with yarn
     this.yarnInstall(null, { save: true }, { cwd: folderName });
-    this.yarnInstall(general.join(' '), { save: true }, { cwd: folderName });
-    this.yarnInstall(dev.join(' '), { saveDev: true }, { cwd: folderName });
+    this.yarnInstall(general, { save: true }, { cwd: folderName });
+    this.yarnInstall(dev, { saveDev: true }, { cwd: folderName });
   }
 };

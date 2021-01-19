@@ -1,32 +1,45 @@
-const stableAuthTypeDependencies = require('./stableDependencies.json');
-const authTypeDependencies = require('./latestDependencies.json');
+const dependenciesObj = require('./dependencies.json');
+
+function getStableDep(dependenciesObj) {
+  const depArray = Object.entries(dependenciesObj).map(entriesArr => {
+    return entriesArr.join('@');
+  });
+
+  return depArray.join(' ');
+}
+
+function getLatestDep(dependenciesObj) {
+  const depArray = Object.keys(dependenciesObj);
+
+  return depArray.join(' ');
+}
 
 module.exports = function({
   authType,
   sessionsStorage,
   needStableDependencies,
 }) {
-  const dependencies =
-    needStableDependencies === 'Yes'
-      ? stableAuthTypeDependencies
-      : authTypeDependencies;
+  const getDependencies =
+    needStableDependencies === 'Yes' ? getStableDep : getLatestDep;
 
-  const { hasSessionsStorage } = dependencies[authType];
-  const generalDependencies = hasSessionsStorage
-    ? dependencies[authType].general[sessionsStorage]
-    : dependencies[authType].general;
-  const devDependencies = hasSessionsStorage
-    ? dependencies[authType].dev[sessionsStorage]
-    : dependencies[authType].dev;
-
-  const mergedGeneralDependencies = generalDependencies.concat(
-    dependencies.common.general,
-  );
-
-  const mergedDevDependencies = devDependencies.concat(dependencies.common.dev);
+  const { hasSessionsStorage } = dependenciesObj[authType];
+  const generalDependenciesObj = hasSessionsStorage
+    ? dependenciesObj[authType].general[sessionsStorage]
+    : dependenciesObj[authType].general;
+  const devDependenciesObj = hasSessionsStorage
+    ? dependenciesObj[authType].dev[sessionsStorage]
+    : dependenciesObj[authType].dev;
+  const mergedGeneralDependenciesObj = {
+    ...generalDependenciesObj,
+    ...dependenciesObj.common.general,
+  };
+  const mergedDevDependenciesObj = {
+    ...devDependenciesObj,
+    ...dependenciesObj.common.dev,
+  };
 
   return {
-    general: mergedGeneralDependencies.join(' '),
-    dev: mergedDevDependencies.join(' '),
+    general: getDependencies(mergedGeneralDependenciesObj),
+    dev: getDependencies(mergedDevDependenciesObj),
   };
 };

@@ -1,7 +1,11 @@
 const chooseDependencies = require('../dependencies');
 
 module.exports = function() {
-  const { packageManager, identifier: folderName, needStableDependencies } = this.options.answers;
+  const {
+    packageManager,
+    identifier: folderName,
+    needStableDependencies,
+  } = this.options.answers;
   const { general, dev } = chooseDependencies(needStableDependencies);
 
   if (packageManager === 'npm') {
