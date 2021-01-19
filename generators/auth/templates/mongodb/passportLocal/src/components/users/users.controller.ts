@@ -15,7 +15,6 @@ import {
 } from '@nestjs/swagger';
 import IsLoggedGuard from '@guards/is-logged.guard';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
-import SuccessResponse from '@responses/success.response';
 import RequestUser from '@decorators/request-user.decorator';
 import UsersService from './users.service';
 import { UserEntity } from './schemas/users.schema';
@@ -39,12 +38,21 @@ export default class UsersController {
     },
     description: 'Returns 200 if the template has been rendered successfully',
   })
-  @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
+  @ApiInternalServerErrorResponse({
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+        details: {},
+      },
+    },
+    description: 'Internal Server Error',
+  })
   @UseGuards(IsLoggedGuard)
   @Get('/profile')
   @Render('profile')
-  public getProfile(@RequestUser() user: UserEntity): SuccessResponse {
-    return new SuccessResponse(null, user);
+  public getProfile(@RequestUser() user: UserEntity): UserEntity {
+    return user;
   }
 
   @ApiCookieAuth()
@@ -60,9 +68,9 @@ export default class UsersController {
     description: 'Returns 200 if the template has been rendered successfully',
   })
   @Get()
-  public async getAllUsers(): Promise<SuccessResponse> {
+  public async getAllUsers(): Promise<UserEntity[] | []> {
     const foundUsers = await this.usersService.getAll();
 
-    return new SuccessResponse(null, foundUsers);
+    return foundUsers;
   }
 }

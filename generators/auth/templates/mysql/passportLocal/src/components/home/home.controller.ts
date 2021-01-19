@@ -10,7 +10,6 @@ import {
 import UserEntity from '@components/users/entities/user.entity';
 import IsLoggedGuard from '@guards/is-logged.guard';
 import RequestUser from '@decorators/request-user.decorator';
-import SuccessResponse from '@responses/success.response';
 
 @ApiExtraModels(UserEntity)
 @Controller('home')
@@ -28,12 +27,18 @@ export default class HomeController {
     description: 'Returns the logged user',
   })
   @ApiUnauthorizedResponse({
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+      },
+    },
     description: 'Returns the unauthorized error',
   })
   @UseGuards(IsLoggedGuard)
   @Get('/')
   @Render('home')
-  public getIndex(@RequestUser() user: UserEntity): SuccessResponse {
-    return new SuccessResponse(null, user);
+  public getIndex(@RequestUser() user: UserEntity): UserEntity {
+    return user;
   }
 }
