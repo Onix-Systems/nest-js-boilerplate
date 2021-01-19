@@ -16,8 +16,8 @@ import AppController from './app.controller';
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.MYSQL_HOST,
-      port: process.env.MYSQL_PORT as unknown as number,
+      host: process.env.MYSQL_HOST || 'mysql',
+      port: (process.env.MYSQL_PORT as unknown) as number,
       database: process.env.MYSQL_DB,
       username: process.env.MYSQL_ROOT_USER,
       password: process.env.MYSQL_PASSWORD,
