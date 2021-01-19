@@ -18,10 +18,7 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger';
 import JwtAccessGuard from '@guards/jwt-access.guard';
-import SuccessResponse from '@responses/success.response';
 import UserEntity from '@components/users/entities/user.entity';
-import UnauthorizedResponse from '@responses/unauthorized.response';
-import NotFoundResponse from '@responses/not-found.response';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import UsersService from './users.service';
 
@@ -45,11 +42,15 @@ export default class UsersController {
     description: '200. Success. Returns a user',
   })
   @ApiNotFoundResponse({
-    type: NotFoundResponse,
     description: '404. NotFoundException. User was not found',
   })
   @ApiUnauthorizedResponse({
-    type: UnauthorizedResponse,
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+      },
+    },
     description: '401. UnauthorizedException.',
   })
   @ApiParam({ name: 'id', type: String })
@@ -57,14 +58,14 @@ export default class UsersController {
   @UseGuards(JwtAccessGuard)
   async getById(
     @Param('id', ParseIntPipe) id: number,
-  ): Promise<SuccessResponse | never> {
+  ): Promise<UserEntity | never> {
     const foundUser = await this.usersService.getById(id);
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');
     }
 
-    return new SuccessResponse(null, foundUser);
+    return foundUser;
   }
 
   @ApiOkResponse({
@@ -79,14 +80,19 @@ export default class UsersController {
     description: '200. Success. Returns all users',
   })
   @ApiUnauthorizedResponse({
-    type: UnauthorizedResponse,
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+      },
+    },
     description: '401. UnauthorizedException.',
   })
   @Get()
   @UseGuards(JwtAccessGuard)
-  async getAllVerifiedUsers(): Promise<SuccessResponse | []> {
+  async getAllVerifiedUsers(): Promise<UserEntity[] | []> {
     const foundUsers = await this.usersService.getAll(true);
 
-    return new SuccessResponse(null, foundUsers);
+    return foundUsers;
   }
 }

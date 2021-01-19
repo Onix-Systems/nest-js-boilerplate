@@ -7,7 +7,7 @@ export interface DecodedUser {
 
   readonly password: string;
 
-  readonly iat: number;
+  readonly iat?: number;
 
-  readonly exp: number;
+  readonly exp?: number;
 }
