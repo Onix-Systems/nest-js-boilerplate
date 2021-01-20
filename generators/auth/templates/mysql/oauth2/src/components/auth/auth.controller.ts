@@ -18,10 +18,8 @@ import { Request as ExpressRequest } from 'express';
 
 import UsersService from '@components/users/users.service';
 import IsLoggedGuard from '@guards/is-logged.guard';
-import SuccessResponse from '@responses/success.response';
 import { UserGooglePayload } from '@components/auth/interfaces/user-google-payload.interface';
 import UserDto from '@components/users/dto/user.dto';
-import NoContentResponse from '@responses/no-content.response';
 import GoogleAuthGuard from './guards/google-auth.guard';
 import AuthService from './auth.service';
 
@@ -39,20 +37,30 @@ export default class AuthController {
   async googleAuth(@Req() req: ExpressRequest) {}
 
   @ApiOkResponse({
-    type: SuccessResponse,
     description: 'User registered/authorized successfully',
   })
   @ApiInternalServerErrorResponse({
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+        details: {},
+      },
+    },
     description: 'InternalServerError. User was not authorized/registered',
   })
   @UseGuards(GoogleAuthGuard)
   @Get('redirect')
-  async googleAuthRedirect(@Req() req: ExpressRequest): Promise<SuccessResponse | never> {
+  async googleAuthRedirect(@Req() req: ExpressRequest): Promise<any> {
     if (!req.user) {
       throw new ForbiddenException('No user from google');
     }
 
-    const { accessToken, refreshToken, ...user } = req.user as UserGooglePayload;
+    const {
+      accessToken,
+      refreshToken,
+      ...user
+    } = req.user as UserGooglePayload;
 
     const foundUser = await this.usersService.getByEmail(user.email as string);
 
@@ -60,16 +68,16 @@ export default class AuthController {
       await this.usersService.create(user as UserDto);
     }
 
-    return new SuccessResponse('Successfully registered');
+    return { message: 'Successfully registered' };
   }
 
-  @ApiNoContentResponse({ type: NoContentResponse })
+  @ApiNoContentResponse({ description: 'No content. 204' })
   @UseGuards(IsLoggedGuard)
   @Delete('logout')
   @HttpCode(204)
-  async logout(@Req() req: ExpressRequest): Promise<NoContentResponse | never> {
+  async logout(@Req() req: ExpressRequest): Promise<{}> {
     await req.logout();
 
-    return new NoContentResponse();
+    return {};
   }
 }

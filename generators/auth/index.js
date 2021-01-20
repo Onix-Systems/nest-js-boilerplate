@@ -7,10 +7,10 @@ module.exports = class AuthenticationGenerator extends Generator {
   constructor(args, options) {
     super(args, options);
 
-    Object.keys(generatorArguments).forEach((key) => {
+    Object.keys(generatorArguments).forEach(key => {
       return this.argument(key, generatorArguments[key]);
     });
-    Object.keys(generatorOptions).forEach((key) => {
+    Object.keys(generatorOptions).forEach(key => {
       return this.option(key, generatorOptions[key]);
     });
   }

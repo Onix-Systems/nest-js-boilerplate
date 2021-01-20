@@ -35,16 +35,8 @@ import { Request as ExpressRequest } from 'express';
 import UsersService from '@components/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import { UserEntity } from '@components/users/schemas/users.schema';
-import SuccessResponse from '@responses/success.response';
-import CreatedResponse from '@responses/created.response';
-import NoContentResponse from '@responses/no-content.response';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
-import ServerErrorResponse from '@responses/server-error.response';
-import BadRequestResponse from '@responses/bad-request.response';
-import ConflictResponse from '@responses/conflict.response';
-import UnauthorizedResponse from '@responses/unauthorized.response';
-import NotFoundResponse from '@responses/not-found.response';
 import authConstants from '@components/auth/auth-constants';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
@@ -78,48 +70,95 @@ export default class AuthController {
     },
     description: 'Returns jwt tokens',
   })
+  @ApiBadRequestResponse({
+    schema: {
+      type: 'object',
+      example: {
+        message: [
+          {
+            target: {
+              email: 'string',
+              password: 'string',
+            },
+            value: 'string',
+            property: 'string',
+            children: [],
+            constraints: {},
+          },
+        ],
+        error: 'Bad Request',
+      },
+    },
+    description: '400. ValidationException',
+  })
   @ApiInternalServerErrorResponse({
-    type: ServerErrorResponse,
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+        details: {},
+      },
+    },
     description: '500. InternalServerError',
   })
   @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
-  async signIn(
-    @Request() req: ExpressRequest,
-    @Body() input: SignInDto,
-  ): Promise<SuccessResponse> {
-    const { password, ...user } = req.user as UserEntity;
+  async signIn(@Request() req: ExpressRequest): Promise<JwtTokensDto> {
+    const user = req.user as UserEntity;
 
-    const tokens = await this.authService.login(user);
-
-    return new SuccessResponse(null, tokens);
+    return this.authService.login(user);
   }
 
   @ApiBody({ type: SignUpDto })
   @ApiOkResponse({
-    type: CreatedResponse,
     description: '201, Success',
   })
   @ApiBadRequestResponse({
-    type: BadRequestResponse,
+    schema: {
+      type: 'object',
+      example: {
+        message: [
+          {
+            target: {
+              email: 'string',
+              password: 'string',
+            },
+            value: 'string',
+            property: 'string',
+            children: [],
+            constraints: {},
+          },
+        ],
+        error: 'Bad Request',
+      },
+    },
     description: '400. ValidationException',
   })
   @ApiConflictResponse({
-    type: ConflictResponse,
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+      },
+    },
     description: '409. ConflictResponse',
   })
   @ApiInternalServerErrorResponse({
-    type: ServerErrorResponse,
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+        details: {},
+      },
+    },
     description: '500. InternalServerError',
   })
   @HttpCode(HttpStatus.CREATED)
   @Post('sign-up')
-  async signUp(@Body() user: SignUpDto): Promise<CreatedResponse> {
-    await this.usersService.create(user);
-
-    return new CreatedResponse();
+  async signUp(@Body() user: SignUpDto): Promise<UserEntity> {
+    return this.usersService.create(user);
   }
 
   @ApiOkResponse({
@@ -134,18 +173,29 @@ export default class AuthController {
     description: '200, returns new jwt tokens',
   })
   @ApiUnauthorizedResponse({
-    type: UnauthorizedResponse,
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+      },
+    },
     description: '401. Token has been expired',
   })
   @ApiInternalServerErrorResponse({
-    type: ServerErrorResponse,
-    description: '500. InternalServerError ',
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+        details: {},
+      },
+    },
+    description: '500. InternalServerError',
   })
   @ApiBearerAuth()
   @Post('refresh-token')
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
-  ): Promise<SuccessResponse | never> {
+  ): Promise<JwtTokensDto | never> {
     const decodedUser = this.jwtService.decode(
       refreshTokenDto.refreshToken,
     ) as DecodedUser;
@@ -170,24 +220,35 @@ export default class AuthController {
       email: decodedUser.email,
     };
 
-    const newTokens = await this.authService.login(payload);
-
-    return new SuccessResponse(null, newTokens);
+    return this.authService.login(payload);
   }
 
   @ApiNoContentResponse({
-    type: NoContentResponse,
     description: 'No content. 204',
   })
   @ApiNotFoundResponse({
-    type: NotFoundResponse,
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+        error: 'Not Found',
+      },
+    },
     description: 'User was not found',
+  })
+  @ApiInternalServerErrorResponse({
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+        details: {},
+      },
+    },
+    description: '500. InternalServerError',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
   @Put('verify')
-  async verifyUser(
-    @Body() verifyUserDto: VerifyUserDto,
-  ): Promise<NoContentResponse | never> {
+  async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<{} | never> {
     const foundUser = await this.usersService.getByEmail(
       verifyUserDto.email,
       false,
@@ -197,29 +258,36 @@ export default class AuthController {
       throw new NotFoundException('The user does not exist');
     }
 
-    await this.usersService.update(foundUser._id, { verified: true });
-
-    return new NoContentResponse();
+    return this.usersService.update(foundUser._id, { verified: true });
   }
 
   @ApiNoContentResponse({
-    type: NoContentResponse,
+    description: 'no content',
   })
   @ApiUnauthorizedResponse({
-    type: UnauthorizedResponse,
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+      },
+    },
     description: 'Token has been expired',
   })
   @ApiInternalServerErrorResponse({
-    type: ServerErrorResponse,
-    description: 'InternalServerError',
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+        details: {},
+      },
+    },
+    description: '500. InternalServerError',
   })
   @ApiBearerAuth()
   @UseGuards(JwtAccessGuard)
   @Delete('logout/:token')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async logout(
-    @Param('token') token: string,
-  ): Promise<NoContentResponse | never> {
+  async logout(@Param('token') token: string): Promise<{} | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
       authConstants.jwt.secrets.accessToken,
@@ -237,44 +305,59 @@ export default class AuthController {
       throw new NotFoundException();
     }
 
-    return new NoContentResponse();
+    return {};
   }
 
   @ApiNoContentResponse({
-    type: NoContentResponse,
+    description: 'no content',
   })
-  @ApiInternalServerErrorResponse({ description: '500. InternalServerError' })
+  @ApiInternalServerErrorResponse({
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+        details: {},
+      },
+    },
+    description: '500. InternalServerError',
+  })
   @ApiBearerAuth()
   @UseGuards(JwtAccessGuard)
   @Delete('logout-all')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async logoutAll(): Promise<NoContentResponse> {
-    await this.authService.deleteAllTokens();
-
-    return new NoContentResponse();
+  async logoutAll(): Promise<{}> {
+    return this.authService.deleteAllTokens();
   }
 
   @ApiOkResponse({
-    schema: {
-      type: 'object',
-      properties: {
-        data: {
-          $ref: getSchemaPath(JwtTokensDto),
-        },
-      },
-    },
+    type: UserEntity,
     description: '200, returns a decoded user from access token',
   })
   @ApiUnauthorizedResponse({
-    type: UnauthorizedResponse,
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+      },
+    },
     description: '403, says you Unauthorized',
+  })
+  @ApiInternalServerErrorResponse({
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+        details: {},
+      },
+    },
+    description: '500. InternalServerError',
   })
   @ApiBearerAuth()
   @UseGuards(JwtAccessGuard)
   @Get('token')
   async getUserByAccessToken(
     @AuthBearer() token: string,
-  ): Promise<SuccessResponse> | never {
+  ): Promise<DecodedUser | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
       authConstants.jwt.secrets.accessToken,
@@ -286,6 +369,6 @@ export default class AuthController {
 
     const { exp, iat, ...user } = decodedUser;
 
-    return new SuccessResponse(null, user);
+    return user;
   }
 }

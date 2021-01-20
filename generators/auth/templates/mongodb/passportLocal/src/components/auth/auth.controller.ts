@@ -8,7 +8,8 @@ import {
   Get,
   HttpCode,
   Req,
-  HttpStatus, Redirect,
+  HttpStatus,
+  Redirect,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -25,7 +26,6 @@ import UsersService from '@components/users/users.service';
 import SignInDto from '@components/auth/dto/sign-in.dto';
 import IsNotLoggedGuard from '@guards/is-not-logged.guard';
 import RedirectIfLoggedGuard from '@guards/redirect-if-logged.guard';
-import UnauthorizedResponse from '@responses/unauthorized.response';
 import LocalAuthGuard from './guards/local-auth.guard';
 import AuthService from './auth.service';
 import SignUpDto from './dto/sign-up.dto';
@@ -43,10 +43,10 @@ export default class AuthController {
   @UseGuards(RedirectIfLoggedGuard)
   @Get('/login')
   @Render('login')
-  public index(@Req() req: ExpressRequest): UnauthorizedResponse {
-    return new UnauthorizedResponse(null, {
+  public index(@Req() req: ExpressRequest) {
+    return {
       message: req.flash('loginError'),
-    });
+    };
   }
 
   @ApiOkResponse({ description: 'Redners a sign up page' })
