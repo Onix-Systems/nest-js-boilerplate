@@ -328,14 +328,7 @@ export default class AuthController {
   }
 
   @ApiOkResponse({
-    schema: {
-      type: 'object',
-      properties: {
-        data: {
-          $ref: getSchemaPath(JwtTokensDto),
-        },
-      },
-    },
+    type: UserEntity,
     description: '200, returns a decoded user from access token',
   })
   @ApiUnauthorizedResponse({

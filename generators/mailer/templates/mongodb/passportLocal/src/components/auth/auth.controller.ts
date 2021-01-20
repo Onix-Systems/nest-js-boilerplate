@@ -29,7 +29,6 @@ import UsersService from '@components/users/users.service';
 import SignInDto from '@components/auth/dto/sign-in.dto';
 import IsNotLoggedGuard from '@guards/is-not-logged.guard';
 import RedirectIfLoggedGuard from '@guards/redirect-if-logged.guard';
-import UnauthorizedResponse from '@responses/unauthorized.response';
 import LocalAuthGuard from './guards/local-auth.guard';
 import AuthService from './auth.service';
 import SignUpDto from './dto/sign-up.dto';
@@ -48,13 +47,13 @@ export default class AuthController {
   @UseGuards(RedirectIfLoggedGuard)
   @Get('/login')
   @Render('login')
-  public index(@Req() req: ExpressRequest): UnauthorizedResponse {
-    return new UnauthorizedResponse(null, {
+  public index(@Req() req: ExpressRequest) {
+    return {
       message: req.flash('loginError'),
-    });
+    };
   }
 
-  @ApiOkResponse({ description: 'Redners a sign up page' })
+  @ApiOkResponse({ description: 'Renders a sign up page' })
   @ApiUnauthorizedResponse({ description: 'Returns the unauthorized error' })
   @UseGuards(IsNotLoggedGuard)
   @Get('/sign-up')
@@ -107,18 +106,18 @@ export default class AuthController {
   async verifyUser(
     @Req() req: ExpressRequest,
     @Param('token') token: string,
-  ): Promise<void | UnauthorizedResponse> {
+  ): Promise<any> {
     const id: ObjectID = await this.authService.verifyEmailVerToken(token);
     if (!id) {
-      return new UnauthorizedResponse(null, {
+      return {
         message: req.flash('The user does not exist'),
-      });
+      };
     }
     const foundUser = await this.usersService.verifyUser(id);
     if (!foundUser) {
-      return new UnauthorizedResponse(null, {
+      return {
         message: req.flash('The user does not exist'),
-      });
+      };
     }
   }
 }
