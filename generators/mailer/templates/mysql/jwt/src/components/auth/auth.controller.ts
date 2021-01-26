@@ -34,9 +34,11 @@ import { MailerService } from '@nestjs-modules/mailer';
 
 import UsersService from '@components/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
+import RolesGuard from '@guards/roles.guard';
 import UserEntity from '@components/users/entities/user.entity';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
+import { Roles, RolesEnum } from '@decorators/roles.decorator';
 import authConstants from './auth-constants';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
@@ -329,8 +331,9 @@ export default class AuthController {
     description: '500. InternalServerError',
   })
   @ApiBearerAuth()
-  @UseGuards(JwtAccessGuard)
   @Delete('logout-all')
+  @UseGuards(RolesGuard)
+  @Roles(RolesEnum.admin)
   @HttpCode(HttpStatus.NO_CONTENT)
   async logoutAll(): Promise<{}> {
     return this.authService.deleteAllTokens();
