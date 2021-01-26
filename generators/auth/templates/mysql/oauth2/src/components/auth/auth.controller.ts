@@ -66,9 +66,10 @@ export default class AuthController {
 
     if (!foundUser) {
       await this.usersService.create(user as UserDto);
+      return { message: 'Successfully registered' };
     }
 
-    return { message: 'Successfully registered' };
+    return { message: 'Successfully login' };
   }
 
   @ApiNoContentResponse({ description: 'No content. 204' })

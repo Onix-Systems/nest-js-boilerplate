@@ -19,6 +19,10 @@ export default class UsersService {
     });
   }
 
+  async getAll(): Promise<UserEntity[] | []> {
+    return this.usersRepository.find();
+  }
+
   async getByEmail(email: string, verified = true): Promise<UserEntity | null> {
     const foundUser = await this.usersRepository.findOne({
       email,

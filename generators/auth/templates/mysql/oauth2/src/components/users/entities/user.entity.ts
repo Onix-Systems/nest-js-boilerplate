@@ -6,6 +6,8 @@ import {
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
+import { RolesEnum } from '@decorators/roles.decorator';
+
 @Entity('users')
 export default class UserEntity {
   @ApiProperty({ type: Number })
@@ -32,4 +34,8 @@ export default class UserEntity {
   @ApiProperty({ type: Boolean })
   @Column()
   readonly verified: boolean = false;
+
+  @ApiProperty({ type: String, default: RolesEnum.user, enum: RolesEnum })
+  @Column({ type: 'enum', enum: RolesEnum, default: RolesEnum.user })
+  readonly role: RolesEnum = RolesEnum.user;
 }

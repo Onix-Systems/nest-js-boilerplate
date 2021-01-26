@@ -1,4 +1,6 @@
 import { Schema } from 'mongoose';
+import { RolesEnum } from '@decorators/roles.decorator';
+
 import usersConstants from '../users-constants';
 
 const UserSchema = new Schema({
@@ -19,6 +21,11 @@ const UserSchema = new Schema({
   verified: {
     type: Boolean,
     default: true,
+  },
+  role: {
+    type: RolesEnum,
+    default: RolesEnum.user,
+    required: false,
   },
 }, {
   versionKey: false,
