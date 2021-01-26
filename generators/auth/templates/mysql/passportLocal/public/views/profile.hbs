@@ -6,8 +6,9 @@
         <h2 class="mdl-card__title-text">About {{ data.email }}</h2>
       </div>
       <div>
+        <p class="mdl-card__subtitle-text mdl-typography--text-right">Logged like {{ data.role }}</p>
         <figure><img src="http://lorempixel.com/400/200/cats/555">
-          <figcaption>{{data.email}}'s friend Here must be a pet name</figcaption>
+          <figcaption>{{ data.email }}'s friend Here must be a pet name</figcaption>
         </figure>
         <div class="mdl-card__actions mdl-card--border">
           <a class="mdl-button" href='/auth/logout'>Log Out</a>

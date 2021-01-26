@@ -16,7 +16,7 @@ export class UserEntity extends Document {
   readonly password: string = '';
 
   @ApiProperty({ type: 'enum', enum: RolesEnum })
-  readonly role: RolesEnum = RolesEnum.user
+  readonly role: RolesEnum = RolesEnum.user;
 }
 
 export const UserSchema = new Schema({

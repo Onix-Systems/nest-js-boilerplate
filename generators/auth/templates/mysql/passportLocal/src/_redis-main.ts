@@ -17,6 +17,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import AppModule from '@components/app/app.module';
 import AppService from '@components/app/app.service';
 
+import { RolesEnum } from '@decorators/roles.decorator';
 import AllExceptionsFilter from '@filters/all-exceptions.filter';
 
 const redisClient = redis.createClient({
@@ -32,7 +33,13 @@ async function bootstrap() {
 
   const viewsPath = join(__dirname, '../public/views');
 
-  app.engine('.hbs', exphbs({ extname: '.hbs', defaultLayout: 'main' }));
+  app.engine('.hbs', exphbs({
+    extname: '.hbs',
+    defaultLayout: 'main',
+    helpers: {
+      isAdmin: (role: string) => role === RolesEnum.admin,
+    },
+  }));
   app.set('views', viewsPath);
   app.set('view engine', '.hbs');
 

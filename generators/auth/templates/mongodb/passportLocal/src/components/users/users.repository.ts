@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { ObjectID } from 'mongodb';
 import { Injectable } from '@nestjs/common';
 import UserDto from '@components/users/dto/user.dto';
+import { RolesEnum } from '@decorators/roles.decorator';
 import usersConstants from './users-constants';
 import { UserEntity } from './schemas/users.schema';
 
@@ -16,6 +17,7 @@ export default class UsersRepository {
   public create(user: UserDto): Promise<UserEntity> {
     return this.userModel.create({
       ...user,
+      role: RolesEnum.user,
       verified: true,
     });
   }
@@ -39,7 +41,7 @@ export default class UsersRepository {
   }
 
   public async getAll(): Promise<UserEntity[] | []> {
-    const foundUsers: UserEntity[] | [] = await this.userModel.find();
+    const foundUsers: UserEntity[] | [] = await this.userModel.find({}, { password: false }).lean();
 
     return foundUsers.length > 0 ? foundUsers : [];
   }
