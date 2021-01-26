@@ -27,6 +27,7 @@ export default class AuthService {
         id: user.id,
         email: user.email,
         verified: user.verified,
+        role: user.role,
       };
     }
 

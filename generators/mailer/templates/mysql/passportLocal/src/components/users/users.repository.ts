@@ -9,18 +9,18 @@ import { IUpdateUser } from './interfaces/update-user-fields';
 export default class UsersRepository {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userModel: Repository<UserEntity>,
+    private readonly usersModel: Repository<UserEntity>,
   ) {}
 
   public create(user: UserDto): Promise<UserEntity> {
-    return this.userModel.save({
+    return this.usersModel.save({
       ...user,
       verified: false,
     });
   }
 
   public async getByEmail(email: string): Promise<UserEntity | null> {
-    const user: UserEntity | undefined = await this.userModel.findOne({
+    const user: UserEntity | undefined = await this.usersModel.findOne({
       email,
     });
 
@@ -28,22 +28,20 @@ export default class UsersRepository {
   }
 
   public async getById(id: number): Promise<UserEntity | null> {
-    const user: UserEntity | undefined = await this.userModel.findOne({
+    const user: UserEntity | undefined = await this.usersModel.findOne({
       id,
     });
 
     return user || null;
   }
 
-  public async getAllVerified(): Promise<UserEntity[] | []> {
-    const users: UserEntity[] | [] = await this.userModel.find({
-      verified: true,
-    });
+  public async getAll(): Promise<UserEntity[] | []> {
+   const users: UserEntity[] | [] = await this.usersModel.find( { select: ['id', 'email', 'role', 'verified'] });
 
     return users.length > 0 ? users : [];
   }
 
   public findOneAndUpdate(id: number, fieldForUpdate: IUpdateUser) {
-    return this.userModel.update({ id }, fieldForUpdate);
+    return this.usersModel.update({ id }, fieldForUpdate);
   }
 }

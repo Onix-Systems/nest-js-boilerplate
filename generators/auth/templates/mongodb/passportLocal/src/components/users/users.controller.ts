@@ -14,8 +14,10 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger';
 import IsLoggedGuard from '@guards/is-logged.guard';
+import RolesGuard from '@guards/roles.guard';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import RequestUser from '@decorators/request-user.decorator';
+import { Roles, RolesEnum } from '@decorators/roles.decorator';
 import UsersService from './users.service';
 import { UserEntity } from './schemas/users.schema';
 
@@ -67,10 +69,12 @@ export default class UsersController {
     },
     description: 'Returns 200 if the template has been rendered successfully',
   })
+  @UseGuards(RolesGuard)
+  @Roles(RolesEnum.admin)
   @Get()
-  public async getAllUsers(): Promise<UserEntity[] | []> {
+  @Render('all-users')
+  public async getAllUsers(@RequestUser() admin: UserEntity): Promise<any> {
     const foundUsers = await this.usersService.getAll();
-
-    return foundUsers;
+    return { admin, users: foundUsers };
   }
 }

@@ -3,6 +3,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -11,10 +12,11 @@ import {
   ApiNotFoundResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { Types } from 'mongoose';
+import RequestUser from '@decorators/request-user.decorator';
+import { Roles, RolesEnum } from '@decorators/roles.decorator';
 
-import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
 import IsLoggedGuard from '@guards/is-logged.guard';
+import RolesGuard from '@guards/roles.guard';
 import UserEntity from './entities/user.entity';
 import UsersService from './users.service';
 
@@ -31,7 +33,8 @@ export default class UsersController {
     description: '401. UnauthorizedError',
   })
   @Get()
-  @UseGuards(IsLoggedGuard)
+  @UseGuards(RolesGuard)
+  @Roles(RolesEnum.admin)
   async getAllVerified(): Promise<UserEntity[] | []> {
     const foundUsers: UserEntity[] | [] = await this.usersService.getAll(true);
 
@@ -43,12 +46,12 @@ export default class UsersController {
     description: 'Returns a found user',
   })
   @ApiNotFoundResponse({ description: '404...' })
-  @Get(':id')
+  @Get('/profile')
   @UseGuards(IsLoggedGuard)
   async getById(
-    @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
+    @RequestUser() user: UserEntity,
   ): Promise<UserEntity | never> {
-    const foundUser = await this.usersService.getById(id);
+    const foundUser = await this.usersService.getById(user._id);
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');

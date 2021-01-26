@@ -27,7 +27,7 @@ export default class UsersService {
     return this.usersRepository.getVerifiedById(id);
   }
 
-  public getAllVerified(): Promise<UserEntity[] | []> {
-    return this.usersRepository.getAllVerified();
+  public getAll(): Promise<UserEntity[] | []> {
+    return this.usersRepository.getAll();
   }
 }

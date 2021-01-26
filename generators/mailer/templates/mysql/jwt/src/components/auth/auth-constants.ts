@@ -2,8 +2,8 @@ const authConstants = {
   jwt: {
     secret: '<%= config.jwtSecret %>',
     expirationTime: {
-      accessToken: '<%= config.refreshTokenExpirationTime %>',
-      refreshToken: '<%= config.accessTokenExpirationTime %>',
+      accessToken: '<%= config.accessTokenExpirationTime %>',
+      refreshToken: '<%= config.refreshTokenExpirationTime %>',
     },
     secrets: {
       accessToken: '<%= config.accessTokenSecret %>',
