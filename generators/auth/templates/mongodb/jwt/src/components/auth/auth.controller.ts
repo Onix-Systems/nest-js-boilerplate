@@ -31,14 +31,14 @@ import {
 } from '@nestjs/swagger';
 import { JwtService } from '@nestjs/jwt';
 import { Request as ExpressRequest } from 'express';
+import { Reflector } from '@nestjs/core';
 
+import Auth from '@decorators/auth.decorator';
 import UsersService from '@components/users/users.service';
-import JwtAccessGuard from '@guards/jwt-access.guard';
-import RolesGuard from '@guards/roles.guard';
 import { UserEntity } from '@components/users/schemas/users.schema';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
-import { Roles, RolesEnum } from '@decorators/roles.decorator';
+import { RolesEnum } from '@decorators/roles.decorator';
 import authConstants from '@components/auth/auth-constants';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
@@ -58,6 +58,7 @@ export default class AuthController {
     private readonly authService: AuthService,
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
+    private reflector: Reflector,
   ) {}
 
   @ApiBody({ type: SignInDto })
@@ -286,7 +287,7 @@ export default class AuthController {
     description: '500. InternalServerError',
   })
   @ApiBearerAuth()
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   @Delete('logout/:token')
   @HttpCode(HttpStatus.NO_CONTENT)
   async logout(@Param('token') token: string): Promise<{} | never> {
@@ -325,8 +326,7 @@ export default class AuthController {
   })
   @ApiBearerAuth()
   @Delete('logout-all')
-  @UseGuards(RolesGuard)
-  @Roles(RolesEnum.admin)
+  @Auth(RolesEnum.admin)
   @HttpCode(HttpStatus.NO_CONTENT)
   async logoutAll(): Promise<{}> {
     return this.authService.deleteAllTokens();
@@ -356,7 +356,7 @@ export default class AuthController {
     description: '500. InternalServerError',
   })
   @ApiBearerAuth()
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   @Get('token')
   async getUserByAccessToken(
     @AuthBearer() token: string,
