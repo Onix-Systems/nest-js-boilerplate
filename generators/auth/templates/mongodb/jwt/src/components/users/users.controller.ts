@@ -4,7 +4,6 @@ import {
   Get,
   NotFoundException,
   Param,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -17,7 +16,7 @@ import {
   ApiExtraModels,
   getSchemaPath,
 } from '@nestjs/swagger';
-import JwtAccessGuard from '@guards/jwt-access.guard';
+import Auth from '@decorators/auth.decorator';
 import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
 import { UserEntity } from '@components/users/schemas/users.schema';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
@@ -56,7 +55,7 @@ export default class UsersController {
   })
   @ApiParam({ name: 'id', type: String })
   @Get(':id')
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   async getById(
     @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
   ): Promise<UserEntity | never> {
@@ -90,7 +89,7 @@ export default class UsersController {
     description: '401. UnauthorizedException.',
   })
   @Get()
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   async getAllVerifiedUsers(): Promise<UserEntity[] | []> {
     return this.usersService.getAll(true);
   }

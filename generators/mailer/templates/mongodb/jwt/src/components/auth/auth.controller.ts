@@ -32,13 +32,12 @@ import { JwtService } from '@nestjs/jwt';
 import { Request as ExpressRequest } from 'express';
 import { MailerService } from '@nestjs-modules/mailer';
 
+import Auth from '@decorators/auth.decorator';
 import UsersService from '@components/users/users.service';
-import JwtAccessGuard from '@guards/jwt-access.guard';
-import RolesGuard from '@guards/roles.guard';
 import { UserEntity } from '@components/users/schemas/users.schema';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
-import { Roles, RolesEnum } from '@decorators/roles.decorator';
+import { RolesEnum } from '@decorators/roles.decorator';
 import authConstants from '@components/auth/auth-constants';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
@@ -46,7 +45,6 @@ import AuthService from './auth.service';
 import RefreshTokenDto from './dto/refresh-token.dto';
 import SignInDto from './dto/sign-in.dto';
 import SignUpDto from './dto/sign-up.dto';
-import VerifyUserDto from './dto/verify-user.dto';
 import JwtTokensDto from './dto/jwt-tokens.dto';
 
 @ApiTags('Auth')
@@ -293,7 +291,7 @@ export default class AuthController {
     description: 'InternalServerError',
   })
   @ApiBearerAuth()
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   @Delete('logout/:token')
   @HttpCode(HttpStatus.NO_CONTENT)
   async logout(@Param('token') token: string): Promise<{} | never> {
@@ -332,8 +330,7 @@ export default class AuthController {
   })
   @ApiBearerAuth()
   @Delete('logout-all')
-  @UseGuards(RolesGuard)
-  @Roles(RolesEnum.admin)
+  @Auth(RolesEnum.admin)
   @HttpCode(HttpStatus.NO_CONTENT)
   async logoutAll(): Promise<{}> {
     return this.authService.deleteAllTokens();
@@ -363,7 +360,7 @@ export default class AuthController {
     description: '500. InternalServerError',
   })
   @ApiBearerAuth()
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   @Get('token')
   async getUserByAccessToken(
     @AuthBearer() token: string,
