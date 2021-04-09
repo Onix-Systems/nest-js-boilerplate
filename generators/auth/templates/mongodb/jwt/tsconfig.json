@@ -14,6 +14,7 @@
     "strict": true,
     "esModuleInterop": true,
     "paths": {
+      "@exceptions/*": ["./src/exceptions/*"],
       "@filters/*": ["./src/filters/*"],
       "@guards/*": ["./src/guards/*"],
       "@interfaces/*": ["./src/interfaces/*"],

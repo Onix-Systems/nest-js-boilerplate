@@ -67,6 +67,13 @@ module.exports = function() {
       payload,
     );
   }
+  if (fs.existsSync(`${fullPathToAuthFolder}/src/exceptions`)) {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/exceptions`),
+      this.destinationPath(`${rootFolder}/src/exceptions`),
+      payload,
+    );
+  }
   if (fs.existsSync(`${fullPathToAuthFolder}/src/dto`)) {
     this.fs.copyTpl(
       this.templatePath(`${authFolder}/src/dto`),

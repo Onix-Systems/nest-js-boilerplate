@@ -2,8 +2,9 @@
 import 'module-alias/register';
 
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, ValidationError } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import ValidationExceptions from './exceptions/validation.exceptions';
 
 import AppModule from './components/app/app.module';
 
@@ -12,7 +13,9 @@ import AllExceptionsFilter from './filters/all-exceptions.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({
+    exceptionFactory: (errors: ValidationError[]) => new ValidationExceptions(errors),
+  }));
   app.useGlobalFilters(new AllExceptionsFilter());
 
   const port = process.env.SERVER_PORT || 3000;
