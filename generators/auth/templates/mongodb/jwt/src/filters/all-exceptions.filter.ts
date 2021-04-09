@@ -29,6 +29,13 @@ export default class AllExceptionsFilter implements ExceptionFilter {
       });
     }
 
+    if (exception.response.error === 'ValidationError') {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        validationMessages: exceptionResponse?.message,
+        error: exceptionResponse?.error,
+      });
+    }
+
     return res.status(status).json({
       message: exceptionResponse?.message,
       error: exceptionResponse?.error,
