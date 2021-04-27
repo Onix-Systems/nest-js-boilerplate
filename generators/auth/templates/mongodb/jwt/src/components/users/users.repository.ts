@@ -34,7 +34,7 @@ export default class UsersRepository {
     return this.usersModel.findOne({
       _id: id,
       verified,
-    }).exec();
+    }, { password: 0 }).exec();
   }
 
   public updateById(id: ObjectID, data: UpdateUserDto): Promise<UserEntity> {
@@ -51,6 +51,6 @@ export default class UsersRepository {
   public getAll(verified: boolean): Promise<UserEntity[] | []> {
     return this.usersModel.find({
       verified,
-    }).exec();
+    }, { password: 0 }).exec();
   }
 }
