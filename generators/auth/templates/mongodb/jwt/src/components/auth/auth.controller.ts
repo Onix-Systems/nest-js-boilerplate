@@ -289,9 +289,9 @@ export default class AuthController {
   })
   @ApiBearerAuth()
   @UseGuards(JwtAccessGuard)
-  @Delete('logout/:token')
+  @Delete('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async logout(@Param('token') token: string): Promise<{} | never> {
+  async logout(@AuthBearer() token: string): Promise<{} | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
       authConstants.jwt.secrets.accessToken,
