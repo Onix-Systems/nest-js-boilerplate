@@ -249,6 +249,8 @@ export default class AuthController {
     description: '500. InternalServerError',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(RolesGuard)
+  @Roles(RolesEnum.admin)
   @Put('verify')
   async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<{} | never> {
     const foundUser = await this.usersService.getByEmail(
