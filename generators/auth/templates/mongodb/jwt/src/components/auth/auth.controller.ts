@@ -193,7 +193,6 @@ export default class AuthController {
     },
     description: '500. InternalServerError',
   })
-  @ApiBearerAuth()
   @Post('refresh-token')
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
@@ -220,6 +219,7 @@ export default class AuthController {
     const payload = {
       id: decodedUser.id,
       email: decodedUser.email,
+      role: decodedUser.role,
     };
 
     return this.authService.login(payload);
@@ -249,6 +249,8 @@ export default class AuthController {
     description: '500. InternalServerError',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(RolesGuard)
+  @Roles(RolesEnum.admin)
   @Put('verify')
   async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<{} | never> {
     const foundUser = await this.usersService.getByEmail(
@@ -287,9 +289,9 @@ export default class AuthController {
   })
   @ApiBearerAuth()
   @UseGuards(JwtAccessGuard)
-  @Delete('logout/:token')
+  @Delete('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async logout(@Param('token') token: string): Promise<{} | never> {
+  async logout(@AuthBearer() token: string): Promise<{} | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
       authConstants.jwt.secrets.accessToken,
