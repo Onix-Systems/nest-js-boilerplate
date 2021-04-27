@@ -3,6 +3,8 @@ import * as bcrypt from 'bcrypt';
 import { ObjectID } from 'mongodb';
 import { Injectable } from '@nestjs/common';
 import SignUpDto from '@components/auth/dto/sign-up.dto';
+import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
+import { PaginatedUsersEntityInterface } from '@interfaces/paginatedEntity.interface';
 import { UserEntity } from './schemas/users.schema';
 
 import UsersRepository from './users.repository';
@@ -33,7 +35,7 @@ export default class UsersService {
     return this.usersRepository.updateById(id, data);
   }
 
-  public getAll(verified: boolean = true): Promise<UserEntity[] | []> {
-    return this.usersRepository.getAll(verified);
+  public async getAll(verified: boolean = true, paginationParams?: PaginationParamsInterface): Promise<PaginatedUsersEntityInterface> {
+    return this.usersRepository.getAll(verified, paginationParams);
   }
 }

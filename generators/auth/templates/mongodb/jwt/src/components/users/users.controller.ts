@@ -1,9 +1,10 @@
 import { Types } from 'mongoose';
 import {
+  BadRequestException,
   Controller,
   Get,
   NotFoundException,
-  Param,
+  Param, Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -20,7 +21,10 @@ import JwtAccessGuard from '@guards/jwt-access.guard';
 import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
 import { UserEntity } from '@components/users/schemas/users.schema';
 import { Serializer } from 'jsonapi-serializer';
+import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
+import { PaginatedUsersEntityInterface } from '@interfaces/paginatedEntity.interface';
 import UsersService from './users.service';
+import PaginationUtil from '../../utils/pagination.util';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -91,11 +95,18 @@ export default class UsersController {
   })
   @Get()
   @UseGuards(JwtAccessGuard)
-  async getAllVerifiedUsers(): Promise<UserEntity[] | []> {
-    const users = await this.usersService.getAll(true);
+  async getAllVerifiedUsers(@Query() query: any): Promise<UserEntity[] | []> {
+    const paginationParams: PaginationParamsInterface | false = PaginationUtil.normalizeParams(query.page);
+    if (!paginationParams) {
+      throw new BadRequestException('Invalid pagination parameters');
+    }
+
+    const paginatedUsers: PaginatedUsersEntityInterface = await this.usersService.getAll(true, paginationParams);
 
     return new Serializer('users', {
       attributes: ['email', 'role', 'verified'],
-    }).serialize(users);
+      topLevelLinks: PaginationUtil.getPaginationLinks('users', paginationParams, paginatedUsers.totalCount),
+      meta: { totalCount: paginatedUsers.totalCount },
+    }).serialize(paginatedUsers.paginatedResult);
   }
 }
