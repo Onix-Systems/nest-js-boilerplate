@@ -6,14 +6,12 @@ import {
   Post,
   Delete,
   Put,
-  Param,
   Request,
   UnauthorizedException,
   UseGuards,
   NotFoundException,
   ForbiddenException,
   HttpStatus,
-  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -36,10 +34,10 @@ import UsersService from '@components/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import RolesGuard from '@guards/roles.guard';
 import { UserEntity } from '@components/users/schemas/users.schema';
-import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
 import authConstants from '@components/auth/auth-constants';
+import { Serializer } from 'jsonapi-serializer';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
 import AuthService from './auth.service';
@@ -50,7 +48,6 @@ import VerifyUserDto from './dto/verify-user.dto';
 import JwtTokensDto from './dto/jwt-tokens.dto';
 
 @ApiTags('Auth')
-@UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(JwtTokensDto)
 @Controller('auth')
 export default class AuthController {
@@ -110,7 +107,9 @@ export default class AuthController {
   async signIn(@Request() req: ExpressRequest): Promise<JwtTokensDto> {
     const user = req.user as UserEntity;
 
-    return this.authService.login(user);
+    return new Serializer('tokens', {
+      attributes: ['accessToken', 'refreshToken'],
+    }).serialize(await this.authService.login(user));
   }
 
   @ApiBody({ type: SignUpDto })
@@ -160,7 +159,9 @@ export default class AuthController {
   @HttpCode(HttpStatus.CREATED)
   @Post('sign-up')
   async signUp(@Body() user: SignUpDto): Promise<UserEntity> {
-    return this.usersService.create(user);
+    return new Serializer('users', {
+      attributes: ['email', 'role', 'verified'],
+    }).serialize(await this.usersService.create(user));
   }
 
   @ApiOkResponse({
@@ -222,7 +223,9 @@ export default class AuthController {
       role: decodedUser.role,
     };
 
-    return this.authService.login(payload);
+    return new Serializer('tokens', {
+      attributes: ['accessToken', 'refreshToken'],
+    }).serialize(await this.authService.login(payload));
   }
 
   @ApiNoContentResponse({
@@ -262,8 +265,9 @@ export default class AuthController {
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');
     }
-
-    return this.usersService.update(foundUser._id, { verified: true });
+    return new Serializer('users', {
+      attributes: ['email', 'role', 'verified'],
+    }).serialize(await this.usersService.update(foundUser._id, { verified: true }));
   }
 
   @ApiNoContentResponse({
@@ -293,6 +297,7 @@ export default class AuthController {
   @Delete('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
   async logout(@AuthBearer() token: string): Promise<{} | never> {
+    console.log(token);
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
       authConstants.jwt.secrets.accessToken,
@@ -375,6 +380,8 @@ export default class AuthController {
 
     const { exp, iat, ...user } = decodedUser;
 
-    return user;
+    return new Serializer('users', {
+      attributes: ['email', 'role', 'verified'],
+    }).serialize(user);
   }
 }
