@@ -193,7 +193,6 @@ export default class AuthController {
     },
     description: '500. InternalServerError',
   })
-  @ApiBearerAuth()
   @Post('refresh-token')
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
