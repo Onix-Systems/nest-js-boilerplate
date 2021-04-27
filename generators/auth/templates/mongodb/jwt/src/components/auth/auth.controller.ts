@@ -220,6 +220,7 @@ export default class AuthController {
     const payload = {
       id: decodedUser.id,
       email: decodedUser.email,
+      role: decodedUser.role,
     };
 
     return this.authService.login(payload);
