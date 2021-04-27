@@ -5,7 +5,6 @@ import {
   NotFoundException,
   Param,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -20,16 +19,21 @@ import {
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
 import { UserEntity } from '@components/users/schemas/users.schema';
-import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
+import { Serializer } from 'jsonapi-serializer';
 import UsersService from './users.service';
 
 @ApiTags('Users')
 @ApiBearerAuth()
-@UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(UserEntity)
 @Controller('users')
 export default class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  private Serializer: Serializer
+
+  constructor(private readonly usersService: UsersService) {
+    this.Serializer = new Serializer('users', {
+      attributes: ['email', 'role', 'verified'],
+    });
+  }
 
   @ApiOkResponse({
     schema: {
@@ -66,7 +70,7 @@ export default class UsersController {
       throw new NotFoundException('The user does not exist');
     }
 
-    return foundUser;
+    return this.Serializer.serialize(foundUser);
   }
 
   @ApiOkResponse({
@@ -92,6 +96,8 @@ export default class UsersController {
   @Get()
   @UseGuards(JwtAccessGuard)
   async getAllVerifiedUsers(): Promise<UserEntity[] | []> {
-    return this.usersService.getAll(true);
+    const users = await this.usersService.getAll(true);
+
+    return this.Serializer.serialize(users);
   }
 }

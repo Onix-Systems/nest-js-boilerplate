@@ -1,12 +1,10 @@
 import {
-  HttpStatus,
-  ExceptionFilter,
-  Catch,
-  ArgumentsHost,
+  ArgumentsHost, Catch, ExceptionFilter, HttpStatus,
 } from '@nestjs/common';
 import { Response as ExpressResponse } from 'express';
 import { ExceptionResponse } from '@interfaces/exception-response.interface';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
+import { Error } from 'jsonapi-serializer';
 
 @Catch()
 export default class AllExceptionsFilter implements ExceptionFilter {
@@ -23,22 +21,24 @@ export default class AllExceptionsFilter implements ExceptionFilter {
     };
 
     if (exception.code === mongodbCodes.bulkWriteError) {
-      return res.status(HttpStatus.CONFLICT).json({
-        message: exceptionResponse?.message,
-        error: exceptionResponse?.error,
-      });
+      return res.status(HttpStatus.CONFLICT).json(
+        new Error({
+          source: { pointer: '/data/attributes/email' },
+          title: 'Duplicate key',
+          detail: exception.message,
+        }),
+      );
     }
 
-    if (exception.response.error === 'ValidationError') {
-      return res.status(HttpStatus.BAD_REQUEST).json({
-        validationMessages: exceptionResponse?.message,
-        error: exceptionResponse?.error,
-      });
+    if (exception.response.errorType === 'ValidationError') {
+      return res.status(HttpStatus.BAD_REQUEST).json(
+        new Error(exceptionResponse ? exceptionResponse.errors : {}),
+      );
     }
 
-    return res.status(status).json({
-      message: exceptionResponse?.message,
-      error: exceptionResponse?.error,
-    });
+    return res.status(status).json(new Error({
+      title: exceptionResponse?.error,
+      detail: exception?.message,
+    }));
   }
 }
