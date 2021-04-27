@@ -248,6 +248,7 @@ export default class AuthController {
     },
     description: '500. InternalServerError',
   })
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(RolesGuard)
   @Roles(RolesEnum.admin)
