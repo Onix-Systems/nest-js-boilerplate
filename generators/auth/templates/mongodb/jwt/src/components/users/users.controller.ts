@@ -27,13 +27,7 @@ import UsersService from './users.service';
 @ApiExtraModels(UserEntity)
 @Controller('users')
 export default class UsersController {
-  private Serializer: Serializer
-
-  constructor(private readonly usersService: UsersService) {
-    this.Serializer = new Serializer('users', {
-      attributes: ['email', 'role', 'verified'],
-    });
-  }
+  constructor(private readonly usersService: UsersService) {}
 
   @ApiOkResponse({
     schema: {
@@ -70,7 +64,9 @@ export default class UsersController {
       throw new NotFoundException('The user does not exist');
     }
 
-    return this.Serializer.serialize(foundUser);
+    return new Serializer('users', {
+      attributes: ['email', 'role', 'verified'],
+    }).serialize(foundUser);
   }
 
   @ApiOkResponse({
@@ -98,6 +94,8 @@ export default class UsersController {
   async getAllVerifiedUsers(): Promise<UserEntity[] | []> {
     const users = await this.usersService.getAll(true);
 
-    return this.Serializer.serialize(users);
+    return new Serializer('users', {
+      attributes: ['email', 'role', 'verified'],
+    }).serialize(users);
   }
 }
