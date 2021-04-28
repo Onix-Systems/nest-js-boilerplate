@@ -1,4 +1,4 @@
 export interface PaginationParamsInterface {
-  page: number,
-  limit?: number,
+  readonly page: number,
+  readonly limit?: number,
 }

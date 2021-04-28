@@ -52,13 +52,20 @@ export default class UsersRepository {
   }
 
   public async getAllVerifiedWithPagination(options: PaginationParamsInterface): Promise<PaginatedUsersEntityInterface> {
-    const results = await Promise.all([
+    const verified = true;
+    const [users, totalCount] = await Promise.all([
       this.usersModel.find({
-        verified: true,
-      }, { password: 0 }).limit(PaginationUtils.getLimitCount(options.limit)).skip(PaginationUtils.getSkipCount(options.page, options.limit)),
-      this.usersModel.countDocuments({ verified: true }),
+        verified,
+      }, {
+        password: 0,
+      })
+        .limit(PaginationUtils.getLimitCount(options.limit))
+        .skip(PaginationUtils.getSkipCount(options.page, options.limit))
+        .exec(),
+      this.usersModel.countDocuments({ verified })
+        .exec(),
     ]);
 
-    return { paginatedResult: results[0], totalCount: results[1] };
+    return { paginatedResult: users, totalCount };
   }
 }

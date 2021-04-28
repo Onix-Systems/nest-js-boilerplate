@@ -1,11 +1,11 @@
 import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
 
 export interface SuccessResponseInterface {
-  collectionName: string,
-  data: any,
-  options?: {
-    location: string,
-    paginationParams: PaginationParamsInterface,
-    totalCount: number
+  readonly collectionName: string,
+  readonly data: any,
+  readonly options?: {
+    readonly location: string,
+    readonly paginationParams: PaginationParamsInterface,
+    readonly totalCount: number
   }
 }

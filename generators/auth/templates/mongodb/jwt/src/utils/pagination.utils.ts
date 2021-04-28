@@ -26,36 +26,38 @@ class PaginationUtils {
     return url;
   }
 
+  private static normalizeParam(param? :string): number | false {
+    if (param) {
+      const tmp = parseInt(param, 10);
+
+      if (isNaN(tmp)) return false;
+      if (tmp <= 0) return false;
+
+      return tmp;
+    }
+
+    return false;
+  }
+
   public normalizeParams(params: {number?: string, limit?: string, size?: string }): PaginationParamsInterface | false {
     const ret: {page: number, limit?: number} = { page: 1 };
     if (!params) {
       return ret;
     }
-    if (params.number) {
-      const tmp = parseInt(params.number, 10);
 
-      if (isNaN(tmp)) return false;
-      if (tmp <= 0) return false;
-
-      ret.page = tmp;
+    const page = PaginationUtils.normalizeParam(params.number);
+    if (page) {
+      ret.page = page;
     }
 
-    if (params.limit) {
-      const tmp = parseInt(params.limit, 10);
-
-      if (isNaN(tmp)) return false;
-      if (tmp < 0) return false;
-
-      ret.limit = tmp;
+    const limit = PaginationUtils.normalizeParam(params.limit);
+    if (limit) {
+      ret.limit = limit;
     }
 
-    if (params.size) {
-      const tmp = parseInt(params.size, 10);
-
-      if (isNaN(tmp)) return false;
-      if (tmp < 0) return false;
-
-      ret.limit = tmp;
+    const size = PaginationUtils.normalizeParam(params.size);
+    if (size) {
+      ret.limit = size;
     }
 
     return ret;
