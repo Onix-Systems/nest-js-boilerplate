@@ -1,20 +1,15 @@
 import { Types } from 'mongoose';
 import {
-  BadRequestException,
-  Controller,
-  Get,
-  NotFoundException,
-  Param, Query,
-  UseGuards, UseInterceptors,
+  BadRequestException, Controller, Get, NotFoundException, Param, Query, UseGuards, UseInterceptors,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOkResponse,
-  ApiNotFoundResponse,
   ApiBearerAuth,
-  ApiUnauthorizedResponse,
-  ApiParam,
   ApiExtraModels,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiParam,
+  ApiTags,
+  ApiUnauthorizedResponse,
   getSchemaPath,
 } from '@nestjs/swagger';
 import JwtAccessGuard from '@guards/jwt-access.guard';
@@ -105,7 +100,7 @@ export default class UsersController {
       throw new BadRequestException('Invalid pagination parameters');
     }
 
-    const paginatedUsers: PaginatedUsersEntityInterface = await this.usersService.getAll(true, paginationParams);
+    const paginatedUsers: PaginatedUsersEntityInterface = await this.usersService.getAllVerifiedWithPagination(paginationParams);
 
     return ResponseUtils.success(
       'users',

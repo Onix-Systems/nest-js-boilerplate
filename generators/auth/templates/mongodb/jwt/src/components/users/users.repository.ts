@@ -11,6 +11,7 @@ import { UserEntity } from './schemas/users.schema';
 import UpdateUserDto from './dto/update-user.dto';
 
 import usersConstants from './users-constants';
+import PaginationUtils from '../../utils/pagination.utils';
 
 @Injectable()
 export default class UsersRepository {
@@ -50,22 +51,14 @@ export default class UsersRepository {
     ).exec();
   }
 
-  public async getAll(verified: boolean, paginationParams?: PaginationParamsInterface): Promise<PaginatedUsersEntityInterface> {
-    const tmp = await this.usersModel.aggregate([{
-      $facet: {
-        paginatedResult: [
-          { $match: { verified } },
-          { $project: { password: 0 } },
-          { $skip: paginationParams?.page ? (paginationParams?.page - 1) * (paginationParams?.limit ?? 100) : 0  },
-          { $limit: paginationParams?.limit ?? 100 },
-        ],
-        totalCount: [
-          { $match: { verified } },
-          { $count: 'totalCount' },
-        ],
-      },
-    }]);
+  public async getAllVerifiedWithPagination(options: PaginationParamsInterface): Promise<PaginatedUsersEntityInterface> {
+    const results = await Promise.all([
+      this.usersModel.find({
+        verified: true,
+      }, { password: 0 }).limit(PaginationUtils.getLimitCount(options.limit)).skip(PaginationUtils.getSkipCount(options.page, options.limit)),
+      this.usersModel.countDocuments({ verified: true }),
+    ]);
 
-    return { paginatedResult: tmp[0].paginatedResult, totalCount: tmp[0].totalCount[0].totalCount };
+    return { paginatedResult: results[0], totalCount: results[1] };
   }
 }

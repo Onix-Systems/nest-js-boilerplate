@@ -1,4 +1,5 @@
 import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
+import commonConstants from '../constants/common.constants';
 
 class PaginationUtils {
   private static buildLink(location: string, paginationParams?: PaginationParamsInterface): string {
@@ -60,7 +61,9 @@ class PaginationUtils {
     return ret;
   }
 
-  public getPaginationLinks(location: string, paginationParams: PaginationParamsInterface, pageMax: number): any {
+  public getPaginationLinks(location: string, paginationParams: PaginationParamsInterface, totalCount: number): any {
+    const pageMax = Math.floor(totalCount / (paginationParams.limit ? paginationParams.limit : commonConstants.pagination.defaultLimit)) + 1;
+
     return {
       self: PaginationUtils.buildLink(location, paginationParams),
       first: PaginationUtils.buildLink(location, { page: 1, limit: paginationParams.limit }),
@@ -76,6 +79,30 @@ class PaginationUtils {
           limit: paginationParams.limit,
         }),
     };
+  }
+
+  public getSkipCount(page?: number, limit?: number): number {
+    let skip = 0;
+
+    if (page) {
+      skip = page - 1;
+
+      if (limit) {
+        skip *= limit;
+      } else {
+        skip *= commonConstants.pagination.defaultLimit;
+      }
+    }
+
+    return skip;
+  }
+
+  public getLimitCount(limit?: number): number {
+    let limitPerPage = commonConstants.pagination.defaultLimit;
+    if (limit) {
+      limitPerPage = limit;
+    }
+    return limitPerPage;
   }
 }
 

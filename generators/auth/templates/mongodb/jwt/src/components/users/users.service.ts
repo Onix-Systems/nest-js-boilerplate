@@ -35,7 +35,8 @@ export default class UsersService {
     return this.usersRepository.updateById(id, data);
   }
 
-  public async getAll(verified: boolean = true, paginationParams?: PaginationParamsInterface): Promise<PaginatedUsersEntityInterface> {
-    return this.usersRepository.getAll(verified, paginationParams);
+  public async getAllVerifiedWithPagination(options: PaginationParamsInterface): Promise<PaginatedUsersEntityInterface> {
+    return this.usersRepository.getAllVerifiedWithPagination(options);
   }
+
 }

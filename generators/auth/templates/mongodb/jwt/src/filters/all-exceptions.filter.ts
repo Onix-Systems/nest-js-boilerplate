@@ -9,6 +9,7 @@ import { Error } from 'jsonapi-serializer';
 @Catch()
 export default class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
+    console.log(exception);
     const ctx: HttpArgumentsHost = host.switchToHttp();
     const res = ctx.getResponse<ExpressResponse>();
     const exceptionResponse: null | ExceptionResponse = exception.getResponse
@@ -30,7 +31,7 @@ export default class AllExceptionsFilter implements ExceptionFilter {
       );
     }
 
-    if (exception.response.errorType === 'ValidationError') {
+    if (exception.response?.errorType === 'ValidationError') {
       return res.status(HttpStatus.BAD_REQUEST).json(
         new Error(exceptionResponse ? exceptionResponse.errors : {}),
       );

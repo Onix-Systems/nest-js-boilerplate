@@ -16,9 +16,12 @@ export default class WrapResponseInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((...args) => {
         const options: any = {};
-
         if (args[0].data.length) {
-          options.attributes = Object.keys(_.omit(args[0].data[0], ['_id', 'id']));
+          if (args[0].data[0]._doc) {
+            options.attributes = Object.keys(_.omit(args[0].data[0]._doc, ['_id', 'id']));
+          } else {
+            options.attributes = Object.keys(_.omit(args[0].data[0], ['_id', 'id']));
+          }
 
           args[0].data.forEach((item: any) => {
             item.id = item._id;
