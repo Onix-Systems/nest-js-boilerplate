@@ -55,7 +55,8 @@ export default class UsersRepository {
       $facet: {
         paginatedResult: [
           { $match: { verified } },
-          { $skip: paginationParams?.page ? (paginationParams?.page - 1) * (paginationParams?.limit ?? 100) : 0 },
+          { $project: { password: 0 } },
+          { $skip: paginationParams?.page ? (paginationParams?.page - 1) * (paginationParams?.limit ?? 100) : 0  },
           { $limit: paginationParams?.limit ?? 100 },
         ],
         totalCount: [

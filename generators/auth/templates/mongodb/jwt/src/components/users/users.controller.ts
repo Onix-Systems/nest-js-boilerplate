@@ -5,7 +5,7 @@ import {
   Get,
   NotFoundException,
   Param, Query,
-  UseGuards,
+  UseGuards, UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -20,14 +20,17 @@ import {
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
 import { UserEntity } from '@components/users/schemas/users.schema';
-import { Serializer } from 'jsonapi-serializer';
 import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
 import { PaginatedUsersEntityInterface } from '@interfaces/paginatedEntity.interface';
+import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
+import { SuccessResponseInterface } from '@interfaces/success-response.interface';
 import UsersService from './users.service';
-import PaginationUtil from '../../utils/pagination.util';
+import PaginationUtils from '../../utils/pagination.utils';
+import ResponseUtils from '../../utils/response.utils';
 
 @ApiTags('Users')
 @ApiBearerAuth()
+@UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(UserEntity)
 @Controller('users')
 export default class UsersController {
@@ -61,16 +64,17 @@ export default class UsersController {
   @UseGuards(JwtAccessGuard)
   async getById(
     @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
-  ): Promise<UserEntity | never> {
+  ): Promise<SuccessResponseInterface | never> {
     const foundUser = await this.usersService.getById(id);
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');
     }
 
-    return new Serializer('users', {
-      attributes: ['email', 'role', 'verified'],
-    }).serialize(foundUser);
+    return ResponseUtils.success(
+      'users',
+      foundUser,
+    );
   }
 
   @ApiOkResponse({
@@ -95,18 +99,22 @@ export default class UsersController {
   })
   @Get()
   @UseGuards(JwtAccessGuard)
-  async getAllVerifiedUsers(@Query() query: any): Promise<UserEntity[] | []> {
-    const paginationParams: PaginationParamsInterface | false = PaginationUtil.normalizeParams(query.page);
+  async getAllVerifiedUsers(@Query() query: any): Promise<SuccessResponseInterface> {
+    const paginationParams: PaginationParamsInterface | false = PaginationUtils.normalizeParams(query.page);
     if (!paginationParams) {
       throw new BadRequestException('Invalid pagination parameters');
     }
 
     const paginatedUsers: PaginatedUsersEntityInterface = await this.usersService.getAll(true, paginationParams);
 
-    return new Serializer('users', {
-      attributes: ['email', 'role', 'verified'],
-      topLevelLinks: PaginationUtil.getPaginationLinks('users', paginationParams, paginatedUsers.totalCount),
-      meta: { totalCount: paginatedUsers.totalCount },
-    }).serialize(paginatedUsers.paginatedResult);
+    return ResponseUtils.success(
+      'users',
+      paginatedUsers.paginatedResult,
+      {
+        location: 'users',
+        paginationParams,
+        totalCount: paginatedUsers.totalCount,
+      },
+    );
   }
 }
