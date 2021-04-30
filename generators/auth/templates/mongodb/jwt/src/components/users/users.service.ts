@@ -29,7 +29,7 @@ export default class UsersService {
     return this.usersRepository.getById(id, verified);
   }
 
-  public update(id: ObjectID, data: UpdateUserDto): Promise<UserEntity> {
+  public update(id: ObjectID, data: UpdateUserDto): Promise<UserEntity | null> {
     return this.usersRepository.updateById(id, data);
   }
 

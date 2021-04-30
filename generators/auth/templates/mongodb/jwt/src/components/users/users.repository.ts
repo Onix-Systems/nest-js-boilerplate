@@ -34,14 +34,12 @@ export default class UsersRepository {
     return this.usersModel.findOne({
       _id: id,
       verified,
-    }).exec();
+    }, { password: 0 }).exec();
   }
 
-  public updateById(id: ObjectID, data: UpdateUserDto): Promise<UserEntity> {
-    return this.usersModel.updateOne(
-      {
-        _id: id,
-      },
+  public updateById(id: ObjectID, data: UpdateUserDto): Promise<UserEntity | null> {
+   return this.usersModel.findByIdAndUpdate(
+      id,
       {
         $set: data,
       },
@@ -51,6 +49,6 @@ export default class UsersRepository {
   public getAll(verified: boolean): Promise<UserEntity[] | []> {
     return this.usersModel.find({
       verified,
-    }).exec();
+    }, { password: 0 }).exec();
   }
 }

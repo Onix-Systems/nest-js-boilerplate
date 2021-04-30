@@ -1,10 +1,61 @@
 {
-  "name": "generator-nest-js-boilerplate",
-  "version": "2.2.1",
+  "_from": "generator-nest-js-boilerplate",
+  "_id": "generator-nest-js-boilerplate@2.2.4",
+  "_inBundle": false,
+  "_integrity": "sha512-ozOH2nnzTUs2k70NkvcdzP8g8UtOVSFMOsIiOU+BjVYEozjgxHQtgazthWCn9a3cQPZ1bquh6YH/y+Rnkq5MXg==",
+  "_location": "/generator-nest-js-boilerplate",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "generator-nest-js-boilerplate",
+    "name": "generator-nest-js-boilerplate",
+    "escapedName": "generator-nest-js-boilerplate",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/generator-nest-js-boilerplate/-/generator-nest-js-boilerplate-2.2.4.tgz",
+  "_shasum": "6ebabd1fdf2cd4ee83e0a5e446587fed525b23f7",
+  "_spec": "generator-nest-js-boilerplate",
+  "_where": "/home/jeka/Documents/projects/tests",
+  "author": {
+    "name": "onix-systems"
+  },
+  "bugs": {
+    "url": "https://github.com/Onix-Systems/nest-js-boilerplate/issues"
+  },
+  "bundleDependencies": false,
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "chalk": "4.1.0",
+    "husky": "4.2.5",
+    "print-message": "3.0.1",
+    "yeoman-generator": "4.12.0",
+    "yosay": "2.0.2"
+  },
+  "deprecated": false,
   "description": "This generator will help you to build your own Nest.js Mongodb API using TypeScript 4",
-  "author": "onix-systems",
-  "license": "MIT",
-  "main": "generators/app/index.js",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "4.5.0",
+    "@typescript-eslint/parser": "4.5.0",
+    "cz-conventional-changelog": "3.2.0",
+    "eslint": "7.1.0",
+    "eslint-config-airbnb-base": "14.2.0",
+    "eslint-config-airbnb-typescript": "8.0.2",
+    "eslint-config-prettier": "6.10.0",
+    "eslint-plugin-import": "2.20.1",
+    "prettier": "1.19.1"
+  },
+  "homepage": "https://github.com/Onix-Systems/nest-js-boilerplate",
   "keywords": [
     "yeoman-generator",
     "typescript",
@@ -23,36 +74,16 @@
     "js",
     "swagger"
   ],
+  "license": "MIT",
+  "main": "generators/app/index.js",
+  "name": "generator-nest-js-boilerplate",
   "repository": {
     "name": "onix-systems",
     "email": "help@onix-systems.com",
-    "url": "https://github.com/Onix-Systems/nest-js-boilerplate"
+    "url": "git+https://github.com/Onix-Systems/nest-js-boilerplate.git"
   },
-  "homepage": "https://github.com/Onix-Systems/nest-js-boilerplate",
   "scripts": {
     "commit": "git-cz"
   },
-  "dependencies": {
-    "chalk": "4.1.0",
-    "husky": "4.2.5",
-    "print-message": "3.0.1",
-    "yeoman-generator": "4.12.0",
-    "yosay": "2.0.2"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "4.5.0",
-    "@typescript-eslint/parser": "4.5.0",
-    "cz-conventional-changelog": "3.2.0",
-    "eslint": "7.1.0",
-    "eslint-config-airbnb-base": "14.2.0",
-    "eslint-config-airbnb-typescript": "8.0.2",
-    "eslint-config-prettier": "6.10.0",
-    "eslint-plugin-import": "2.20.1",
-    "prettier": "1.19.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  }
+  "version": "2.2.4"
 }
