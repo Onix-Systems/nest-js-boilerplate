@@ -19,20 +19,15 @@ export default class WrapResponseInterceptor implements NestInterceptor {
         const { data, options, collectionName } = args[0];
 
         if (data.length) {
-          if (data[0]._doc) {
-            serializeOptions.attributes = Object.keys(_.omit(data[0]._doc, ['_id', 'id']));
-          } else {
-            serializeOptions.attributes = Object.keys(_.omit(data[0], ['_id', 'id']));
-          }
-
+          serializeOptions.attributes = Object.keys(_.omit(data[0].toJSON(), ['_id', 'id']));
           data.forEach((item: any) => {
+            // eslint-disable-next-line no-param-reassign
             item.id = item._id;
+            // eslint-disable-next-line no-param-reassign
             delete item._id;
           });
-        } else if (data._doc) {
-          serializeOptions.attributes = Object.keys(_.omit(data._doc, ['_id', 'id']));
         } else {
-          serializeOptions.attributes = Object.keys(_.omit(data, ['_id', 'id']));
+          serializeOptions.attributes = Object.keys(_.omit(data.toJSON(), ['_id', 'id']));
         }
         if (options) {
           serializeOptions.topLevelLinks = PaginationUtils.getPaginationLinks(
