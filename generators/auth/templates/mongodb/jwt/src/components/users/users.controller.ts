@@ -16,7 +16,7 @@ import JwtAccessGuard from '@guards/jwt-access.guard';
 import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
 import { UserEntity } from '@components/users/schemas/users.schema';
 import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
-import { PaginatedUsersEntityInterface } from '@interfaces/paginatedEntity.interface';
+import { PaginatedUsersInterface } from '@interfaces/paginatedEntity.interface';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import { SuccessResponseInterface } from '@interfaces/success-response.interface';
 import UsersService from './users.service';
@@ -100,7 +100,7 @@ export default class UsersController {
       throw new BadRequestException('Invalid pagination parameters');
     }
 
-    const paginatedUsers: PaginatedUsersEntityInterface = await this.usersService.getAllVerifiedWithPagination(paginationParams);
+    const paginatedUsers: PaginatedUsersInterface = await this.usersService.getAllVerifiedWithPagination(paginationParams);
 
     return ResponseUtils.success(
       'users',
