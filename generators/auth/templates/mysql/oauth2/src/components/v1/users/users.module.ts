@@ -11,4 +11,4 @@ import UserEntity from './entities/user.entity';
   providers: [UsersService],
   exports: [UsersService],
 })
-export default class UsersModule {}
+export default class UsersModuleV1 {}

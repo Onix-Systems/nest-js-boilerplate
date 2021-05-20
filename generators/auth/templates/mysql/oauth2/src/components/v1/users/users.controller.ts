@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   NotFoundException,
-  Param, ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -21,7 +20,7 @@ import UserEntity from './entities/user.entity';
 import UsersService from './users.service';
 
 @ApiTags('users')
-@Controller('users')
+@Controller()
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -37,7 +36,7 @@ export default class UsersController {
   @Roles(RolesEnum.admin)
   async getAllVerified(): Promise<UserEntity[] | []> {
     const foundUsers: UserEntity[] | [] = await this.usersService.getAll();
-  
+
     return foundUsers;
   }
 

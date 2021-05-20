@@ -3,8 +3,8 @@ import { Strategy } from 'passport-google-oauth20';
 
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import UserProfileDto from '@components/users/dto/user-profile.dto';
-import { UserGooglePayload } from '@components/auth/interfaces/user-google-payload.interface';
+import UserProfileDto from '@components/v1/users/dto/user-profile.dto';
+import { UserGooglePayload } from '@components/v1/auth/interfaces/user-google-payload.interface';
 
 @Injectable()
 export default class GoogleStrategy extends PassportStrategy(

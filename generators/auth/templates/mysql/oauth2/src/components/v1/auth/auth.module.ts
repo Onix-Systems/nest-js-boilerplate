@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 
-import UsersModule from '@components/users/users.module';
+import UsersModule from '@components/v1/users/users.module';
 import GoogleAuthGuard from './guards/google-auth.guard';
 import AuthController from './auth.controller';
 import AuthService from './auth.service';
@@ -25,4 +25,4 @@ import GoogleDataSerializer from './serializers/google-data.serializer';
   controllers: [AuthController],
   exports: [AuthService],
 })
-export default class AuthModule {}
+export default class AuthModuleV1 {}
