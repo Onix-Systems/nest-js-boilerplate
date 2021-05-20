@@ -4,7 +4,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ObjectID } from 'mongodb';
 
-import UsersRepository from '@components/users/users.repository';
+import UsersRepository from '@components/v1/users/users.repository';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import JwtTokensDto from './dto/jwt-tokens.dto';
 import { ValidateUserOutput } from './interfaces/validate-user-output.interface';
