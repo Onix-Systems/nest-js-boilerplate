@@ -1,4 +1,4 @@
-import { Tokens } from '@components/auth/interfaces/google-tokens.interface';
+import { Tokens } from '@components/v1/auth/interfaces/google-tokens.interface';
 
 export interface UserGooglePayload extends Tokens {
   readonly email: string | null;

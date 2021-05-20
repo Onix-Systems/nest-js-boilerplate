@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import usersConstants from '@components/users/users-constants';
+import usersConstants from '@components/v1/users/users-constants';
 import UserEntity from './entities/user.entity';
 import UserDto from './dto/user.dto';
 

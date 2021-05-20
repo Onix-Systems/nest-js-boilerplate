@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import AuthModule from '@components/auth/auth.module';
-import UsersModule from '@components/users/users.module';
+import AuthModuleV1 from '@components/v1/auth/auth.module';
+import UsersModuleV1 from '@components/v1/users/users.module';
 
 import AppController from './app.controller';
 import AppService from './app.service';
@@ -26,8 +26,8 @@ import AppService from './app.service';
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),
-    AuthModule,
-    UsersModule,
+    AuthModuleV1,
+    UsersModuleV1,
   ],
   controllers: [AppController],
   providers: [AppService],

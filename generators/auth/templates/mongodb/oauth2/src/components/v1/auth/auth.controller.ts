@@ -16,10 +16,10 @@ import {
 } from '@nestjs/swagger';
 import { Request as ExpressRequest } from 'express';
 
-import UsersService from '@components/users/users.service';
+import UsersService from '@components/v1/users/users.service';
 import IsLoggedGuard from '@guards/is-logged.guard';
-import { UserGooglePayload } from '@components/auth/interfaces/user-google-payload.interface';
-import UserDto from '@components/users/dto/user.dto';
+import { UserGooglePayload } from '@components/v1/auth/interfaces/user-google-payload.interface';
+import UserDto from '@components/v1/users/dto/user.dto';
 import GoogleAuthGuard from './guards/google-auth.guard';
 import AuthService from './auth.service';
 

@@ -18,4 +18,4 @@ import UsersService from './users.service';
   providers: [UsersService],
   exports: [UsersService],
 })
-export default class UsersModule {}
+export default class UsersModuleV1 {}
