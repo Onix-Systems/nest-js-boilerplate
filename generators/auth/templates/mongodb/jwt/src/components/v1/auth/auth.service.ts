@@ -3,7 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import UsersRepository from '@components/users/users.repository';
+import UsersRepository from '@components/v1/users/users.repository';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import JwtTokensDto from './dto/jwt-tokens.dto';
 import { ValidateUserOutput } from './interfaces/validate-user-output.interface';

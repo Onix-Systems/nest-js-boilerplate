@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 
-import SignUpDto from '@components/auth/dto/sign-up.dto';
+import SignUpDto from '@components/v1/auth/dto/sign-up.dto';
 import { UserEntity } from './schemas/users.schema';
 
 import UpdateUserDto from './dto/update-user.dto';

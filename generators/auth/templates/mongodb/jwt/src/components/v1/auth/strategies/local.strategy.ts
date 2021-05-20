@@ -5,7 +5,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ValidationError, Injectable, UnauthorizedException } from '@nestjs/common';
 import SignInDto from '../dto/sign-in.dto';
 import { ValidateUserOutput } from '../interfaces/validate-user-output.interface';
-import ValidationExceptions from '../../../exceptions/validation.exceptions';
+import ValidationExceptions from '@exceptions/validation.exceptions';
 
 
 import AuthService from '../auth.service';

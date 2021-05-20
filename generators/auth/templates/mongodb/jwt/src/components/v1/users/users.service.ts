@@ -2,7 +2,7 @@ import * as bcrypt from 'bcrypt';
 
 import { ObjectID } from 'mongodb';
 import { Injectable } from '@nestjs/common';
-import SignUpDto from '@components/auth/dto/sign-up.dto';
+import SignUpDto from '@components/v1/auth/dto/sign-up.dto';
 import { UserEntity } from './schemas/users.schema';
 
 import UsersRepository from './users.repository';

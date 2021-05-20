@@ -2,7 +2,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 
-import { UserEntity } from '@components/users/schemas/users.schema';
+import { UserEntity } from '@components/v1/users/schemas/users.schema';
 import authConstants from '../auth-constants';
 
 import { JwtStrategyValidate } from '../interfaces/jwt-strategy-validate.interface';

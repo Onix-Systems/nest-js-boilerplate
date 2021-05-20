@@ -19,7 +19,7 @@ import {
 } from '@nestjs/swagger';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
-import { UserEntity } from '@components/users/schemas/users.schema';
+import { UserEntity } from '@components/v1/users/schemas/users.schema';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import UsersService from './users.service';
 
