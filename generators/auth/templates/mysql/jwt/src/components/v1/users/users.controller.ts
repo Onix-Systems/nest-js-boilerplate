@@ -18,7 +18,7 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger';
 import JwtAccessGuard from '@guards/jwt-access.guard';
-import UserEntity from '@components/users/entities/user.entity';
+import UserEntity from '@components/v1/users/entities/user.entity';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import UsersService from './users.service';
 
@@ -26,7 +26,7 @@ import UsersService from './users.service';
 @ApiBearerAuth()
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(UserEntity)
-@Controller('users')
+@Controller()
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

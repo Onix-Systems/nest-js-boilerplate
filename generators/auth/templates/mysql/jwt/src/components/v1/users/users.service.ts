@@ -2,8 +2,8 @@ import * as bcrypt from 'bcrypt';
 
 import { Injectable } from '@nestjs/common';
 
-import SignUpDto from '@components/auth/dto/sign-up.dto';
-import UsersRepository from '@components/users/users.repository';
+import SignUpDto from '@components/v1/auth/dto/sign-up.dto';
+import UsersRepository from '@components/v1/users/users.repository';
 import { UpdateResult } from 'typeorm/index';
 import UserEntity from './entities/user.entity';
 import UpdateUserDto from './dto/update-user.dto';

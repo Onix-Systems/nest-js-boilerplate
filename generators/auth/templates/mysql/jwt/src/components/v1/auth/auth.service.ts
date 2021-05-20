@@ -3,9 +3,9 @@ import * as bcrypt from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import UsersService from '@components/users/users.service';
+import UsersService from '@components/v1/users/users.service';
 
-import { DecodedUser } from '@components/auth/interfaces/decoded-user.interface';
+import { DecodedUser } from '@components/v1/auth/interfaces/decoded-user.interface';
 import JwtTokensDto from './dto/jwt-tokens.dto';
 import { ValidateUserOutput } from './interfaces/validate-user-output.interface';
 import { LoginPayload } from './interfaces/login-payload.interface';

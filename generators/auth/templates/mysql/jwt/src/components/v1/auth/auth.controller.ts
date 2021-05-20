@@ -32,10 +32,10 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Request as ExpressRequest } from 'express';
 
-import UsersService from '@components/users/users.service';
+import UsersService from '@components/v1/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import RolesGuard from '@guards/roles.guard';
-import UserEntity from '@components/users/entities/user.entity';
+import UserEntity from '@components/v1/users/entities/user.entity';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
@@ -52,7 +52,7 @@ import JwtTokensDto from './dto/jwt-tokens.dto';
 @ApiTags('Auth')
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(JwtTokensDto)
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,

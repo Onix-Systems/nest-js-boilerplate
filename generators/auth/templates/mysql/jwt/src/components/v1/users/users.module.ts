@@ -12,4 +12,4 @@ import UsersRepository from './users.repository';
   providers: [UsersService, UsersRepository],
   exports: [UsersService, UsersRepository],
 })
-export default class UsersModule {}
+export default class UsersModuleV1 {}
