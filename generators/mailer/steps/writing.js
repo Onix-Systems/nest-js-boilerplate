@@ -34,30 +34,30 @@ module.exports = function() {
       // auth
       this.fs.copyTpl(
         this.templatePath(
-          `${fullPathToAuthFolder}/src/components/auth/auth-constants.ts`,
+          `${fullPathToAuthFolder}/src/components/v1/auth/auth-constants.ts`,
         ),
         this.destinationPath(
-          `${rootFolder}/src/components/auth/auth-constants.ts`,
+          `${rootFolder}/src/components/v1/auth/auth-constants.ts`,
         ),
         payload,
       );
 
       this.fs.copyTpl(
         this.templatePath(
-          `${fullPathToAuthFolder}/src/components/auth/auth.controller.ts`,
+          `${fullPathToAuthFolder}/src/components/v1/auth/auth.controller.ts`,
         ),
         this.destinationPath(
-          `${rootFolder}/src/components/auth/auth.controller.ts`,
+          `${rootFolder}/src/components/v1/auth/auth.controller.ts`,
         ),
         payload,
       );
 
       this.fs.copyTpl(
         this.templatePath(
-          `${fullPathToAuthFolder}/src/components/auth/auth.service.ts`,
+          `${fullPathToAuthFolder}/src/components/v1/auth/auth.service.ts`,
         ),
         this.destinationPath(
-          `${rootFolder}/src/components/auth/auth.service.ts`,
+          `${rootFolder}/src/components/v1/auth/auth.service.ts`,
         ),
         payload,
       );
@@ -75,75 +75,75 @@ module.exports = function() {
       // auth
       this.fs.copyTpl(
         this.templatePath(
-          `${fullPathToAuthFolder}/src/components/auth/auth-constants.ts`,
+          `${fullPathToAuthFolder}/src/components/v1/auth/auth-constants.ts`,
         ),
         this.destinationPath(
-          `${rootFolder}/src/components/auth/auth-constants.ts`,
+          `${rootFolder}/src/components/v1/auth/auth-constants.ts`,
         ),
         payload,
       );
 
       this.fs.copyTpl(
         this.templatePath(
-          `${fullPathToAuthFolder}/src/components/auth/auth.controller.ts`,
+          `${fullPathToAuthFolder}/src/components/v1/auth/auth.controller.ts`,
         ),
         this.destinationPath(
-          `${rootFolder}/src/components/auth/auth.controller.ts`,
+          `${rootFolder}/src/components/v1/auth/auth.controller.ts`,
         ),
         payload,
       );
 
       this.fs.copyTpl(
         this.templatePath(
-          `${fullPathToAuthFolder}/src/components/auth/auth.service.ts`,
+          `${fullPathToAuthFolder}/src/components/v1/auth/auth.service.ts`,
         ),
         this.destinationPath(
-          `${rootFolder}/src/components/auth/auth.service.ts`,
+          `${rootFolder}/src/components/v1/auth/auth.service.ts`,
         ),
         payload,
       );
 
       this.fs.copyTpl(
         this.templatePath(
-          `${fullPathToAuthFolder}/src/components/auth/serializers`,
+          `${fullPathToAuthFolder}/src/components/v1/auth/serializers`,
         ),
-        this.destinationPath(`${rootFolder}/src/components/auth/serializers`),
+        this.destinationPath(`${rootFolder}/src/components/v1/auth/serializers`),
         payload,
       );
 
       // users
       this.fs.copyTpl(
         this.templatePath(
-          `${fullPathToAuthFolder}/src/components/users/interfaces`,
+          `${fullPathToAuthFolder}/src/components/v1/users/interfaces`,
         ),
-        this.destinationPath(`${rootFolder}/src/components/users/interfaces`),
+        this.destinationPath(`${rootFolder}/src/components/v1/users/interfaces`),
         payload,
       );
 
       this.fs.copyTpl(
         this.templatePath(
-          `${fullPathToAuthFolder}/src/components/users/interfaces`,
+          `${fullPathToAuthFolder}/src/components/v1/users/interfaces`,
         ),
-        this.destinationPath(`${rootFolder}/src/components/users/interfaces`),
+        this.destinationPath(`${rootFolder}/src/components/v1/users/interfaces`),
         payload,
       );
 
       this.fs.copyTpl(
         this.templatePath(
-          `${fullPathToAuthFolder}/src/components/users/users.repository.ts`,
+          `${fullPathToAuthFolder}/src/components/v1/users/users.repository.ts`,
         ),
         this.destinationPath(
-          `${rootFolder}/src/components/users/users.repository.ts`,
+          `${rootFolder}/src/components/v1/users/users.repository.ts`,
         ),
         payload,
       );
 
       this.fs.copyTpl(
         this.templatePath(
-          `${fullPathToAuthFolder}/src/components/users/users.service.ts`,
+          `${fullPathToAuthFolder}/src/components/v1/users/users.service.ts`,
         ),
         this.destinationPath(
-          `${rootFolder}/src/components/users/users.service.ts`,
+          `${rootFolder}/src/components/v1/users/users.service.ts`,
         ),
         payload,
       );

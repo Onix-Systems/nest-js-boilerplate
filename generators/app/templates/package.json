@@ -33,6 +33,7 @@
     "express": "4.17.1",
     "husky": "4.3.7",
     "module-alias": "2.2.2",
+    "nest-router": "1.0.9",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
     "rxjs": "6.6.3",
