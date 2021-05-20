@@ -33,7 +33,7 @@ import AuthService from './auth.service';
 import SignUpDto from './dto/sign-up.dto';
 
 @ApiTags('Auth')
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,
