@@ -24,8 +24,8 @@ import {
 import { Request as ExpressRequest } from 'express';
 import { MailerService } from '@nestjs-modules/mailer';
 
-import UsersService from '@components/users/users.service';
-import SignInDto from '@components/auth/dto/sign-in.dto';
+import UsersService from '@components/v1/users/users.service';
+import SignInDto from '@components/v1/auth/dto/sign-in.dto';
 import IsNotLoggedGuard from '@guards/is-not-logged.guard';
 import RedirectIfLoggedGuard from '@guards/redirect-if-logged.guard';
 import LocalAuthGuard from './guards/local-auth.guard';
