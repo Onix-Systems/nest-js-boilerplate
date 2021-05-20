@@ -3,8 +3,8 @@ import * as bcrypt from 'bcrypt';
 import { ObjectID } from 'mongodb';
 import { Injectable } from '@nestjs/common';
 
-import { UserEntity } from '@components/users/schemas/users.schema';
-import UsersRepository from '@components/users/users.repository';
+import { UserEntity } from '@components/v1/users/schemas/users.schema';
+import UsersRepository from '@components/v1/users/users.repository';
 import UserDto from './dto/user.dto';
 
 @Injectable()

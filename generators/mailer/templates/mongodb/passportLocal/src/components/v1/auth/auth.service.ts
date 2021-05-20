@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import { ObjectId } from 'mongodb';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import UsersService from '@components/users/users.service';
+import UsersService from '@components/v1/users/users.service';
 import { ValidateUserOutput } from './interfaces/validate-user-output.interface';
 import authConstants from './auth-constants';
 
