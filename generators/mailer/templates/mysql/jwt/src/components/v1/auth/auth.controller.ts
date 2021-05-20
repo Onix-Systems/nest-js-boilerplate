@@ -32,10 +32,10 @@ import { JwtService } from '@nestjs/jwt';
 import { Request as ExpressRequest } from 'express';
 import { MailerService } from '@nestjs-modules/mailer';
 
-import UsersService from '@components/users/users.service';
+import UsersService from '@components/v1/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import RolesGuard from '@guards/roles.guard';
-import UserEntity from '@components/users/entities/user.entity';
+import UserEntity from '@components/v1/users/entities/user.entity';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
