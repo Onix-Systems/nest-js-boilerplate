@@ -24,7 +24,7 @@ import GoogleAuthGuard from './guards/google-auth.guard';
 import AuthService from './auth.service';
 
 @ApiTags('Auth')
-@Controller('google')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,

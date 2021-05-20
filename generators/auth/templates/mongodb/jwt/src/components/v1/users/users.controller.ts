@@ -27,7 +27,7 @@ import UsersService from './users.service';
 @ApiBearerAuth()
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(UserEntity)
-@Controller('users')
+@Controller()
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

@@ -2,7 +2,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ObjectID } from 'mongodb';
 import { Injectable } from '@nestjs/common';
-import UserDto from '@components/users/dto/user.dto';
+import UserDto from '@components/v1/users/dto/user.dto';
 import { RolesEnum } from '@decorators/roles.decorator';
 import usersConstants from './users-constants';
 import { UserEntity } from './schemas/users.schema';

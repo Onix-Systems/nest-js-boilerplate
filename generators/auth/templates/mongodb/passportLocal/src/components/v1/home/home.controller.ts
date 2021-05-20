@@ -6,12 +6,12 @@ import {
   ApiExtraModels,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { UserEntity } from '@components/users/schemas/users.schema';
+import { UserEntity } from '@components/v1/users/schemas/users.schema';
 import IsLoggedGuard from '@guards/is-logged.guard';
 import RequestUser from '@decorators/request-user.decorator';
 
 @ApiExtraModels(UserEntity)
-@Controller('home')
+@Controller()
 export default class HomeController {
   @ApiCookieAuth()
   @ApiOkResponse({

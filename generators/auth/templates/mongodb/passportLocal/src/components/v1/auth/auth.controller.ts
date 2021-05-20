@@ -22,8 +22,8 @@ import {
 } from '@nestjs/swagger';
 import { Request as ExpressRequest } from 'express';
 
-import UsersService from '@components/users/users.service';
-import SignInDto from '@components/auth/dto/sign-in.dto';
+import UsersService from '@components/v1/users/users.service';
+import SignInDto from '@components/v1/auth/dto/sign-in.dto';
 import IsNotLoggedGuard from '@guards/is-not-logged.guard';
 import RedirectIfLoggedGuard from '@guards/redirect-if-logged.guard';
 import LocalAuthGuard from './guards/local-auth.guard';
@@ -31,7 +31,7 @@ import AuthService from './auth.service';
 import SignUpDto from './dto/sign-up.dto';
 
 @ApiTags('Auth')
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,

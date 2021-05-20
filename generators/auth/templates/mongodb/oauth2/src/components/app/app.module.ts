@@ -1,12 +1,17 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { RouterModule } from 'nest-router';
 
 import AuthModuleV1 from '@components/v1/auth/auth.module';
 import UsersModuleV1 from '@components/v1/users/users.module';
+import { appRoutes } from '@components/app/app.routes';
 
 import AppController from './app.controller';
 import AppService from './app.service';
+import RoutesValidationUtils from '../../utils/routes-validation.utils';
+
+RoutesValidationUtils.validate(appRoutes);
 
 @Module({
   imports: [
@@ -26,6 +31,7 @@ import AppService from './app.service';
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),
+    RouterModule.forRoutes(appRoutes),
     AuthModuleV1,
     UsersModuleV1,
   ],
