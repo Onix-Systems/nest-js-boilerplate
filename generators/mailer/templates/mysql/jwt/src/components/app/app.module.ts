@@ -4,12 +4,17 @@ import { RedisModule } from 'nestjs-redis';
 import { ConfigModule } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { RouterModule } from 'nest-router';
 
-import AuthModule from '@components/auth/auth.module';
-import UsersModule from '@components/users/users.module';
+import AuthModuleV1 from '@components/v1/auth/auth.module';
+import UsersModuleV1 from '@components/v1/users/users.module';
+import { appRoutes } from '@components/app/app.routes';
 
 import AppService from './app.service';
 import AppController from './app.controller';
+import RoutesValidationUtils from '../../utils/routes-validation.utils';
+
+RoutesValidationUtils.validate(appRoutes);
 
 @Module({
   imports: [
@@ -60,8 +65,9 @@ import AppController from './app.controller';
         },
       },
     }),
-    AuthModule,
-    UsersModule,
+    RouterModule.forRoutes(appRoutes),
+    AuthModuleV1,
+    UsersModuleV1,
   ],
   controllers: [AppController],
   providers: [AppService],
