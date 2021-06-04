@@ -67,6 +67,10 @@ module.exports = {
     );
   },
 
+  askAboutSocket() {
+    askQuestions.call(this, 'Socket', questions.socket[this.answers.authType], this.async());
+  },
+
   askWouldHeLikeDocker() {
     askQuestions.call(this, 'Docker', questions.docker, this.async());
   },
