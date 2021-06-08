@@ -3,7 +3,7 @@ const generatorArguments = require('./arguments');
 const generatorOptions = require('./options');
 const generatorSteps = require('./steps');
 
-module.exports = class AuthenticationGenerator extends Generator {
+module.exports = class SocketGenerator extends Generator {
   constructor(args, options) {
     super(args, options);
 

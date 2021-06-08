@@ -17,8 +17,6 @@ import AppGateway from './app.gateway';
     }),
     MongooseModule.forRoot(process.env.MONGODB_URL as string, {
       useCreateIndex: true,
-      // flag to allow users to fall back to the old
-      // parser if they find a bug in the new parse
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),

@@ -4,7 +4,7 @@ module.exports = {
       type: 'list',
       name: 'wantedSocket',
       message: 'Do you want to use web sockets?',
-      default: 'Yes',
+      default: 'No',
       choices: ['Yes', 'No'],
     },
   ],

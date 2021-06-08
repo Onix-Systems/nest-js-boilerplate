@@ -19,6 +19,12 @@ module.exports = function() {
   const rootFolder = answers.identifier;
 
   this.fs.copyTpl(
+    this.templatePath(`${socketFolder}/typedoc.json`),
+    this.destinationPath(`${rootFolder}/typedoc.json`),
+    payload,
+  );
+
+  this.fs.copyTpl(
     this.templatePath(pathToTmpAppModuleFile),
     this.destinationPath(`${rootFolder}/src/components/app/app.module.ts`),
     payload,
