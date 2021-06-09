@@ -236,6 +236,7 @@ export default class AuthController {
     const payload = {
       id: decodedUser.id,
       email: decodedUser.email,
+      role: decodedUser.role,
     };
 
     return this.authService.login(payload);
@@ -256,7 +257,7 @@ export default class AuthController {
   })
   @HttpCode(HttpStatus.NO_CONTENT)
   @Get('verify/:token')
-  async verifyUser(@Param('token') token: string): Promise<{} | never> {
+  async verifyUser(@Param('token') token: string): Promise<{} | null | never> {
     const { id } = await this.authService.verifyEmailVerToken(
       token,
       authConstants.jwt.secrets.accessToken,

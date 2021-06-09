@@ -6,6 +6,7 @@ import {
   Post,
   Delete,
   Put,
+  Param,
   Request,
   UnauthorizedException,
   UseGuards,
@@ -262,7 +263,7 @@ export default class AuthController {
   @UseGuards(RolesGuard)
   @Roles(RolesEnum.admin)
   @Put('verify')
-  async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<SuccessResponseInterface | never> {
+  async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<SuccessResponseInterface | null | never> {
     const foundUser = await this.usersService.getByEmail(
       verifyUserDto.email,
       false,

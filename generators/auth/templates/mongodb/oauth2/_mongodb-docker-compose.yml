@@ -1,0 +1,23 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/App.Dockerfile
+    container_name: app
+    command: bash -c "npm run start:dev"
+    working_dir: /var/www/app
+    volumes:
+      - ./:/var/www/app:cached
+    restart: always
+    ports:
+      - 3000:3000
+    links:
+      - mongodb
+
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
