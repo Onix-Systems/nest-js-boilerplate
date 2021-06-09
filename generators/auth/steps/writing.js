@@ -30,6 +30,11 @@ module.exports = function() {
     payload,
   );
   this.fs.copyTpl(
+    this.templatePath(`${authFolder}/src/utils/`),
+    this.destinationPath(`${rootFolder}/src/utils/`),
+    payload,
+  );
+  this.fs.copyTpl(
     this.templatePath(`${authFolder}/src/guards/`),
     this.destinationPath(`${rootFolder}/src/guards/`),
     payload,
