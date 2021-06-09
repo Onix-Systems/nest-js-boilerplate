@@ -12,8 +12,7 @@ import {
   UseGuards,
   NotFoundException,
   ForbiddenException,
-  HttpStatus,
-  UseInterceptors,
+  HttpStatus, UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -36,10 +35,11 @@ import UsersService from '@components/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import RolesGuard from '@guards/roles.guard';
 import { UserEntity } from '@components/users/schemas/users.schema';
-import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
 import authConstants from '@components/auth/auth-constants';
+import { SuccessResponseInterface } from '@interfaces/success-response.interface';
+import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
 import AuthService from './auth.service';
@@ -48,10 +48,11 @@ import SignInDto from './dto/sign-in.dto';
 import SignUpDto from './dto/sign-up.dto';
 import VerifyUserDto from './dto/verify-user.dto';
 import JwtTokensDto from './dto/jwt-tokens.dto';
+import ResponseUtils from '../../utils/response.utils';
 
 @ApiTags('Auth')
-@UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(JwtTokensDto)
+@UseInterceptors(WrapResponseInterceptor)
 @Controller('auth')
 export default class AuthController {
   constructor(
@@ -107,10 +108,13 @@ export default class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
-  async signIn(@Request() req: ExpressRequest): Promise<JwtTokensDto> {
+  async signIn(@Request() req: ExpressRequest): Promise<SuccessResponseInterface> {
     const user = req.user as UserEntity;
 
-    return this.authService.login(user);
+    return ResponseUtils.success(
+      'tokens',
+      await this.authService.login(user),
+    );
   }
 
   @ApiBody({ type: SignUpDto })
@@ -159,8 +163,11 @@ export default class AuthController {
   })
   @HttpCode(HttpStatus.CREATED)
   @Post('sign-up')
-  async signUp(@Body() user: SignUpDto): Promise<UserEntity> {
-    return this.usersService.create(user);
+  async signUp(@Body() user: SignUpDto): Promise<SuccessResponseInterface> {
+    return ResponseUtils.success(
+      'users',
+      await this.usersService.create(user),
+    );
   }
 
   @ApiOkResponse({
@@ -196,7 +203,7 @@ export default class AuthController {
   @Post('refresh-token')
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
-  ): Promise<JwtTokensDto | never> {
+  ): Promise<SuccessResponseInterface | never> {
     const decodedUser = this.jwtService.decode(
       refreshTokenDto.refreshToken,
     ) as DecodedUser;
@@ -222,7 +229,10 @@ export default class AuthController {
       role: decodedUser.role,
     };
 
-    return this.authService.login(payload);
+    return ResponseUtils.success(
+      'tokens',
+      await this.authService.login(payload),
+    );
   }
 
   @ApiNoContentResponse({
@@ -248,11 +258,12 @@ export default class AuthController {
     },
     description: '500. InternalServerError',
   })
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(RolesGuard)
   @Roles(RolesEnum.admin)
   @Put('verify')
-  async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<{} | null | never> {
+  async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<SuccessResponseInterface | null | never> {
     const foundUser = await this.usersService.getByEmail(
       verifyUserDto.email,
       false,
@@ -262,7 +273,10 @@ export default class AuthController {
       throw new NotFoundException('The user does not exist');
     }
 
-    return this.usersService.update(foundUser._id, { verified: true });
+    return ResponseUtils.success(
+      'users',
+      await this.usersService.update(foundUser._id, { verified: true }),
+    );
   }
 
   @ApiNoContentResponse({
@@ -357,12 +371,13 @@ export default class AuthController {
     },
     description: '500. InternalServerError',
   })
+  @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
   @UseGuards(JwtAccessGuard)
   @Get('token')
   async getUserByAccessToken(
     @AuthBearer() token: string,
-  ): Promise<DecodedUser | never> {
+  ): Promise<SuccessResponseInterface | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
       authConstants.jwt.secrets.accessToken,
@@ -374,6 +389,9 @@ export default class AuthController {
 
     const { exp, iat, ...user } = decodedUser;
 
-    return user;
+    return ResponseUtils.success(
+      'users',
+      user,
+    );
   }
 }
