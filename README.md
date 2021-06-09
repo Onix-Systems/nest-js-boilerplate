@@ -154,16 +154,6 @@ When you'll run npm run deploy:heroku you'll need to sign in on heroku. You will
 npm run deploy:heroku
 ```
 
-## Swagger
-
-Swagger documentation will be available on route:
-
-```bash
-http://localhost:3000/api
-```
-
-![Alt Text1](https://media.giphy.com/media/XEUyeEL03IcaZYw6SB/giphy.gif)
-
 ### Jwt auth
 
 ![Alt Text2](https://media.giphy.com/media/QUKuolFMyd0WsNFIUH/giphy.gif)
@@ -173,6 +163,32 @@ http://localhost:3000/api
 ![Alt Text3](https://media.giphy.com/media/RiWDyLQwXaJXu972SM/giphy.gif)
 
 When you go by http://localhost:3000/google route, google'll ask you to authorize into your account. After successfully sign in to your account you will be redirected to http://localhost:3000/google/redirect route
+
+## Documentation
+
+### WebSocket API
+
+#### TypeDoc
+
+TypeDoc documentation will be available after entering the command:
+
+```bash
+npm run docs
+```
+
+This command will create a folder with documents in which you can see index.html, which needs to be opened in a browser
+to view the documentation.
+### REST API
+
+#### Swagger
+
+Swagger documentation will be available on route:
+
+```bash
+http://localhost:3000/api
+```
+
+![Alt Text1](https://media.giphy.com/media/XEUyeEL03IcaZYw6SB/giphy.gif)
 
 ## Diagnose and pinpoint performance issues
 
