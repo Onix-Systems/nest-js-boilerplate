@@ -19,12 +19,12 @@
       "@guards/*": ["./src/guards/*"],
       "@interfaces/*": ["./src/interfaces/*"],
       "@shared/*": ["./src/components/shared/*"],
-      "@components/*": ["./src/components/*"],
+      "@v1/*": ["src/routes/v1/*"],
       "@pipes/*": ["./src/pipes/*"],
       "@dto/*": ["./src/dto/*"],
       "@responses/*": ["./src/responses/*"],
       "@interceptors/*": ["./src/interceptors/*"],
-      "@decorators/*": ["./src/decorators/*"]
+      "@decorators/*": ["./src/decorators/*"],
     }
   }
 }

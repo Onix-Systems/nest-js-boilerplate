@@ -5,7 +5,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
-import AppModule from './components/app/app.module';
+import AppModule from './routes/app/app.module';
 
 import AllExceptionsFilter from './filters/all-exceptions.filter';
 

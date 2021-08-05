@@ -6,7 +6,7 @@ import { ValidationPipe, ValidationError } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import ValidationExceptions from './exceptions/validation.exceptions';
 
-import AppModule from './components/app/app.module';
+import AppModule from './routes/app/app.module';
 
 import AllExceptionsFilter from './filters/all-exceptions.filter';
 

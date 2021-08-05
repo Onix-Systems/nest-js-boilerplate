@@ -15,8 +15,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
-import AppModule from '@components/app/app.module';
-import AppService from '@components/app/app.service';
+import AppModule from './routes/app/app.module';
 
 import { RolesEnum } from '@decorators/roles.decorator';
 import AllExceptionsFilter from '@filters/all-exceptions.filter';
