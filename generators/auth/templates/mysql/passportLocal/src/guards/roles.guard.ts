@@ -17,12 +17,12 @@ export default class RolesGuard implements CanActivate {
     const req = http.getRequest();
     const res = http.getResponse();
     if (req.isUnauthenticated()) {
-      return res.redirect('/auth/login');
+      return res.redirect('/v1/auth/login');
     }
 
     const haveAccess: boolean = roles.some((role) => role === req?.user?.role);
     if (!haveAccess) {
-      return res.redirect('/home');
+      return res.redirect('/v1/home');
     }
 
     return true;

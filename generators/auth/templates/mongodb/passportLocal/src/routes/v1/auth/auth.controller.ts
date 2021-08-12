@@ -31,7 +31,7 @@ import AuthService from './auth.service';
 import SignUpDto from './dto/sign-up.dto';
 
 @ApiTags('Auth')
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -59,7 +59,7 @@ export default class AuthController {
   @ApiMovedPermanentlyResponse({ description: 'Redirects to home' })
   @ApiInternalServerErrorResponse({ description: 'Returns the 500 error' })
   @Post('/register')
-  @Redirect('/auth/login')
+  @Redirect('/v1/auth/login')
   public async create(@Body() params: SignUpDto): Promise<void> {
     await this.usersService.create(params);
   }
@@ -67,7 +67,7 @@ export default class AuthController {
   @ApiMovedPermanentlyResponse({ description: '301. If logout is success' })
   @ApiInternalServerErrorResponse({ description: 'Internal error' })
   @Get('/logout')
-  @Redirect('/auth/login')
+  @Redirect('/v1/auth/login')
   public logout(@Request() req: ExpressRequest): void {
     req.logout();
   }
@@ -81,6 +81,6 @@ export default class AuthController {
   @HttpCode(HttpStatus.MOVED_PERMANENTLY)
   @UseGuards(LocalAuthGuard)
   @Post('/login')
-  @Redirect('/home')
+  @Redirect('/v1/home')
   public login(): void {}
 }

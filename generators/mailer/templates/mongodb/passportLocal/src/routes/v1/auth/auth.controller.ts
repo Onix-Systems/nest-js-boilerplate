@@ -35,7 +35,7 @@ import AuthService from './auth.service';
 import SignUpDto from './dto/sign-up.dto';
 
 @ApiTags('Auth')
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -64,7 +64,7 @@ export default class AuthController {
   @ApiMovedPermanentlyResponse({ description: 'Redirects to home' })
   @ApiInternalServerErrorResponse({ description: 'Returns the 500 error' })
   @Post('/register')
-  @Redirect('/auth/login')
+  @Redirect('/v1/auth/login')
   public async create(@Body() params: SignUpDto): Promise<void> {
     const { email, _id } = await this.usersService.create(params) as UsersEntity;
     const token = await this.authService.createVerifyToken(_id);
@@ -85,7 +85,7 @@ export default class AuthController {
   @ApiMovedPermanentlyResponse({ description: '301. If logout is success' })
   @ApiInternalServerErrorResponse({ description: 'Internal error' })
   @Get('/logout')
-  @Redirect('/auth/login')
+  @Redirect('/v1/auth/login')
   public logout(@Request() req: ExpressRequest): void {
     req.logout();
   }
@@ -99,11 +99,11 @@ export default class AuthController {
   @HttpCode(HttpStatus.MOVED_PERMANENTLY)
   @UseGuards(LocalAuthGuard)
   @Post('/login')
-  @Redirect('/home')
+  @Redirect('/v1/home')
   public login(): void {}
 
   @Get('verify/:token')
-  @Redirect('/home')
+  @Redirect('/v1/home')
   async verifyUser(
     @Req() req: ExpressRequest,
     @Param('token') token: string,

@@ -11,7 +11,7 @@ import IsLoggedGuard from '@guards/is-logged.guard';
 import RequestUser from '@decorators/request-user.decorator';
 
 @ApiExtraModels(User)
-@Controller('home')
+@Controller()
 export default class HomeController {
   @ApiCookieAuth()
   @ApiOkResponse({

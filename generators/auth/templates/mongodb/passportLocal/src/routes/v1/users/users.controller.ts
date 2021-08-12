@@ -24,7 +24,7 @@ import { User } from './schemas/users.schema';
 @ApiTags('Users')
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(User)
-@Controller('users')
+@Controller()
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

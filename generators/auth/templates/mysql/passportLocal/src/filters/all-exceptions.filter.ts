@@ -32,7 +32,7 @@ export default class AllExceptionsFilter implements ExceptionFilter {
       exception instanceof BadRequestException ||
       exception.code === 'ValidationException'
     ) {
-      return res.redirect('/auth/sign-up'); // here you can specify rendering your page
+      return res.redirect('/v1/auth/sign-up'); // here you can specify rendering your page
     }
     return res
       .status(HttpStatus.INTERNAL_SERVER_ERROR)

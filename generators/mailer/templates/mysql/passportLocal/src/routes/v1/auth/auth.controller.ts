@@ -62,7 +62,7 @@ export default class AuthController {
   @ApiMovedPermanentlyResponse({ description: 'Redirects to home' })
   @ApiInternalServerErrorResponse({ description: 'Returns the 500 error' })
   @Post('/register')
-  @Redirect('/auth/login')
+  @Redirect('/v1/auth/login')
   public async create(@Body() params: SignUpDto): Promise<void> {
     const { email, id } = await this.usersService.create(params);
     const token = await this.authService.createVerifyToken(id);
@@ -82,7 +82,7 @@ export default class AuthController {
   @ApiMovedPermanentlyResponse({ description: '301. If logout is success' })
   @ApiInternalServerErrorResponse({ description: 'Internal error' })
   @Get('/logout')
-  @Redirect('/auth/login')
+  @Redirect('/v1/auth/login')
   public logout(@Request() req: ExpressRequest): void {
     req.logout();
   }
@@ -100,7 +100,7 @@ export default class AuthController {
   public login(): void {}
 
   @Get('verify/:token')
-  @Redirect('/home')
+  @Redirect('/v1/home')
   async verifyUser(
     @Req() req: ExpressRequest,
     @Param('token') token: string,

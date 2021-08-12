@@ -24,7 +24,7 @@ import UserEntity from './entities/user.entity';
 @ApiTags('Users')
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(UserEntity)
-@Controller('users')
+@Controller()
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
