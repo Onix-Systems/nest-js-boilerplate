@@ -3,11 +3,12 @@ import * as bcrypt from 'bcrypt';
 import { Types } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import SignUpDto from '@v1/auth/dto/sign-up.dto';
+import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
+import { PaginatedUsersInterface } from '@interfaces/paginatedEntity.interface';
 
 import { User } from '@v1/users/schemas/users.schema';
 import UsersRepository from './users.repository';
 import UpdateUserDto from './dto/update-user.dto';
-import UserEntity from '@v1/users/entity/user.entity';
 
 @Injectable()
 export default class UsersService {
@@ -40,7 +41,9 @@ export default class UsersService {
     return this.usersRepository.updateById(id, data);
   }
 
-  getAll(verified: boolean = true): Promise<UserEntity[] | []> {
-    return this.usersRepository.getAll(verified);
+  public async getAllVerifiedWithPagination(
+    options: PaginationParamsInterface,
+  ): Promise<PaginatedUsersInterface> {
+    return this.usersRepository.getAllVerifiedWithPagination(options);
   }
 }

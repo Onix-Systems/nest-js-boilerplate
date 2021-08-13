@@ -1,4 +1,4 @@
-import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
+import { PaginationParamsInterface } from './pagination-params.interface';
 
 export interface SuccessResponseInterface {
   readonly collectionName: string,

@@ -114,7 +114,8 @@
     "@dto": "./dist/dto",
     "@responses": "./dist/responses",
     "@interceptors": "./dist/interceptors",
-    "@decorators": "./dist/decorators"
+    "@decorators": "./dist/decorators",
+    "@utils": "./dist/utils"
   },
   "husky": {
     "hooks": {

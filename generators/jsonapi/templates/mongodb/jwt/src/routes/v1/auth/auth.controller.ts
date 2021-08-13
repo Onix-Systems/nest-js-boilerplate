@@ -47,6 +47,8 @@ import SignUpDto from './dto/sign-up.dto';
 import VerifyUserDto from './dto/verify-user.dto';
 import JwtTokensDto from './dto/jwt-tokens.dto';
 import UsersEntity from '@v1/users/entity/user.entity';
+import ResponseUtils from '../../../utils/response.utils';
+import { SuccessResponseInterface } from '../../../interfaces/success-response.interface';
 
 @ApiTags('Auth')
 @ApiExtraModels(JwtTokensDto)
@@ -106,10 +108,13 @@ export default class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
-  async signIn(@Request() req: ExpressRequest): Promise<JwtTokensDto> {
+  async signIn(@Request() req: ExpressRequest): Promise<SuccessResponseInterface | never> {
     const user = req.user as User;
 
-    return this.authService.login(user);
+    return ResponseUtils.success(
+      'tokens',
+      await this.authService.login(user),
+    );
   }
 
   @ApiBody({ type: SignUpDto })
@@ -195,7 +200,7 @@ export default class AuthController {
   @Post('refresh-token')
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
-  ): Promise<JwtTokensDto | never> {
+  ): Promise<SuccessResponseInterface | never>  {
     const decodedUser = this.jwtService.decode(
       refreshTokenDto.refreshToken,
     ) as DecodedUser;
@@ -221,7 +226,10 @@ export default class AuthController {
       role: decodedUser.role,
     };
 
-    return this.authService.login(payload);
+    return ResponseUtils.success(
+      'tokens',
+      await this.authService.login(payload),
+    );
   }
 
   @ApiNoContentResponse({
@@ -252,7 +260,7 @@ export default class AuthController {
   @UseGuards(RolesGuard)
   @Roles(RolesEnum.admin)
   @Put('verify')
-  async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<User | null> {
+  async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<SuccessResponseInterface | never> {
     const foundUser = await this.usersService.getByEmail(
       verifyUserDto.email,
       false,
@@ -262,7 +270,10 @@ export default class AuthController {
       throw new NotFoundException('The user does not exist');
     }
 
-    return this.usersService.update(foundUser._id, { verified: true });
+    return ResponseUtils.success(
+      'users',
+      await this.usersService.update(foundUser._id, { verified: true }),
+    );
   }
 
   @ApiNoContentResponse({
@@ -363,7 +374,7 @@ export default class AuthController {
   @Get('token')
   async getUserByAccessToken(
     @AuthBearer() token: string,
-  ): Promise<DecodedUser | never> {
+  ): Promise<SuccessResponseInterface | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
       authConstants.jwt.secrets.accessToken,
@@ -375,6 +386,9 @@ export default class AuthController {
 
     const { exp, iat, ...user } = decodedUser;
 
-    return user;
+    return ResponseUtils.success(
+      'users',
+      user,
+    );
   }
 }

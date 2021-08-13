@@ -5,13 +5,14 @@ import {
   Get,
   Post,
   Delete,
-  Put,
+  Param,
   Request,
   UnauthorizedException,
   UseGuards,
   NotFoundException,
   ForbiddenException,
-  HttpStatus, UseInterceptors,
+  HttpStatus,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -29,34 +30,37 @@ import {
 } from '@nestjs/swagger';
 import { JwtService } from '@nestjs/jwt';
 import { Request as ExpressRequest } from 'express';
+import { MailerService } from '@nestjs-modules/mailer';
 
 import UsersService from '@v1/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import RolesGuard from '@guards/roles.guard';
 import { User } from '@v1/users/schemas/users.schema';
+import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
-import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
-import authConstants from './auth-constants';
+import authConstants from '@v1/auth/auth-constants';
+import { SuccessResponseInterface } from '@interfaces/success-response.interface';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
 import AuthService from './auth.service';
 import RefreshTokenDto from './dto/refresh-token.dto';
 import SignInDto from './dto/sign-in.dto';
 import SignUpDto from './dto/sign-up.dto';
-import VerifyUserDto from './dto/verify-user.dto';
 import JwtTokensDto from './dto/jwt-tokens.dto';
+import ResponseUtils from '../../../utils/response.utils';
 import UsersEntity from '@v1/users/entity/user.entity';
 
 @ApiTags('Auth')
-@ApiExtraModels(JwtTokensDto)
 @UseInterceptors(WrapResponseInterceptor)
+@ApiExtraModels(JwtTokensDto)
 @Controller('auth')
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
+    private readonly mailerService: MailerService,
   ) {}
 
   @ApiBody({ type: SignInDto })
@@ -106,10 +110,13 @@ export default class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
-  async signIn(@Request() req: ExpressRequest): Promise<JwtTokensDto> {
+  async signIn(@Request() req: ExpressRequest): Promise<SuccessResponseInterface | never> {
     const user = req.user as User;
 
-    return this.authService.login(user);
+    return ResponseUtils.success(
+      'tokens',
+      await this.authService.login(user),
+    );
   }
 
   @ApiBody({ type: SignUpDto })
@@ -158,8 +165,24 @@ export default class AuthController {
   })
   @HttpCode(HttpStatus.CREATED)
   @Post('sign-up')
-  async signUp(@Body() user: SignUpDto): Promise<User> {
-    return this.usersService.create(user);
+  async signUp(@Body() user: SignUpDto): Promise<any> {
+    const { _id, email } = await this.usersService.create(user) as UsersEntity;
+
+    const token = this.authService.createVerifyToken(_id);
+
+    await this.mailerService.sendMail({
+      to: email,
+      from: process.env.MAILER_FROM_EMAIL,
+      subject: authConstants.mailer.verifyEmail.subject,
+      template: 'verify-password',
+      context: {
+        token,
+        email,
+        host: process.env.SERVER_HOST,
+      },
+    });
+
+    return ResponseUtils.success('auth', { message: 'Success! please verify your email' });
   }
 
   @ApiOkResponse({
@@ -190,12 +213,13 @@ export default class AuthController {
         details: {},
       },
     },
-    description: '500. InternalServerError',
+    description: '500. InternalServerError ',
   })
+  @ApiBearerAuth()
   @Post('refresh-token')
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
-  ): Promise<JwtTokensDto | never> {
+  ): Promise<SuccessResponseInterface | never>  {
     const decodedUser = this.jwtService.decode(
       refreshTokenDto.refreshToken,
     ) as DecodedUser;
@@ -221,7 +245,10 @@ export default class AuthController {
       role: decodedUser.role,
     };
 
-    return this.authService.login(payload);
+    return ResponseUtils.success(
+      'tokens',
+      await this.authService.login(payload),
+    );
   }
 
   @ApiNoContentResponse({
@@ -237,32 +264,23 @@ export default class AuthController {
     },
     description: 'User was not found',
   })
-  @ApiInternalServerErrorResponse({
-    schema: {
-      type: 'object',
-      example: {
-        message: 'string',
-        details: {},
-      },
-    },
-    description: '500. InternalServerError',
-  })
-  @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(RolesGuard)
-  @Roles(RolesEnum.admin)
-  @Put('verify')
-  async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<User | null> {
-    const foundUser = await this.usersService.getByEmail(
-      verifyUserDto.email,
-      false,
-    ) as UsersEntity;
+  @Get('verify/:token')
+  async verifyUser(@Param('token') token: string): Promise<SuccessResponseInterface | never> {
+    const { id } = await this.authService.verifyEmailVerToken(
+      token,
+      authConstants.jwt.secrets.accessToken,
+    );
+    const foundUser = await this.usersService.getById(id, false) as UsersEntity;
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');
     }
 
-    return this.usersService.update(foundUser._id, { verified: true });
+    return ResponseUtils.success(
+      'users',
+      await this.usersService.update(foundUser._id, { verified: true }),
+    );
   }
 
   @ApiNoContentResponse({
@@ -285,13 +303,13 @@ export default class AuthController {
         details: {},
       },
     },
-    description: '500. InternalServerError',
+    description: 'InternalServerError',
   })
   @ApiBearerAuth()
   @UseGuards(JwtAccessGuard)
-  @Delete('logout')
+  @Delete('logout/:token')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async logout(@AuthBearer() token: string): Promise<{} | never> {
+  async logout(@Param('token') token: string): Promise<{} | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
       authConstants.jwt.secrets.accessToken,
@@ -357,13 +375,12 @@ export default class AuthController {
     },
     description: '500. InternalServerError',
   })
-  @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
   @UseGuards(JwtAccessGuard)
   @Get('token')
   async getUserByAccessToken(
     @AuthBearer() token: string,
-  ): Promise<DecodedUser | never> {
+  ): Promise<SuccessResponseInterface | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
       authConstants.jwt.secrets.accessToken,
@@ -375,6 +392,9 @@ export default class AuthController {
 
     const { exp, iat, ...user } = decodedUser;
 
-    return user;
+    return ResponseUtils.success(
+      'users',
+      user,
+    );
   }
 }

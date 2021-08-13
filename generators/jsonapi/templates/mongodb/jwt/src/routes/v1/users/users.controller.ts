@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
 import {
+  BadRequestException,
   Controller,
   Get,
   NotFoundException,
@@ -21,12 +22,15 @@ import {
 } from '@nestjs/swagger';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
+import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
+import { PaginatedUsersInterface } from '@interfaces/paginatedEntity.interface';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import { User } from './schemas/users.schema';
 import UsersService from './users.service';
+import PaginationUtils from '../../../utils/pagination.utils';
+import ResponseUtils from '../../../utils/response.utils';
 import UserResponseEntity from '@v1/users/entity/user-response.entity';
 import Serialize from '@decorators/serialization.decorator';
-import UsersEntity from '@v1/users/entity/user.entity';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -65,14 +69,17 @@ export default class UsersController {
   @UseGuards(JwtAccessGuard)
   async getById(
     @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
-  ): Promise<User> {
+  ): Promise<UserResponseEntity> {
     const foundUser = await this.usersService.getById(id);
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');
     }
 
-    return foundUser;
+    return ResponseUtils.success(
+      'users',
+      foundUser,
+    );
   }
 
   @ApiOkResponse({
@@ -98,9 +105,22 @@ export default class UsersController {
   @Get()
   @Serialize(UserResponseEntity)
   @UseGuards(JwtAccessGuard)
-  async getAllVerifiedUsers(): Promise<UsersEntity[] | []> {
-    const foundUsers = await this.usersService.getAll(true);
+  async getAllVerifiedUsers(@Query() query: any): Promise<UserResponseEntity> {
+    const paginationParams: PaginationParamsInterface | false = PaginationUtils.normalizeParams(query.page);
+    if (!paginationParams) {
+      throw new BadRequestException('Invalid pagination parameters');
+    }
 
-    return foundUsers;
+    const paginatedUsers: PaginatedUsersInterface = await this.usersService.getAllVerifiedWithPagination(paginationParams);
+
+    return ResponseUtils.success(
+      'users',
+      paginatedUsers.paginatedResult,
+      {
+        location: 'users',
+        paginationParams,
+        totalCount: paginatedUsers.totalCount,
+      },
+    );
   }
 }

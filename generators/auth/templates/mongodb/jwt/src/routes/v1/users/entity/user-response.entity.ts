@@ -50,8 +50,4 @@ export default class UserResponseEntity {
     paginationParams: PaginationParamsInterface,
     totalCount: number,
   }
-
-  constructor(partial: Partial<UserResponseEntity>) {
-    Object.assign(this, partial);
-  }
 }

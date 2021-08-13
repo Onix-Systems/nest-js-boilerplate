@@ -3,11 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 
 import SignUpDto from '@v1/auth/dto/sign-up.dto';
+import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
+import { PaginatedUsersInterface } from '@interfaces/paginatedEntity.interface';
 import { UserDocument, User } from '@v1/users/schemas/users.schema';
 
 import UpdateUserDto from './dto/update-user.dto';
 
-import UsersEntity from '@v1/users/entity/user.entity';
+import PaginationUtils from '@utils/pagination.utils';
 
 @Injectable()
 export default class UsersRepository {
@@ -51,7 +53,21 @@ export default class UsersRepository {
     return updatedUser ? updatedUser.toJSON() : null;
   }
 
-  public getAll(verified: boolean = true): Promise<UsersEntity[] | []> {
-    return this.usersModel.find({ verified });
+  public async getAllVerifiedWithPagination(options: PaginationParamsInterface): Promise<PaginatedUsersInterface> {
+    const verified = true;
+    const [users, totalCount] = await Promise.all([
+      this.usersModel.find({
+        verified,
+      }, {
+        password: 0,
+      })
+        .limit(PaginationUtils.getLimitCount(options.limit))
+        .skip(PaginationUtils.getSkipCount(options.page, options.limit))
+        .exec(),
+      this.usersModel.countDocuments({ verified })
+        .exec(),
+    ]);
+
+    return { paginatedResult: users.map((user) => user.toJSON()), totalCount };
   }
 }
