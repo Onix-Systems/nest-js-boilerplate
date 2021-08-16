@@ -11,7 +11,6 @@ export class Data {
 
   verified: boolean = false;
 
-  @Exclude()
   email: string = '';
 
   @Exclude()

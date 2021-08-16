@@ -5,6 +5,7 @@ import {
   NotFoundException,
   Param,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -22,11 +23,13 @@ import { User } from './schemas/users.schema';
 import UsersService from './users.service';
 import UserResponseEntity, { Data } from '@v1/users/entity/user-response.entity';
 import Serialize from '@decorators/serialization.decorator';
+import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 
 @ApiTags('Users')
 @ApiBearerAuth()
 @ApiExtraModels(User)
-@Controller('users')
+@UseInterceptors(WrapResponseInterceptor)
+@Controller()
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
