@@ -51,7 +51,7 @@ export default class UsersRepository {
     return updatedUser ? updatedUser.toJSON() : null;
   }
 
-  public getAll(verified: boolean = true): Promise<UsersEntity[] | []> {
-    return this.usersModel.find({ verified });
+  public getAll(verified: boolean = true) {
+    return this.usersModel.find({ verified }).lean();
   }
 }

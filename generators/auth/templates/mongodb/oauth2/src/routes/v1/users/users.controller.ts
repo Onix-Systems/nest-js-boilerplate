@@ -18,6 +18,8 @@ import RolesGuard from '@guards/roles.guard';
 import { UserDocument } from '@v1/users/schemas/users.schema';
 import UserEntity from './entities/user.entity';
 import UsersService from './users.service';
+import Serialize from '../../../../../jwt/src/decorators/serialization.decorator';
+import UserResponseEntity from '../../../../../jwt/src/routes/v1/users/entity/user-response.entity';
 
 @ApiTags('users')
 @Controller('users')
@@ -33,6 +35,7 @@ export default class UsersController {
   })
   @Get()
   @UseGuards(RolesGuard)
+  @Serialize(UserResponseEntity)
   @Roles(RolesEnum.admin)
   async getAllVerified(): Promise<UserDocument[]> {
     return this.usersService.getAll(true);
@@ -44,6 +47,7 @@ export default class UsersController {
   })
   @ApiNotFoundResponse({ description: '404...' })
   @Get('/profile')
+  @Serialize(UserResponseEntity)
   @UseGuards(IsLoggedGuard)
   async getById(
     @RequestUser() user: UserEntity,

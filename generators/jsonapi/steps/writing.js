@@ -11,11 +11,11 @@ module.exports = function() {
   };
   const rootFolder = answers.identifier;
 
-  const { wantedMailer } = answers;
+  const { wantedMailer, wantedJsonApi } = answers;
 
   switch (answers.authType) {
     case 'jwt':
-      const pathToTmpAppModuleFile = wantedMailer === 'Yes'
+      const pathToTmpAppModuleFile = (wantedMailer === 'Yes' && wantedJsonApi === 'Yes')
         ? `${fullPathToAuthFolder}/src/routes/v1/auth/mailer-auth.controller.ts`
         : `${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`;
 
@@ -66,6 +66,12 @@ module.exports = function() {
       this.fs.copyTpl(
         this.templatePath(`${authFolder}/src/routes/v1/users/users.repository.ts`),
         this.destinationPath(`${rootFolder}/src/routes/v1/users/users.repository.ts`),
+        payload,
+      );
+
+      this.fs.copyTpl(
+        this.templatePath(`${authFolder}/src/routes/v1/users/entity/user-response.entity.ts`),
+        this.destinationPath(`${rootFolder}/src/routes/v1/users/entity/user-response.entity.ts`),
         payload,
       );
   }

@@ -42,15 +42,6 @@ module.exports = function() {
         payload,
       );
 
-      this.fs.copyTpl(
-        this.templatePath(
-          `${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`,
-        ),
-        this.destinationPath(
-          `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
-        ),
-        payload,
-      );
 
       this.fs.copyTpl(
         this.templatePath(
@@ -83,10 +74,14 @@ module.exports = function() {
         payload,
       );
 
+      const { wantedMailer, wantedJsonApi } = answers;
+
+      const pathToTmpAppModuleFile = (wantedMailer === 'Yes' && wantedJsonApi === 'Yes')
+        ? `${fullPathToAuthFolder}/src/routes/v1/auth/auth-json.controller.ts`
+        : `${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`;
+
       this.fs.copyTpl(
-        this.templatePath(
-          `${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`,
-        ),
+        this.templatePath(pathToTmpAppModuleFile),
         this.destinationPath(
           `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
         ),

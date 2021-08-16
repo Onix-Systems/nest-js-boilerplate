@@ -4,10 +4,7 @@ import {
   Get,
   NotFoundException,
   Param,
-  Query,
   UseGuards,
-  UseInterceptors,
-  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -21,16 +18,13 @@ import {
 } from '@nestjs/swagger';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
-import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import { User } from './schemas/users.schema';
 import UsersService from './users.service';
-import UserResponseEntity from '@v1/users/entity/user-response.entity';
+import UserResponseEntity, { Data } from '@v1/users/entity/user-response.entity';
 import Serialize from '@decorators/serialization.decorator';
-import UsersEntity from '@v1/users/entity/user.entity';
 
 @ApiTags('Users')
 @ApiBearerAuth()
-@UseInterceptors(WrapResponseInterceptor, ClassSerializerInterceptor)
 @ApiExtraModels(User)
 @Controller('users')
 export default class UsersController {
@@ -61,7 +55,7 @@ export default class UsersController {
   })
   @ApiParam({ name: 'id', type: String })
   @Get(':id')
-  @Serialize(UserResponseEntity)
+  @Serialize(Data)
   @UseGuards(JwtAccessGuard)
   async getById(
     @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
@@ -98,9 +92,9 @@ export default class UsersController {
   @Get()
   @Serialize(UserResponseEntity)
   @UseGuards(JwtAccessGuard)
-  async getAllVerifiedUsers(): Promise<UsersEntity[] | []> {
+  async getAllVerifiedUsers() {
     const foundUsers = await this.usersService.getAll(true);
 
-    return foundUsers;
+    return { data: foundUsers };
   }
 }

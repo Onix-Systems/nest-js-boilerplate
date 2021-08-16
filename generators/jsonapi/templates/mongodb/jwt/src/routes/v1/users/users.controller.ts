@@ -34,7 +34,7 @@ import Serialize from '@decorators/serialization.decorator';
 
 @ApiTags('Users')
 @ApiBearerAuth()
-@UseInterceptors(WrapResponseInterceptor, ClassSerializerInterceptor)
+@UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(User)
 @Controller('users')
 export default class UsersController {

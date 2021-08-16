@@ -19,6 +19,8 @@ import IsLoggedGuard from '@guards/is-logged.guard';
 import RolesGuard from '@guards/roles.guard';
 import UserEntity from './entities/user.entity';
 import UsersService from './users.service';
+import Serialize from '../../../../../../mongodb/jwt/src/decorators/serialization.decorator';
+import UserResponseEntity from '../../../../../../mongodb/jwt/src/routes/v1/users/entity/user-response.entity';
 
 @ApiTags('users')
 @Controller('users')
@@ -35,9 +37,10 @@ export default class UsersController {
   @Get()
   @UseGuards(RolesGuard)
   @Roles(RolesEnum.admin)
+  @Serialize(UserResponseEntity)
   async getAllVerified(): Promise<UserEntity[] | []> {
     const foundUsers: UserEntity[] | [] = await this.usersService.getAll();
-  
+
     return foundUsers;
   }
 
@@ -48,6 +51,7 @@ export default class UsersController {
   @ApiNotFoundResponse({ description: '404...' })
   @Get('/profile')
   @UseGuards(IsLoggedGuard)
+  @Serialize(UserResponseEntity)
   async getById(
     @RequestUser() user: UserEntity,
   ): Promise<UserEntity | never> {
