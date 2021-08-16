@@ -1,6 +1,6 @@
-import { UserInterface } from '@components/users/interfaces/user.interface';
+import { User } from '@v1/users/schemas/users.schema';
 
 export interface PaginatedUsersInterface {
-  readonly paginatedResult: UserInterface[] | [],
+  readonly paginatedResult: User[] | [],
   readonly totalCount: number,
 }

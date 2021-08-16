@@ -15,19 +15,19 @@
               <th>Verified</th>
             </tr>
          </thead>
-         
+
          <tbody>
             {{#each data.users}}
                <tr id="{{ this.id }}">
                 <td class = "mdl-data-table__cell--non-numeric"> {{ this.email }} </td>
                 <td> {{ this.role }} </td>
-                <td> {{ this.verified }} </td>           
+                <td> {{ this.verified }} </td>
                </tr>
             {{/each}}
          </tbody>
         </table>
         <div class="mdl-card__actions mdl-card--border">
-          <a class="mdl-button" href='/auth/logout'>Log Out</a>
+          <a class="mdl-button" href='/v1/auth/logout'>Log Out</a>
         </div>
       </div>
     </div>

@@ -1,9 +1,9 @@
 {
   "mongodb": {
     "general": {
-      "mongoose": "5.10.17",
+      "mongoose": "5.11.15",
       "@nestjs/mongoose": "7.1.2",
-      "mongodb": "3.6.3"
+      "mongodb": "4.1.0"
     },
     "dev": { "@types/mongoose": "5.10.2" }
   },
@@ -12,6 +12,13 @@
       "mysql": "2.18.1",
       "@nestjs/typeorm": "7.1.5",
       "typeorm": "0.2.30"
+    },
+    "dev": {}
+  },
+  "postgresql": {
+    "general": {
+      "pg": "8.7.1",
+      "@nestjs/typeorm": "7.1.5"
     },
     "dev": {}
   }

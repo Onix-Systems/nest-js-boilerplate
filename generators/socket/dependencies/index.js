@@ -16,7 +16,7 @@ function getLatestDep(dependenciesObj, versions) {
 
 module.exports = function(needStableDependencies) {
   const getDependencies =
-    needStableDependencies === 'Yes' ? getStableDep : getLatestDep;
+    needStableDependencies.needStableDependencies === 'Yes' ? getStableDep : getLatestDep;
 
   return Object.keys(dependenciesObj).reduce((acc, versions) => {
     acc[versions] = getDependencies(dependenciesObj, versions);

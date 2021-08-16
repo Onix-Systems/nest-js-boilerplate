@@ -39,7 +39,10 @@
     "rxjs": "6.6.3",
     "@nestjs/swagger": "4.6.1",
     "swagger-ui-express": "4.1.4",
-    "open": "7.2.1"
+    "open": "7.2.1",
+    "jsonapi-serializer": "3.6.7",
+    "lodash": "4.17.21",
+    "nest-router": "1.0.9"
   },
   "devDependencies": {
     "@nestjs/cli": "7.5.1",
@@ -64,7 +67,9 @@
     "ts-loader": "6.2.2",
     "ts-node": "8.10.2",
     "tsconfig-paths": "3.9.0",
-    "typescript": "4.0.3"
+    "typescript": "4.0.3",
+    "@types/jsonapi-serializer": "3.6.4",
+    "@types/lodash": "4.14.168"
   },
   "jest": {
     "moduleNameMapper": {
@@ -77,7 +82,9 @@
       "^@dto(.*)$": "<rootDir>/dto$1",
       "^@responses(.*)$": "<rootDir>/responses$1",
       "^@interceptors(.*)$": "<rootDir>/interceptors$1",
-      "^@decorators(.*)$": "<rootDir>/decorators$1"
+      "^@decorators(.*)$": "<rootDir>/decorators$1",
+      "^@v1(.*)$": "<rootDir>/src/routes/v1$1",
+      "^@exceptions(.*)$": "<rootDir>/src/exceptions/v1$1"
     },
     "moduleFileExtensions": [
       "js",
@@ -107,7 +114,8 @@
     "@dto": "./dist/dto",
     "@responses": "./dist/responses",
     "@interceptors": "./dist/interceptors",
-    "@decorators": "./dist/decorators"
+    "@decorators": "./dist/decorators",
+    "@utils": "./dist/utils"
   },
   "husky": {
     "hooks": {

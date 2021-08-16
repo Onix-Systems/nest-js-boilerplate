@@ -23,7 +23,8 @@
       "@dto/*": ["./src/dto/*"],
       "@responses/*": ["./src/responses/*"],
       "@interceptors/*": ["./src/interceptors/*"],
-      "@decorators/*": ["./src/decorators/*"]
+      "@decorators/*": ["./src/decorators/*"],
+      "@v1/*": ["src/routes/v1/*"]
     }
   }
 }

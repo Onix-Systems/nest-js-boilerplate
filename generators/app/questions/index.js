@@ -11,6 +11,7 @@ const mailer = require('./mailer');
 const socket = require('./socket');
 const additionalMailerQuestions = require('./additionalMailerQuestions');
 const dependencies = require('./dependenciesVersions');
+const jsonapi = require('./jsonapi');
 
 module.exports = {
   packageManager,
@@ -30,4 +31,5 @@ module.exports = {
     additionalQuestions: additionalMailerQuestions,
   },
   socket,
+  jsonapi,
 };

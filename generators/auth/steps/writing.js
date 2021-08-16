@@ -25,8 +25,8 @@ module.exports = function() {
   const rootFolder = answers.identifier;
 
   this.fs.copyTpl(
-    this.templatePath(`${authFolder}/src/components/`),
-    this.destinationPath(`${rootFolder}/src/components/`),
+    this.templatePath(`${authFolder}/src/routes/`),
+    this.destinationPath(`${rootFolder}/src/routes/`),
     payload,
   );
   this.fs.copyTpl(
@@ -106,6 +106,20 @@ module.exports = function() {
     this.fs.copyTpl(
       this.templatePath(`${authFolder}/src/decorators`),
       this.destinationPath(`${rootFolder}/src/decorators`),
+      payload,
+    );
+  }
+  if (fs.existsSync(`${fullPathToAuthFolder}/src/constants`)) {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/constants`),
+      this.destinationPath(`${rootFolder}/src/constants`),
+      payload,
+    );
+  }
+  if (fs.existsSync(`${fullPathToAuthFolder}/src/utils`)) {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/utils`),
+      this.destinationPath(`${rootFolder}/src/utils`),
       payload,
     );
   }

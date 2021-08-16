@@ -4,7 +4,7 @@
  */
 
  module.exports = function() {
-  const { wantedMailer, wantedSocket } = this.options.answers;
+  const { wantedMailer, wantedSocket, wantedJsonApi } = this.options.answers;
 
   if (wantedMailer === 'Yes') {
     this.composeWith('nest-js-boilerplate:mailer', {
@@ -17,4 +17,10 @@
       answers: this.options.answers,
     });
   }
+
+   if (wantedJsonApi === 'Yes') {
+     this.composeWith('nest-js-boilerplate:jsonapi', {
+       answers: this.options.answers,
+     });
+   }
 };

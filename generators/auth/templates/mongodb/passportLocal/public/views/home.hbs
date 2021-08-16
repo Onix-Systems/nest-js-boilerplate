@@ -6,15 +6,15 @@
         <h2 class="mdl-card__title-text">Welcome {{ email }}!</h2>
       </div>
       <div class="mdl-card__supporting-text">
-          <p class="mdl-card__subtitle-text mdl-typography--text-right">Logged like {{ role }}</p>
+        <p class="mdl-card__subtitle-text mdl-typography--text-right">Logged like {{ role }}</p>
         <div class="mdl-card__actions mdl-card--border">
-          <a class="mdl-button" href='/users/profile'>Get
+          <a class="mdl-button" href='/v1/users/profile'>Get
             Profile</a>
         </div>
         {{#if (isAdmin role)}}
           <div class="mdl-card__actions mdl-card--border">
-            <a class="mdl-button" href='/users'>Get
-               All Users
+            <a class="mdl-button" href='/v1/users'>Get
+              All Users
             </a>
           </div>
         {{/if}}

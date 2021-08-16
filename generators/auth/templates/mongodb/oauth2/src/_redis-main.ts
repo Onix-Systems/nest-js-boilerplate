@@ -12,8 +12,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import AllExceptionsFilter from '@filters/all-exception.filter';
 
-import AppModule from '@components/app/app.module';
-import AppService from '@components/app/app.service';
+import AppModule from './routes/app/app.module';
 
 const redisClient = redis.createClient({
   url: process.env.REDIS_URL,

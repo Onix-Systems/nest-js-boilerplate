@@ -6,28 +6,28 @@
         <h2 class="mdl-card__title-text">Welcome {{ data.admin.email }}!</h2>
       </div>
       <div class="mdl-card__supporting-text">
-              <p class="mdl-card__subtitle-text mdl-typography--text-right">Logged like {{ data.admin.role }}</p>
+        <p class="mdl-card__subtitle-text mdl-typography--text-right">Logged like {{ data.admin.role }}</p>
         <table>
-         <thead>
-            <tr>
-              <th class = "mdl-data-table__cell--non-numeric">Email</th>
-              <th>Role</th>
-              <th>Verified</th>
+          <thead>
+          <tr>
+            <th class = "mdl-data-table__cell--non-numeric">Email</th>
+            <th>Role</th>
+            <th>Verified</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          {{#each data.users}}
+            <tr id="{{ this._id }}">
+              <td class = "mdl-data-table__cell--non-numeric"> {{ this.email }} </td>
+              <td> {{ this.role }} </td>
+              <td> {{ this.verified }} </td>
             </tr>
-         </thead>
-         
-         <tbody>
-            {{#each data.users}}
-               <tr id="{{ this._id }}">
-                <td class = "mdl-data-table__cell--non-numeric"> {{ this.email }} </td>
-                <td> {{ this.role }} </td>
-                <td> {{ this.verified }} </td>           
-               </tr>
-            {{/each}}
-         </tbody>
+          {{/each}}
+          </tbody>
         </table>
         <div class="mdl-card__actions mdl-card--border">
-          <a class="mdl-button" href='/auth/logout'>Log Out</a>
+          <a class="mdl-button" href='/v1/auth/logout'>Log Out</a>
         </div>
       </div>
     </div>
