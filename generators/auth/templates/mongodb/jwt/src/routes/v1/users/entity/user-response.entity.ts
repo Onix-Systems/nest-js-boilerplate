@@ -20,25 +20,5 @@ export class Data {
 export default class UserResponseEntity {
   @ValidateNested({ each: true })
   @Type(() => Data)
-  data?: [{
-    _id: ObjectId;
-
-    role: string;
-
-    verified: false;
-
-    email: string;
-
-    password: string;
-  }] = [{
-    _id: new ObjectId(),
-
-    role: '',
-
-    verified: false,
-
-    email: '',
-
-    password: '',
-  }]
+  data?: Data[] = []
 }

@@ -21,8 +21,7 @@ export default class SerializeInterceptor implements NestInterceptor {
         } else {
           obj = args;
         }
-        Object.assign(entity, obj);
-        return entity;
+        return Object.assign(entity, obj);
       }),
     );
   }
