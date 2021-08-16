@@ -74,5 +74,11 @@ module.exports = function() {
         this.destinationPath(`${rootFolder}/src/routes/v1/users/entity/user-response.entity.ts`),
         payload,
       );
+
+      this.fs.copyTpl(
+        this.templatePath(`${authFolder}/src/interceptors/serialization.interceptor.ts`),
+        this.destinationPath(`${rootFolder}/src/interceptors/serialization.interceptor.ts`),
+        payload,
+      );
   }
 }

@@ -15,13 +15,7 @@ export default class SerializeInterceptor implements NestInterceptor {
       map((args) => {
         const SerializeType = getSerializeType(context.getHandler());
         const entity = new SerializeType();
-        let obj: any = {};
-        if (Array.isArray(args)) {
-          obj.data = args;
-        } else {
-          obj = args;
-        }
-        Object.assign(entity, obj);
+        Object.assign(entity, args);
         return entity;
       }),
     );

@@ -98,6 +98,6 @@ export default class UsersController {
   async getAllVerifiedUsers() {
     const foundUsers = await this.usersService.getAll(true);
 
-    return { data: foundUsers };
+    return foundUsers;
   }
 }
