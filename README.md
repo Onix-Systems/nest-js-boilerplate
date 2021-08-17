@@ -16,7 +16,7 @@
 
 ## Description
 
-This generator will help you to build your own Nest.js Mongodb/MySQL API using TypeScript 4
+This generator will help you to build your own Nest.JS Mongodb/MySQL API using TypeScript 4
 
 ### Project Introduction
 
@@ -27,6 +27,7 @@ This generator will help you to build your own Nest.js Mongodb/MySQL API using T
 - MIT license and Code of conduct
 - Docker
 - Prettier
+- Nest.JS 8
 
 ## Features
 
@@ -54,10 +55,10 @@ This generator will help you to build your own Nest.js Mongodb/MySQL API using T
 
 ## Requirements
 
-- node >= 12
-- npm >= 6
+- node >= 14
+- npm >= 7
 - mongodb >= 4.0
-- typescript >= 3.0
+- typescript >= 4.0.3
 
 ## Installation
 
@@ -74,27 +75,98 @@ Then generate your new project:
 yo nest-js-boilerplate
 ```
 
-App Skeleton
+Example App Skeleton (for Mongo + JWT + WS)
 
 ```bash
-├── src
-│├── components
-││├── app/
-││├── auth/
-││└── users/
-│├── dto
-│├── filters
-│├── guards
-│├── main.ts
-│└── pipes
+├── README.md
 ├── docker-compose.yml
 ├── index.js
 ├── nest-cli.json
 ├── package.json
-├── package-lock.json
-├── README.md
+├── src
+│   ├── constants
+│   │   └── common.constants.ts
+│   ├── decorators
+│   │   ├── auth-bearer.decorator.ts
+│   │   ├── roles.decorator.ts
+│   │   └── serialization.decorator.ts
+│   ├── exceptions
+│   │   └── validation.exceptions.ts
+│   ├── filters
+│   │   ├── all-exceptions.filter.ts
+│   │   └── ws-exceptions.filter.ts
+│   ├── guards
+│   │   ├── jwt-access.guard.ts
+│   │   ├── jwt-refresh.guard.ts
+│   │   ├── jwt-ws-access.guard.ts
+│   │   └── roles.guard.ts
+│   ├── interceptors
+│   │   ├── serialization.interceptor.ts
+│   │   └── wrap-response.interceptor.ts
+│   ├── interfaces
+│   │   ├── exception-response.interface.ts
+│   │   ├── jwt-decode-response.interface.ts
+│   │   ├── paginatedEntity.interface.ts
+│   │   └── pagination-params.interface.ts
+│   ├── main.ts
+│   ├── pipes
+│   │   └── parse-object-id.pipe.ts
+│   ├── routes
+│   │   ├── app
+│   │   │   ├── app.controller.ts
+│   │   │   ├── app.gateway.ts
+│   │   │   ├── app.module.ts
+│   │   │   └── app.service.ts
+│   │   └── v1
+│   │       ├── auth
+│   │       │   ├── auth-constants.ts
+│   │       │   ├── auth.controller.spec.ts
+│   │       │   ├── auth.controller.ts
+│   │       │   ├── auth.module.ts
+│   │       │   ├── auth.repository.ts
+│   │       │   ├── auth.service.spec.ts
+│   │       │   ├── auth.service.ts
+│   │       │   ├── dto
+│   │       │   │   ├── jwt-tokens.dto.ts
+│   │       │   │   ├── refresh-token.dto.ts
+│   │       │   │   ├── sign-in.dto.ts
+│   │       │   │   ├── sign-up.dto.ts
+│   │       │   │   └── verify-user.dto.ts
+│   │       │   ├── guards
+│   │       │   │   └── local-auth.guard.ts
+│   │       │   ├── interfaces
+│   │       │   │   ├── decoded-user.interface.ts
+│   │       │   │   ├── jwt-strategy-validate.interface.ts
+│   │       │   │   ├── login-payload.interface.ts
+│   │       │   │   └── validate-user-output.interface.ts
+│   │       │   └── strategies
+│   │       │       ├── jwt-access.strategy.ts
+│   │       │       ├── jwt-refresh.strategy.ts
+│   │       │       ├── jwt-ws-access.strategy.ts
+│   │       │       └── local.strategy.ts
+│   │       ├── users
+│   │       │   ├── dto
+│   │       │   │   └── update-user.dto.ts
+│   │       │   ├── entity
+│   │       │   │   ├── user-response.entity.ts
+│   │       │   │   └── user.entity.ts
+│   │       │   ├── interfaces
+│   │       │   │   └── user.interface.ts
+│   │       │   ├── schemas
+│   │       │   │   └── users.schema.ts
+│   │       │   ├── users-constants.ts
+│   │       │   ├── users.controller.spec.ts
+│   │       │   ├── users.controller.ts
+│   │       │   ├── users.module.ts
+│   │       │   ├── users.repository.ts
+│   │       │   ├── users.service.spec.ts
+│   │       │   └── users.service.ts
+│   │       └── v1.module.ts
+│   └── templates
+│       └── verify-password.hbs
 ├── tsconfig.build.json
-└── tsconfig.json
+├── tsconfig.json
+└── typedoc.json
 
 ```
 
@@ -188,17 +260,12 @@ Swagger documentation will be available on route:
 http://localhost:3000/api
 ```
 
+> Please note: </br>
+> All users not verified by default. Please set ```"verified": true```, for sign-in request.
+
+
 ![Alt Text1](https://media.giphy.com/media/XEUyeEL03IcaZYw6SB/giphy.gif)
 
-## Diagnose and pinpoint performance issues
-
-### Bubble
-
-![Bubble](https://i.ibb.co/tY6MQKR/Screenshot-from-2020-10-01-17-08-03.png)
-
-### Doctor
-
-![Doctor](https://i.ibb.co/FmD5dSk/Screenshot-from-2020-10-01-17-11-41.png)
 
 ## Getting To Know Yeoman
 
