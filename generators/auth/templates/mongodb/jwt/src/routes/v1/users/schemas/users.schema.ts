@@ -20,7 +20,7 @@ export class User {
 
   @Prop({
     required: true,
-    type: String,
+    type: Boolean,
   })
   verified: boolean = false;
 

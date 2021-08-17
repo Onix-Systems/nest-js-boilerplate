@@ -10,7 +10,7 @@ const authConstants = {
       refreshToken: '<%= config.refreshTokenSecret %>',
     },
   },
-    mailer: {
+  mailer: {
     verifyEmail: {
       subject: 'Email Verification',
       template: 'verify-password',

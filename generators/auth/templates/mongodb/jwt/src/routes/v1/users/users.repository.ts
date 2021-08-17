@@ -7,8 +7,6 @@ import { UserDocument, User } from '@v1/users/schemas/users.schema';
 
 import UpdateUserDto from './dto/update-user.dto';
 
-import UsersEntity from '@v1/users/entity/user.entity';
-
 @Injectable()
 export default class UsersRepository {
   constructor(@InjectModel(User.name) private usersModel: Model<UserDocument>) {}
