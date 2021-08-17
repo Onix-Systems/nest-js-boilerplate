@@ -31,16 +31,9 @@ export class User {
   email: string = '';
 
   @Prop({
-    required: true,
-    type: String,
+    type: Boolean,
   })
-  password: string = '';
-
-  @Prop({
-    required: true,
-    type: String,
-  })
-  verified: boolean = false;
+  verified: boolean = true;
 
   @Prop({
     type: RolesEnum,
@@ -53,4 +46,3 @@ export class User {
 export type UserDocument = User & Document;
 
 export const UserSchema = SchemaFactory.createForClass(User).set('versionKey', false);
-

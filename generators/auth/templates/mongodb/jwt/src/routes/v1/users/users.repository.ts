@@ -51,7 +51,7 @@ export default class UsersRepository {
     return updatedUser ? updatedUser.toJSON() : null;
   }
 
-  public getAll(verified: boolean = true) {
+  public getAllVerifiedUsers(verified: boolean = true) {
     return this.usersModel.find({ verified }).lean();
   }
 }

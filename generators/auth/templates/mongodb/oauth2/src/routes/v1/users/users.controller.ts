@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   NotFoundException,
-  UseGuards,
+  UseGuards, UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -16,13 +16,15 @@ import { Roles, RolesEnum } from '@decorators/roles.decorator';
 import IsLoggedGuard from '@guards/is-logged.guard';
 import RolesGuard from '@guards/roles.guard';
 import { UserDocument } from '@v1/users/schemas/users.schema';
+import Serialize from '@decorators/serialization.decorator';
+import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
+import AllUsersResponseEntity, { UserResponseEntity } from '@v1/users/entities/user-response.entity';
 import UserEntity from './entities/user.entity';
 import UsersService from './users.service';
-import Serialize from '../../../../../jwt/src/decorators/serialization.decorator';
-import UserResponseEntity from '../../../../../jwt/src/routes/v1/users/entity/user-response.entity';
 
 @ApiTags('users')
-@Controller('users')
+@UseInterceptors(WrapResponseInterceptor)
+@Controller()
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -35,10 +37,10 @@ export default class UsersController {
   })
   @Get()
   @UseGuards(RolesGuard)
-  @Serialize(UserResponseEntity)
+  @Serialize(AllUsersResponseEntity)
   @Roles(RolesEnum.admin)
   async getAllVerified(): Promise<UserDocument[]> {
-    return this.usersService.getAll(true);
+    return this.usersService.getAllVerified();
   }
 
   @ApiOkResponse({
@@ -52,7 +54,7 @@ export default class UsersController {
   async getById(
     @RequestUser() user: UserEntity,
   ): Promise<UserEntity | never> {
-    const foundUser = await this.usersService.getById(user._id);
+    const foundUser = await this.usersService.getById(user._id) as UserEntity;
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');

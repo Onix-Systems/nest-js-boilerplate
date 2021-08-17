@@ -1,33 +1,30 @@
-import { Exclude, Type, Transform } from 'class-transformer';
+import {
+  Type,
+  Transform,
+} from 'class-transformer';
 import { ValidateNested } from 'class-validator';
 import { ObjectId } from 'mongodb';
-import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
 import { RolesEnum } from '@decorators/roles.decorator';
 
-class Data {
+export class UserResponseEntity {
   @Transform((value) => value.toString(), { toPlainOnly: true })
   _id: ObjectId = new ObjectId();
 
-  role: RolesEnum = RolesEnum.user;
+  picture: string = '';
 
-  verified: boolean = false;
+  firstName: string = '';
+
+  lastName: string = '';
+
+  role: RolesEnum = RolesEnum.user;
 
   email: string = '';
 
-  @Exclude()
-  password: string = '';
+  verified: boolean = true;
 }
 
-export default class UserResponseEntity {
+export default class AllUsersResponseEntity {
   @ValidateNested({ each: true })
-  @Type(() => Data)
-  data?: Data[] = []
-
-  collectionName?: string = '';
-
-  options?: {
-    location: string,
-    paginationParams: PaginationParamsInterface,
-    totalCount: number,
-  }
+  @Type(() => UserResponseEntity)
+  data?: UserResponseEntity[] = []
 }

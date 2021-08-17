@@ -13,6 +13,11 @@ export default class WrapResponseInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((...args) => {
         // if this an error response then return first object if no then second..
+        if (args[0].data) {
+          return {
+            data: args[0].data,
+          };
+        }
         return {
           data: args[0],
         };
