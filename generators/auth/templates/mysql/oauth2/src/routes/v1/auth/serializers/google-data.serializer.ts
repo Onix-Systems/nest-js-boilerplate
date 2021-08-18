@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
 
 import UsersService from '@v1/users/users.service';
-import UserEntity from '@v1/users/entities/user.entity';
+import UserEntity from '@v1/users/schemas/user.entity';
 
 @Injectable()
 export default class GoogleDataSerializer extends PassportSerializer {

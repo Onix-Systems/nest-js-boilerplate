@@ -7,7 +7,7 @@ import { ObjectId } from 'mongodb';
 import { RolesEnum } from '@decorators/roles.decorator';
 
 export class UserResponseEntity {
-  @Transform((value) => value.toString(), { toPlainOnly: true })
+  @Transform(({ value }) => value.toString(), { toPlainOnly: true })
   _id: ObjectId = new ObjectId();
 
   picture: string = '';

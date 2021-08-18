@@ -37,6 +37,10 @@ import { User } from '@v1/users/schemas/users.schema';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
+import UserResponseEntity from '@v1/users/entity/user-response.entity';
+import Serialize from '@decorators/serialization.decorator';
+import UsersEntity from '@v1/users/entity/user.entity';
+import { SuccessResponseInterface } from '@interfaces/success-response.interface';
 import authConstants from './auth-constants';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
@@ -48,7 +52,6 @@ import VerifyUserDto from './dto/verify-user.dto';
 import JwtTokensDto from './dto/jwt-tokens.dto';
 import UsersEntity from '@v1/users/entity/user.entity';
 import ResponseUtils from '../../../utils/response.utils';
-import { SuccessResponseInterface } from '../../../interfaces/success-response.interface';
 
 @ApiTags('Auth')
 @ApiExtraModels(JwtTokensDto)
@@ -162,9 +165,13 @@ export default class AuthController {
     description: '500. InternalServerError',
   })
   @HttpCode(HttpStatus.CREATED)
+  @Serialize(UserResponseEntity)
   @Post('sign-up')
-  async signUp(@Body() user: SignUpDto): Promise<User> {
-    return this.usersService.create(user);
+  async signUp(@Body() user: SignUpDto): Promise<SuccessResponseInterface | never> {
+    return ResponseUtils.success(
+      'users',
+      await this.usersService.create(user),
+    );
   }
 
   @ApiOkResponse({

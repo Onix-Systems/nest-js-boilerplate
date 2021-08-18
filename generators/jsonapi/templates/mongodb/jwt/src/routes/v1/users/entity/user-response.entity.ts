@@ -5,7 +5,7 @@ import { PaginationParamsInterface } from '@interfaces/pagination-params.interfa
 import { RolesEnum } from '@decorators/roles.decorator';
 
 class Data {
-  @Transform((value) => value.toString(), { toPlainOnly: true })
+  @Transform(({ value }) => value.toString(), { toPlainOnly: true })
   _id: ObjectId = new ObjectId();
 
   role: RolesEnum = RolesEnum.user;

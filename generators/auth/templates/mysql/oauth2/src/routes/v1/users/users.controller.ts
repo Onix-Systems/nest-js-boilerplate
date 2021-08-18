@@ -2,14 +2,13 @@ import {
   Controller,
   Get,
   NotFoundException,
-  Param, ParseIntPipe,
-  UseGuards,
+  UseGuards, UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiTags,
   ApiOkResponse,
   ApiNotFoundResponse,
-  ApiUnauthorizedResponse
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 import RequestUser from '@decorators/request-user.decorator';
@@ -17,13 +16,15 @@ import { Roles, RolesEnum } from '@decorators/roles.decorator';
 
 import IsLoggedGuard from '@guards/is-logged.guard';
 import RolesGuard from '@guards/roles.guard';
-import UserEntity from './entities/user.entity';
+import { AllUsersResponseEntity, UserResponseEntity } from '@v1/users/entities/user-response.entity';
+import Serialize from '@decorators/serialization.decorator';
+import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
+import UserEntity from './schemas/user.entity';
 import UsersService from './users.service';
-import Serialize from '../../../../../../mongodb/jwt/src/decorators/serialization.decorator';
-import UserResponseEntity from '../../../../../../mongodb/jwt/src/routes/v1/users/entity/user-response.entity';
 
 @ApiTags('users')
-@Controller('users')
+@UseInterceptors(WrapResponseInterceptor)
+@Controller()
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -37,7 +38,7 @@ export default class UsersController {
   @Get()
   @UseGuards(RolesGuard)
   @Roles(RolesEnum.admin)
-  @Serialize(UserResponseEntity)
+  @Serialize(AllUsersResponseEntity)
   async getAllVerified(): Promise<UserEntity[] | []> {
     const foundUsers: UserEntity[] | [] = await this.usersService.getAll();
 

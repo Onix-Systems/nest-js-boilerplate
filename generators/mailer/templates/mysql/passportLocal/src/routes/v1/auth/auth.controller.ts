@@ -70,7 +70,7 @@ export default class AuthController {
       to: email,
       from: process.env.MAILER_FROM_EMAIL,
       subject: 'Email Verification',
-      template: 'verify-password',
+      template: `${process.cwd()}/src/templates/verify-password`,
       context: {
         token,
         email,
