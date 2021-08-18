@@ -33,7 +33,7 @@ export class User {
   @Prop({
     type: Boolean,
   })
-  verified: boolean = true;
+  verified: boolean = false;
 
   @Prop({
     type: RolesEnum,
@@ -46,3 +46,4 @@ export class User {
 export type UserDocument = User & Document;
 
 export const UserSchema = SchemaFactory.createForClass(User).set('versionKey', false);
+

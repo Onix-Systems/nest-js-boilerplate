@@ -3,14 +3,14 @@ const authConstants = {
     secret: '<%= config.jwtSecret %>',
     expirationTime: {
       accessToken: '<%= config.accessTokenExpirationTime %>',
-      refreshToken:  '<%= config.refreshTokenExpirationTime %>',
+      refreshToken: '<%= config.refreshTokenExpirationTime %>',
     },
     secrets: {
       accessToken: process.env.ACCESS_TOKEN || '<%= config.accessTokenSecret %>',
       refreshToken: process.env.REFRESH_TOKEN || '<%= config.refreshTokenSecret %>',
     },
   },
-    mailer: {
+  mailer: {
     verifyEmail: {
       subject: 'Email Verification',
       template: 'verify-password',
