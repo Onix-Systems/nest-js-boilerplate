@@ -96,7 +96,7 @@ export default class UsersController {
   @Serialize(UserResponseEntity)
   @UseGuards(JwtAccessGuard)
   async getAllVerifiedUsers() {
-    const foundUsers = await this.usersService.getVerifiedUsers(true);
+    const foundUsers = await this.usersService.getVerifiedUsers();
 
     return foundUsers;
   }

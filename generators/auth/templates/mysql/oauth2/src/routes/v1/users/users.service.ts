@@ -1,29 +1,22 @@
-import { MongoRepository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 
 import UserEntity from './schemas/user.entity';
 import UserDto from './dto/user.dto';
+import UsersRepository from './users.repository';
 
 @Injectable()
 export default class UsersService {
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly usersRepository: MongoRepository<UserEntity>,
-  ) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
-  create(user: UserDto): Promise<UserEntity> {
-    return this.usersRepository.save({
-      ...user,
-      verified: true,
-    });
+  public create(user: UserDto): Promise<UserEntity> {
+    return this.usersRepository.create(user);
   }
 
-  async getAll(): Promise<UserEntity[] | []> {
+  public getAll(): Promise<UserEntity[] | []> {
     return this.usersRepository.find();
   }
 
-  async getByEmail(email: string, verified = true): Promise<UserEntity | null> {
+  public async getByEmail(email: string, verified = true): Promise<UserEntity | null> {
     const foundUser = await this.usersRepository.findOne({
       email,
       verified,
@@ -32,7 +25,7 @@ export default class UsersService {
     return foundUser || null;
   }
 
-  async getById(id: number, verified = true): Promise<UserEntity | null> {
+  public async getById(id: number, verified = true): Promise<UserEntity | null> {
     const foundUser = await this.usersRepository.findOne({
       id,
       verified,

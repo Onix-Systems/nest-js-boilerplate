@@ -49,4 +49,12 @@ export default class UsersRepository {
       },
     });
   }
-}
+
+  public getVerifiedUsers(): Promise<UserEntity[] | []> {
+    return this.usersModel.find({
+      where: {
+        verified: true,
+      },
+    });
+  }
+};

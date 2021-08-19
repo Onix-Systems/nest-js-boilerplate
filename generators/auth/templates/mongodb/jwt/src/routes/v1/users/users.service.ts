@@ -39,7 +39,7 @@ export default class UsersService {
     return this.usersRepository.updateById(id, data);
   }
 
-  getVerifiedUsers(verified: boolean = true) {
-    return this.usersRepository.getAllVerifiedUsers(verified);
+  public getVerifiedUsers() {
+    return this.usersRepository.getVerifiedUsers();
   }
 }

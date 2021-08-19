@@ -1,56 +1,54 @@
-import { Types, Model, Query } from 'mongoose';
+import { Query, Types } from 'mongoose';
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 
 import { User, UserDocument } from '@v1/users/schemas/users.schema';
-import UserEntity from './entities/user.entity';
+import { RolesEnum } from '@decorators/roles.decorator';
 import UserDto from './dto/user.dto';
+import UsersRepository from './users.repository';
 
 @Injectable()
 export default class UsersService {
-  constructor(@InjectModel(User.name) private usersModel: Model<UserDocument>) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
-  create(user: UserDto): Promise<UserDocument> {
-    return this.usersModel.create({
+  public create(user: UserDto): Promise<User> {
+    return this.usersRepository.create({
       ...user,
+      role: RolesEnum.user,
       verified: true,
     });
   }
 
-  async getByEmail(email: string, verified = true): Promise<UserEntity | null> {
-    const foundUser = await this.usersModel.findOne({
+  public getByEmail(email: string, verified = true) {
+    return this.usersRepository.findOne({
       email,
       verified,
-    }).exec() as UserEntity;
-
-    return foundUser || null;
+    });
   }
 
-  async getById(id: Types.ObjectId, verified = true): Promise<User | null> {
-    const foundUser = await this.usersModel.findOne({
+  public getById(id: Types.ObjectId, verified = true): Promise<User | null> {
+    return this.usersRepository.findOne({
       _id: id,
       verified,
-    }).exec() as UserEntity;
-
-    return foundUser.toJSON() || null;
+    });
   }
 
-  async createIfDoesNotExist(user: UserDto): Promise<User | null> {
-    const foundUser = await this.usersModel.findOne({
+  public async createIfDoesNotExist(user: UserDto): Promise<User | null> {
+    const foundUser = await this.usersRepository.findOne({
       email: user.email,
     });
-    let createdUser = foundUser;
 
     if (!foundUser) {
-      createdUser = await this.usersModel.create({ ...user, verified: true });
+      return this.usersRepository.create({
+        ...user,
+        role: RolesEnum.user,
+        verified: true,
+      });
     }
 
-    return createdUser;
+    return foundUser;
   }
 
-  getAllVerified(verified: boolean = true): Query<UserDocument[], UserDocument> {
-    return this.usersModel.find({
-      verified,
-    }).lean();
+  getAllVerified(): Query<UserDocument[], UserDocument> {
+    return this.usersRepository.getVerifiedUsers();
   }
 }

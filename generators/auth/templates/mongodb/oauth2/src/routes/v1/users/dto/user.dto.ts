@@ -30,5 +30,5 @@ export default class UserDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(1)
-  readonly lastName?: string;
+  readonly lastName: string = '';
 }

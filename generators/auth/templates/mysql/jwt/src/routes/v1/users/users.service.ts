@@ -10,8 +10,7 @@ import UpdateUserDto from './dto/update-user.dto';
 
 @Injectable()
 export default class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {
-  }
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   public async create(user: SignUpDto): Promise<UserEntity> {
     const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -36,5 +35,9 @@ export default class UsersService {
 
   getAll(verified: boolean = true): Promise<UserEntity[] | []> {
     return this.usersRepository.getAll(verified);
+  }
+
+  getVerifiedUsers(): Promise<UserEntity[] | []> {
+    return this.usersRepository.getVerifiedUsers();
   }
 }

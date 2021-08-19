@@ -30,11 +30,15 @@ export default class UsersService {
     return this.usersRepository.getById(id, verified);
   }
 
-  update(id: number, data: UpdateUserDto): Promise<UpdateResult> {
+  public update(id: number, data: UpdateUserDto): Promise<UpdateResult> {
     return this.usersRepository.updateById(id, data);
   }
 
-  getAll(verified: boolean = true): Promise<UserEntity[] | []> {
+  public getAll(verified: boolean = true): Promise<UserEntity[] | []> {
     return this.usersRepository.getAll(verified);
+  }
+
+  public getVerifiedUsers(): Promise<UserEntity[] | []> {
+    return this.usersRepository.getVerifiedUsers();
   }
 }
