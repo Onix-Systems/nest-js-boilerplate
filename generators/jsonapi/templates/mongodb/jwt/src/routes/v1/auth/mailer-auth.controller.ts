@@ -54,7 +54,7 @@ import UsersEntity from '@v1/users/entity/user.entity';
 @ApiTags('Auth')
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(JwtTokensDto)
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -327,7 +327,10 @@ export default class AuthController {
       throw new NotFoundException();
     }
 
-    return {};
+    return ResponseUtils.success(
+      'users',
+      {},
+    );
   }
 
   @ApiNoContentResponse({
@@ -349,7 +352,10 @@ export default class AuthController {
   @Roles(RolesEnum.admin)
   @HttpCode(HttpStatus.NO_CONTENT)
   async logoutAll(): Promise<{}> {
-    return this.authService.deleteAllTokens();
+    return ResponseUtils.success(
+      'users',
+      await this.authService.deleteAllTokens(),
+    );
   }
 
   @ApiOkResponse({

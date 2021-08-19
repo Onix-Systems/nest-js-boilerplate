@@ -50,13 +50,12 @@ import SignInDto from './dto/sign-in.dto';
 import SignUpDto from './dto/sign-up.dto';
 import VerifyUserDto from './dto/verify-user.dto';
 import JwtTokensDto from './dto/jwt-tokens.dto';
-import UsersEntity from '@v1/users/entity/user.entity';
 import ResponseUtils from '../../../utils/response.utils';
 
 @ApiTags('Auth')
 @ApiExtraModels(JwtTokensDto)
 @UseInterceptors(WrapResponseInterceptor)
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -327,7 +326,10 @@ export default class AuthController {
       throw new NotFoundException();
     }
 
-    return {};
+    return ResponseUtils.success(
+      'users',
+      {},
+    );
   }
 
   @ApiNoContentResponse({
@@ -349,7 +351,10 @@ export default class AuthController {
   @Roles(RolesEnum.admin)
   @HttpCode(HttpStatus.NO_CONTENT)
   async logoutAll(): Promise<{}> {
-    return this.authService.deleteAllTokens();
+    return ResponseUtils.success(
+      'users',
+      await this.authService.deleteAllTokens(),
+    );
   }
 
   @ApiOkResponse({

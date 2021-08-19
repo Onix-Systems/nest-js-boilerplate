@@ -64,7 +64,7 @@ export default class UsersRepository {
         .limit(PaginationUtils.getLimitCount(options.limit))
         .skip(PaginationUtils.getSkipCount(options.page, options.limit))
         .exec(),
-      this.usersModel.countDocuments({ verified })
+      this.usersModel.count({ verified })
         .exec(),
     ]);
 

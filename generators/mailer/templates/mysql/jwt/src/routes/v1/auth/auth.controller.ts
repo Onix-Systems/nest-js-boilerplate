@@ -35,7 +35,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import UsersService from '@v1/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import RolesGuard from '@guards/roles.guard';
-import UserEntity from '@v1/users/entities/user.entity';
+import UserEntity from '@v1/users/schemas/user.entity';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
@@ -46,13 +46,12 @@ import AuthService from './auth.service';
 import RefreshTokenDto from './dto/refresh-token.dto';
 import SignInDto from './dto/sign-in.dto';
 import SignUpDto from './dto/sign-up.dto';
-import VerifyUserDto from './dto/verify-user.dto';
 import JwtTokensDto from './dto/jwt-tokens.dto';
 
 @ApiTags('Auth')
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(JwtTokensDto)
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,

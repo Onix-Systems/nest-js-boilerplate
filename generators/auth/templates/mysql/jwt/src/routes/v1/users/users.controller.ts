@@ -21,14 +21,14 @@ import JwtAccessGuard from '@guards/jwt-access.guard';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import Serialize from '@decorators/serialization.decorator';
 import { AllUsersResponseEntity, UserResponseEntity } from '@v1/users/entities/user-response.entity';
-import UserEntity from './entities/user.entity';
+import UserEntity from './schemas/user.entity';
 import UsersService from './users.service';
 
 @ApiTags('Users')
 @ApiBearerAuth()
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(UserEntity)
-@Controller('users')
+@Controller()
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

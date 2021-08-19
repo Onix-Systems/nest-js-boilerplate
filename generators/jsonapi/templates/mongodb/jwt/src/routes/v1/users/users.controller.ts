@@ -8,7 +8,6 @@ import {
   Query,
   UseGuards,
   UseInterceptors,
-  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -36,7 +35,7 @@ import Serialize from '@decorators/serialization.decorator';
 @ApiBearerAuth()
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(User)
-@Controller('users')
+@Controller()
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

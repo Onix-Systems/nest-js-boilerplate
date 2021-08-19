@@ -7,7 +7,6 @@ import SignUpDto from '@v1/auth/dto/sign-up.dto';
 import { User } from '@v1/users/schemas/users.schema';
 import UsersRepository from './users.repository';
 import UpdateUserDto from './dto/update-user.dto';
-import UserEntity from '@v1/users/entity/user.entity';
 
 @Injectable()
 export default class UsersService {

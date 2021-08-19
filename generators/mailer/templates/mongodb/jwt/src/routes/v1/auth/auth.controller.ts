@@ -54,7 +54,7 @@ import UsersEntity from '@v1/users/entity/user.entity';
 @ApiTags('Auth')
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(JwtTokensDto)
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,
