@@ -32,6 +32,14 @@ export default class UsersService {
     return this.usersRepository.getAll();
   }
 
+  public getVerifiedUserByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.getVerifiedUserByEmail(email);
+  }
+
+  public getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    return this.usersRepository.getVerifiedUserById(id);
+  }
+
   verifyUser(_id: Types.ObjectId) {
     return this.usersRepository.findOneAndUpdate(_id, { verified: true });
   }

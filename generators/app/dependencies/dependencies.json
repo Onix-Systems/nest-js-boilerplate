@@ -18,7 +18,8 @@
   "postgresql": {
     "general": {
       "pg": "8.7.1",
-      "@nestjs/typeorm": "8.0.2"
+      "@nestjs/typeorm": "8.0.2",
+      "typeorm": "0.2.37"
     },
     "dev": {}
   }

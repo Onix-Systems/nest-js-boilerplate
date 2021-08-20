@@ -20,6 +20,48 @@ export default class UsersRepository {
     });
   }
 
+  public async getByEmail(email: string): Promise<UserEntity | null> {
+    const user: UserEntity | undefined = await this.usersModel.findOne({
+      where: [{
+        email
+      }],
+    });
+
+    return user || null;
+  }
+
+  public async getVerifiedUserByEmail(email: string): Promise<UserEntity | null> {
+    const user: UserEntity | undefined = await this.usersModel.findOne({
+      email,
+      verified: true,
+    });
+
+    return user || null;
+  }
+
+  public async getUnverifiedUserByEmail(email: string): Promise<UserEntity | null> {
+    const user: UserEntity | undefined = await this.usersModel.findOne({
+      email,
+      verified: false,
+    });
+
+    return user || null;
+  }
+
+  public async getById(id: number): Promise<UserEntity | null> {
+    const foundUser: UserEntity | undefined = await this.usersModel.findOne(id);
+
+    return foundUser || null;
+  }
+
+  public async getVerifiedUserById(id: number): Promise<UserEntity | null> {
+    const foundUser: UserEntity | undefined = await this.usersModel.findOne(id, {
+      where: [{ verified: true }],
+    });
+
+    return foundUser || null;
+  }
+
   public find(): Promise<UserEntity[] | []> {
     return this.usersModel.find();
   }

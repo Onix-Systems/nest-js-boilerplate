@@ -1,9 +1,8 @@
-import { Model, Query, FilterQuery } from 'mongoose';
+import { Model, Query, Types } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { User, UserDocument } from '@v1/users/schemas/users.schema';
-import UserEntity from './entities/user.entity';
 
 @Injectable()
 export default class UsersRepository {
@@ -15,14 +14,51 @@ export default class UsersRepository {
     return newUser.toJSON();
   }
 
-  public async findOne(filter: FilterQuery<UserEntity>) {
-    const user = await this.usersModel.findOne(filter, { password: 0 }).exec();
+  public async getByEmail(email: string): Promise<User | null> {
+    const user = await this.usersModel.findOne({
+      email,
+    }, { password: 0 }).exec();
 
     return user ? user.toJSON() : null;
   }
 
-  public getAll(verified: boolean = true): Query<UserDocument[], UserDocument> {
-    return this.usersModel.find({ verified }).lean();
+  public async getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    const user = await this.usersModel.findOne({
+      _id: id,
+      verified: true,
+    }, { password: 0 }).exec();
+
+    return user ? user.toJSON() : null;
+  }
+
+  public async getById(id: Types.ObjectId): Promise<User | null> {
+    const user = await this.usersModel.findOne({
+      _id: id,
+    }, { password: 0 }).exec();
+
+    return user ? user.toJSON() : null;
+  }
+
+  public async getVerifiedUserByEmail(email: string) {
+    const user = await this.usersModel.findOne({
+      email,
+      verified: true,
+    }).exec();
+
+    return user ? user.toJSON() : null;
+  }
+
+  public async getUnverifiedUserByEmail(email: string) {
+    const user = await this.usersModel.findOne({
+      email,
+      verified: false,
+    }).exec();
+
+    return user ? user.toJSON() : null;
+  }
+
+  public getAll(): Query<UserDocument[], UserDocument> {
+    return this.usersModel.find().lean();
   }
 
   public getVerifiedUsers(): Query<UserDocument[], UserDocument> {

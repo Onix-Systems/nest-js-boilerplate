@@ -23,15 +23,24 @@ export default class UsersService {
     });
   }
 
-  public getByEmail(
-    email: string,
-    verified = true,
+  public getVerifiedUserByEmail(
+    email: string
   ): Promise<User | null> {
-    return this.usersRepository.getByEmail(email, verified);
+    return this.usersRepository.getVerifiedUserByEmail(email);
   }
 
-  public getById(id: Types.ObjectId, verified = true): Promise<User | null> {
-    return this.usersRepository.getById(id, verified);
+  public getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    return this.usersRepository.getVerifiedUserById(id);
+  }
+
+  public getUnverifiedUserByEmail(
+    email: string
+  ): Promise<User | null> {
+    return this.usersRepository.getUnverifiedUserByEmail(email);
+  }
+
+  public getUnverifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    return this.usersRepository.getUnverifiedUserById(id);
   }
 
   public update(

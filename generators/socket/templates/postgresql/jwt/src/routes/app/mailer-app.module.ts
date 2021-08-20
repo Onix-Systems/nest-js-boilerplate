@@ -18,7 +18,7 @@ import AppGateway from './app.gateway';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.POSTGRESQL_HOST || 'mysql',
+      host: process.env.POSTGRESQL_HOST || 'postgres',
       port: (process.env.POSTGRESQL_PORT as unknown) as number,
       database: process.env.POSTGRESQL_DB,
       username: process.env.POSTGRESQL_ROOT_USER,

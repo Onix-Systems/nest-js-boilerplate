@@ -20,7 +20,7 @@ export default class UsersRepository {
     });
   }
 
-  public async getVerifiedByEmail(email: string): Promise<User | null> {
+  public async getVerifiedUserByEmail(email: string): Promise<User | null> {
     const foundUser: User | null = await this.userModel.findOne({
       email,
       verified: true,
@@ -29,7 +29,7 @@ export default class UsersRepository {
     return foundUser || null;
   }
 
-  public async getVerifiedById(id: Types.ObjectId): Promise<User | null> {
+  public async getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
     const foundUser: User | null = await this.userModel.findOne({
       _id: id,
       verified: true,

@@ -259,9 +259,8 @@ export default class AuthController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Put('verify')
   async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<SuccessResponseInterface | never> {
-    const foundUser = await this.usersService.getByEmail(
+    const foundUser = await this.usersService.getUnverifiedUserByEmail(
       verifyUserDto.email,
-      false,
     );
 
     if (!foundUser) {

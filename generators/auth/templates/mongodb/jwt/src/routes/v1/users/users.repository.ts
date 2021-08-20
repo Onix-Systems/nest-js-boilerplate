@@ -20,19 +20,45 @@ export default class UsersRepository {
     return newUser.toJSON();
   }
 
-  public async getByEmail(email: string, verified: boolean = true): Promise<User | null> {
+  public async getUnverifiedUserByEmail(email: string) {
     const user = await this.usersModel.findOne({
       email,
-      verified,
+      verified: false,
     }).exec();
 
     return user ? user.toJSON() : null;
   }
 
-  public async getById(id: Types.ObjectId, verified: boolean = true): Promise<User | null> {
+  public async getVerifiedUserByEmail(email: string) {
+    const user = await this.usersModel.findOne({
+      email,
+      verified: true,
+    }).exec();
+
+    return user ? user.toJSON() : null;
+  }
+
+  public async getById(id: Types.ObjectId): Promise<User | null> {
     const user = await this.usersModel.findOne({
       _id: id,
-      verified,
+    }, { password: 0 }).exec();
+
+    return user ? user.toJSON() : null;
+  }
+
+  public async getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    const user = await this.usersModel.findOne({
+      _id: id,
+      verified: true,
+    }, { password: 0 }).exec();
+
+    return user ? user.toJSON() : null;
+  }
+
+  public async getUnverifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    const user = await this.usersModel.findOne({
+      _id: id,
+      verified: false,
     }, { password: 0 }).exec();
 
     return user ? user.toJSON() : null;
@@ -49,8 +75,8 @@ export default class UsersRepository {
     return updatedUser ? updatedUser.toJSON() : null;
   }
 
-  public getAll(verified: boolean = true) {
-    return this.usersModel.find({ verified }).lean();
+  public getAll() {
+    return this.usersModel.find().lean();
   }
 
   public getVerifiedUsers() {

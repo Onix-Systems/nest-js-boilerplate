@@ -21,20 +21,32 @@ export default class UsersService {
     });
   }
 
-  public async getByEmail(email: string, verified = true): Promise<UserEntity | null> {
-    return this.usersRepository.getByEmail(email, verified);
+  public getUnverifiedUserByEmail(email: string) {
+    return this.usersRepository.getUnverifiedUserByEmail(email);
   }
 
-  public async getById(id: number, verified: boolean = true): Promise<UserEntity | null> {
-    return this.usersRepository.getById(id, verified);
+  public getVerifiedUserByEmail(email: string) {
+    return this.usersRepository.getVerifiedUserByEmail(email);
+  }
+
+  public async getVerifiedUserById(id: number): Promise<UserEntity | null> {
+    return this.usersRepository.getVerifiedUserById(id);
+  }
+
+  public async getUnverifiedUserById(id: number): Promise<UserEntity | null> {
+    return this.usersRepository.getUnverifiedUserById(id);
+  }
+
+  public async getById(id: number): Promise<UserEntity | null> {
+    return this.usersRepository.getById(id);
   }
 
   update(id: number, data: UpdateUserDto): Promise<UpdateResult> {
     return this.usersRepository.updateById(id, data);
   }
 
-  getAll(verified: boolean = true): Promise<UserEntity[] | []> {
-    return this.usersRepository.getAll(verified);
+  getAll(): Promise<UserEntity[] | []> {
+    return this.usersRepository.getAll();
   }
 
   getVerifiedUsers(): Promise<UserEntity[] | []> {

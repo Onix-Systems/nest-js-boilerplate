@@ -24,12 +24,28 @@ export default class UsersService {
     });
   }
 
-  public async getByEmail(email: string, verified = true): Promise<UserEntity | null> {
-    return this.usersRepository.getByEmail(email, verified);
+  public async getByEmail(email: string): Promise<UserEntity | null> {
+    return this.usersRepository.getByEmail(email);
   }
 
-  public async getById(id: number, verified: boolean = true): Promise<UserEntity | null> {
-    return this.usersRepository.getById(id, verified);
+  public async getVerifiedUserByEmail(email: string): Promise<UserEntity | null> {
+    return this.usersRepository.getVerifiedUserByEmail(email);
+  }
+
+  public async getUnverifiedUserByEmail(email: string): Promise<UserEntity | null> {
+    return this.usersRepository.getUnverifiedUserByEmail(email);
+  }
+
+  public async getById(id: number): Promise<UserEntity | null> {
+    return this.usersRepository.getById(id);
+  }
+
+  public async getVerifiedUserById(id: number): Promise<UserEntity | null> {
+    return this.usersRepository.getVerifiedUserById(id);
+  }
+
+  public async getUnverifiedUserById(id: number): Promise<UserEntity | null> {
+    return this.usersRepository.getUnverifiedUserById(id);
   }
 
   update(id: number, data: UpdateUserDto): Promise<UpdateResult> {

@@ -14,7 +14,7 @@ export default class AuthService {
     email: string,
     password: string,
   ): Promise<null | ValidateUserOutput> {
-    const user = await this.usersService.getVerifiedByEmail(email) as UsersEntity;
+    const user = await this.usersService.getVerifiedUserByEmail(email) as UsersEntity;
 
     if (!user) {
       throw new NotFoundException('The item does not exist');

@@ -41,6 +41,24 @@ export default class UsersRepository {
     return foundUsers.length > 0 ? foundUsers : [];
   }
 
+  public async getVerifiedUserByEmail(email: string): Promise<User | null> {
+    const foundUser: User | null = await this.userModel.findOne({
+      email,
+      verified: true,
+    });
+
+    return foundUser || null;
+  }
+
+  public async getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    const foundUser: User | null = await this.userModel.findOne({
+      _id: id,
+      verified: true,
+    });
+
+    return foundUser || null;
+  }
+
   public findOneAndUpdate(_id: Types.ObjectId, fieldForUpdate: IUpdateUser) {
     return this.userModel.findByIdAndUpdate({ _id }, fieldForUpdate);
   }

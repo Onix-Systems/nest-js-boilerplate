@@ -18,24 +18,24 @@ export default class UsersService {
     });
   }
 
-  public getByEmail(email: string, verified = true) {
-    return this.usersRepository.findOne({
-      email,
-      verified,
-    });
+  public getByEmail(email: string) {
+    return this.usersRepository.getByEmail(email);
   }
 
-  public getById(id: Types.ObjectId, verified = true): Promise<User | null> {
-    return this.usersRepository.findOne({
-      _id: id,
-      verified,
-    });
+  public async getVerifiedUserByEmail(email: string) {
+    return this.usersRepository.getVerifiedUserByEmail(email);
+  }
+
+  public getById(id: Types.ObjectId): Promise<User | null> {
+    return this.usersRepository.getById(id);
+  }
+
+  public getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    return this.usersRepository.getVerifiedUserById(id);
   }
 
   public async createIfDoesNotExist(user: UserDto): Promise<User | null> {
-    const foundUser = await this.usersRepository.findOne({
-      email: user.email,
-    });
+    const foundUser = await this.usersRepository.getUnverifiedUserByEmail(user.email);
 
     if (!foundUser) {
       return this.usersRepository.create({

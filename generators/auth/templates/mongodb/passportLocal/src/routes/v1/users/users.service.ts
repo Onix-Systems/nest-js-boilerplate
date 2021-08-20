@@ -20,15 +20,15 @@ export default class UsersService {
     });
   }
 
-  getVerifiedByEmail(email: string): Promise<User | null> {
-    return this.usersRepository.getVerifiedByEmail(email);
+  public getVerifiedUserByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.getVerifiedUserByEmail(email);
   }
 
-  getVerifiedById(id: Types.ObjectId): Promise<User | null> {
-    return this.usersRepository.getVerifiedById(id);
+  public getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    return this.usersRepository.getVerifiedUserById(id);
   }
 
-  getAll(): Promise<User[] | []> {
+  public getAll(): Promise<User[] | []> {
     return this.usersRepository.getAll();
   }
 }

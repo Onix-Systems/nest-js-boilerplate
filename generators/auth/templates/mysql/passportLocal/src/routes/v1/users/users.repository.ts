@@ -18,7 +18,7 @@ export default class UsersRepository {
     });
   }
 
-  public async getVerifiedByEmail(email: string): Promise<UserEntity | null> {
+  public async getVerifiedUserByEmail(email: string): Promise<UserEntity | null> {
     const user: UserEntity | undefined = await this.usersModel.findOne({
       email,
       verified: true,
@@ -27,10 +27,28 @@ export default class UsersRepository {
     return user || null;
   }
 
-  public async getVerifiedById(id: number): Promise<UserEntity | null> {
+  public async getUnverifiedUserByEmail(email: string): Promise<UserEntity | null> {
+    const user: UserEntity | undefined = await this.usersModel.findOne({
+      email,
+      verified: false,
+    });
+
+    return user || null;
+  }
+
+  public async getVerifiedUserById(id: number): Promise<UserEntity | null> {
     const user: UserEntity | undefined = await this.usersModel.findOne({
       id,
       verified: true,
+    });
+
+    return user || null;
+  }
+
+  public async getUnverifiedUserById(id: number): Promise<UserEntity | null> {
+    const user: UserEntity | undefined = await this.usersModel.findOne({
+      id,
+      verified: false,
     });
 
     return user || null;

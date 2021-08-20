@@ -271,7 +271,7 @@ export default class AuthController {
       token,
       authConstants.jwt.secrets.accessToken,
     );
-    const foundUser = await this.usersService.getById(id, false) as UsersEntity;
+    const foundUser = await this.usersService.getUnverifiedUserById(id) as UsersEntity;
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');

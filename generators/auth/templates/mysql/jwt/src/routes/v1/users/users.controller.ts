@@ -62,7 +62,7 @@ export default class UsersController {
   async getById(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<UserEntity | never> {
-    const foundUser = await this.usersService.getById(id);
+    const foundUser = await this.usersService.getVerifiedUserById(id);
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');

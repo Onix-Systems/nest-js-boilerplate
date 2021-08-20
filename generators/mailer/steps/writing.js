@@ -22,9 +22,6 @@ module.exports = function() {
     payload,
   );
 
-  const { wantedMailer, wantedJsonApi } = answers;
-  let pathToTmpAppModuleFile = '';
-
   switch (authFolder) {
     case 'mongodb/jwt':
       // templates
@@ -45,12 +42,8 @@ module.exports = function() {
         payload,
       );
 
-      pathToTmpAppModuleFile = (wantedMailer === 'Yes' && wantedJsonApi === 'Yes')
-        ? `${fullPathToAuthFolder}/src/routes/v1/auth/auth-json.controller.ts`
-        : `${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`;
-
       this.fs.copyTpl(
-        this.templatePath(pathToTmpAppModuleFile),
+        this.templatePath(`${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`),
         this.destinationPath(
           `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
         ),
@@ -89,12 +82,8 @@ module.exports = function() {
         payload,
       );
 
-      pathToTmpAppModuleFile = (wantedMailer === 'Yes' && wantedJsonApi === 'Yes')
-        ? `${fullPathToAuthFolder}/src/routes/v1/auth/auth-json.controller.ts`
-        : `${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`;
-
       this.fs.copyTpl(
-        this.templatePath(pathToTmpAppModuleFile),
+        this.templatePath(`${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`),
         this.destinationPath(
           `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
         ),
@@ -212,12 +201,8 @@ module.exports = function() {
         payload,
       );
 
-      pathToTmpAppModuleFile = (wantedMailer === 'Yes' && wantedJsonApi === 'Yes')
-        ? `${fullPathToAuthFolder}/src/routes/v1/auth/auth-json.controller.ts`
-        : `${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`;
-
       this.fs.copyTpl(
-        this.templatePath(pathToTmpAppModuleFile),
+        this.templatePath(`${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`),
         this.destinationPath(
           `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
         ),

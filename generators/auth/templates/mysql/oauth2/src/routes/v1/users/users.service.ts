@@ -16,21 +16,19 @@ export default class UsersService {
     return this.usersRepository.find();
   }
 
-  public async getByEmail(email: string, verified = true): Promise<UserEntity | null> {
-    const foundUser = await this.usersRepository.findOne({
-      email,
-      verified,
-    });
-
-    return foundUser || null;
+  public async getByEmail(email: string): Promise<UserEntity | null> {
+    return this.usersRepository.getByEmail(email);
   }
 
-  public async getById(id: number, verified = true): Promise<UserEntity | null> {
-    const foundUser = await this.usersRepository.findOne({
-      id,
-      verified,
-    });
+  public async getVerifiedUserByEmail(email: string) : Promise<UserEntity | null> {
+    return this.usersRepository.getVerifiedUserByEmail(email);
+  }
 
-    return foundUser || null;
+  public async getById(id: number): Promise<UserEntity | null> {
+    return this.usersRepository.getById(id);
+  }
+
+  public async getVerifiedUserById(id: number): Promise<UserEntity | null> {
+    return this.usersRepository.getVerifiedUserById(id);
   }
 }
