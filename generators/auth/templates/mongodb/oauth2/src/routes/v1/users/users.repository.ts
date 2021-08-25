@@ -11,50 +11,40 @@ export default class UsersRepository {
   public async create(user: User): Promise<User> {
     const newUser = await this.usersModel.create(user);
 
-    return newUser.toJSON();
+    return newUser.toObject();
   }
 
   public async getByEmail(email: string): Promise<User | null> {
-    const user = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       email,
-    }, { password: 0 }).exec();
-
-    return user ? user.toJSON() : null;
+    }, { password: 0 }).lean();
   }
 
   public async getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
-    const user = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       _id: id,
       verified: true,
-    }, { password: 0 }).exec();
-
-    return user ? user.toJSON() : null;
+    }, { password: 0 }).lean();
   }
 
   public async getById(id: Types.ObjectId): Promise<User | null> {
-    const user = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       _id: id,
-    }, { password: 0 }).exec();
-
-    return user ? user.toJSON() : null;
+    }, { password: 0 }).lean();
   }
 
   public async getVerifiedUserByEmail(email: string) {
-    const user = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       email,
       verified: true,
-    }).exec();
-
-    return user ? user.toJSON() : null;
+    }).lean();
   }
 
   public async getUnverifiedUserByEmail(email: string) {
-    const user = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       email,
       verified: false,
-    }).exec();
-
-    return user ? user.toJSON() : null;
+    }).lean();
   }
 
   public getAll(): Query<UserDocument[], UserDocument> {

@@ -22,58 +22,46 @@ export default class UsersRepository {
     });
   }
 
-  public async getByEmail(email: string): Promise<UserEntity | null> {
-    const user: UserEntity | undefined = await this.usersModel.findOne({
+  public async getByEmail(email: string): Promise<UserEntity | undefined> {
+    return this.usersModel.findOne({
       where: [{
         email
       }],
     });
-
-    return user || null;
   }
 
-  public async getVerifiedUserByEmail(email: string): Promise<UserEntity | null> {
-    const user: UserEntity | undefined = await this.usersModel.findOne({
+  public async getVerifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
+    return this.usersModel.findOne({
       where: [{
         email,
         verified: true,
       }],
     });
-
-    return user || null;
   }
 
-  public async getUnverifiedUserByEmail(email: string): Promise<UserEntity | null> {
-    const user: UserEntity | undefined = await this.usersModel.findOne({
+  public async getUnverifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
+    return this.usersModel.findOne({
       where: [{
         email,
         verified: false,
       }],
     });
-
-    return user || null;
   }
 
-  public async getById(id: number): Promise<UserEntity | null> {
-    const foundUser: UserEntity | undefined = await this.usersModel.findOne(id);
-
-    return foundUser || null;
+  public async getById(id: number): Promise<UserEntity | undefined> {
+    return  this.usersModel.findOne(id);
   }
 
-  public async getVerifiedUserById(id: number): Promise<UserEntity | null> {
-    const foundUser: UserEntity | undefined = await this.usersModel.findOne(id, {
+  public async getVerifiedUserById(id: number): Promise<UserEntity | undefined> {
+    return this.usersModel.findOne(id, {
       where: [{ verified: true }],
     });
-
-    return foundUser || null;
   }
 
-  public async getUnverifiedUserById(id: number): Promise<UserEntity | null> {
-    const foundUser: UserEntity | undefined = await this.usersModel.findOne(id, {
+  public async getUnverifiedUserById(id: number): Promise<UserEntity | undefined> {
+    return this.usersModel.findOne(id, {
       where: [{ verified: false }],
     });
-
-    return foundUser || null;
   }
 
   public updateById(id: number, data: UpdateUserDto): Promise<UpdateResult> {
@@ -95,6 +83,6 @@ export default class UsersRepository {
       }),
     ]);
 
-    return { paginatedResult: users.map((user) => user), totalCount };
+    return { paginatedResult: users, totalCount };
   }
 }

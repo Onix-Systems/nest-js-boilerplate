@@ -317,10 +317,7 @@ export default class AuthController {
       throw new NotFoundException();
     }
 
-    return ResponseUtils.success(
-      'users',
-      {},
-    );
+    return {};
   }
 
   @ApiNoContentResponse({
@@ -343,10 +340,7 @@ export default class AuthController {
   @Roles(RolesEnum.admin)
   @HttpCode(HttpStatus.NO_CONTENT)
   async logoutAll(): Promise<{}> {
-    return ResponseUtils.success(
-      'users',
-      await this.authService.deleteAllTokens(),
-    );
+    return this.authService.deleteAllTokens();
   }
 
   @ApiOkResponse({

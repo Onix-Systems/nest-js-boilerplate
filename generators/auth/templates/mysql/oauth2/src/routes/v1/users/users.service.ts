@@ -16,7 +16,7 @@ export default class UsersService {
     return this.usersRepository.find();
   }
 
-  public async getByEmail(email: string): Promise<UserEntity | null> {
+  public async getByEmail(email: string): Promise<UserEntity | undefined> {
     return this.usersRepository.getByEmail(email);
   }
 
@@ -24,11 +24,11 @@ export default class UsersService {
     return this.usersRepository.getVerifiedUserByEmail(email);
   }
 
-  public async getById(id: number): Promise<UserEntity | null> {
+  public async getById(id: number): Promise<UserEntity | undefined> {
     return this.usersRepository.getById(id);
   }
 
-  public async getVerifiedUserById(id: number): Promise<UserEntity | null> {
+  public async getVerifiedUserById(id: number): Promise<UserEntity | undefined> {
     return this.usersRepository.getVerifiedUserById(id);
   }
 }

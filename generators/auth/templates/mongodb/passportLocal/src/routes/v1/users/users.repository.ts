@@ -21,26 +21,20 @@ export default class UsersRepository {
   }
 
   public async getVerifiedUserByEmail(email: string): Promise<User | null> {
-    const foundUser: User | null = await this.userModel.findOne({
+    return this.userModel.findOne({
       email,
       verified: true,
     });
-
-    return foundUser || null;
   }
 
   public async getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
-    const foundUser: User | null = await this.userModel.findOne({
+    return  this.userModel.findOne({
       _id: id,
       verified: true,
     });
-
-    return foundUser || null;
   }
 
   public async getAll(): Promise<User[] | []> {
-    const foundUsers: User[] | [] = await this.userModel.find({}, { password: false }).lean();
-
-    return foundUsers.length > 0 ? foundUsers : [];
+    return this.userModel.find({}, { password: false }).lean();
   }
 }

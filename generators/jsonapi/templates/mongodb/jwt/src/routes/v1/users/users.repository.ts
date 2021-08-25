@@ -21,70 +21,56 @@ export default class UsersRepository {
       verified: false,
     });
 
-    return newUser.toJSON();
+    return newUser.toObject();
   }
 
   public async getByEmail(email: string): Promise<User | null> {
-    const user = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       email,
-    }).exec();
-
-    return user ? user.toJSON() : null;
+    }).lean();
   }
 
   public async getVerifiedUserByEmail(email: string): Promise<User | null> {
-    const user = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       email,
       verified: true
-    }).exec();
-
-    return user ? user.toJSON() : null;
+    }).lean();
   }
 
   public async getUnverifiedUserByEmail(email: string): Promise<User | null> {
-    const user = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       email,
       verified: false
-    }).exec();
-
-    return user ? user.toJSON() : null;
+    }).lean();
   }
 
   public async getById(id: Types.ObjectId): Promise<User | null> {
-    const user = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       _id: id,
-    }, { password: 0 }).exec();
-
-    return user ? user.toJSON() : null;
+    }, { password: 0 }).lean();
   }
 
   public async getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
-    const user = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       _id: id,
       verified: true,
-    }, { password: 0 }).exec();
-
-    return user ? user.toJSON() : null;
+    }, { password: 0 }).lean();
   }
 
   public async getUnverifiedUserById(id: Types.ObjectId): Promise<User | null> {
-    const user = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       _id: id,
       verified: false,
-    }, { password: 0 }).exec();
-
-    return user ? user.toJSON() : null;
+    }, { password: 0 }).lean();
   }
 
   public async updateById(id: Types.ObjectId, data: UpdateUserDto): Promise<User | null> {
-    const updatedUser = await this.usersModel.findByIdAndUpdate(
+    return this.usersModel.findByIdAndUpdate(
       id,
       {
         $set: data,
       },
-    ).exec();
-
-    return updatedUser ? updatedUser.toJSON() : null;
+    ).lean();
   }
 
   public async getAllVerifiedWithPagination(options: PaginationParamsInterface): Promise<PaginatedUsersInterface> {
@@ -97,11 +83,11 @@ export default class UsersRepository {
       })
         .limit(PaginationUtils.getLimitCount(options.limit))
         .skip(PaginationUtils.getSkipCount(options.page, options.limit))
-        .exec(),
+        .lean(),
       this.usersModel.count({ verified })
-        .exec(),
+        .lean(),
     ]);
 
-    return { paginatedResult: users.map((user) => user.toJSON()), totalCount };
+    return { paginatedResult: users, totalCount };
   }
 }

@@ -18,45 +18,35 @@ export default class UsersRepository {
     });
   }
 
-  public async getVerifiedUserByEmail(email: string): Promise<UserEntity | null> {
-    const user: UserEntity | undefined = await this.usersModel.findOne({
+  public async getVerifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
+    return this.usersModel.findOne({
       email,
       verified: true,
     });
-
-    return user || null;
   }
 
-  public async getUnverifiedUserByEmail(email: string): Promise<UserEntity | null> {
-    const user: UserEntity | undefined = await this.usersModel.findOne({
+  public async getUnverifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
+    return this.usersModel.findOne({
       email,
       verified: false,
     });
-
-    return user || null;
   }
 
-  public async getVerifiedUserById(id: number): Promise<UserEntity | null> {
-    const user: UserEntity | undefined = await this.usersModel.findOne({
+  public async getVerifiedUserById(id: number): Promise<UserEntity | undefined> {
+    return this.usersModel.findOne({
       id,
       verified: true,
     });
-
-    return user || null;
   }
 
-  public async getUnverifiedUserById(id: number): Promise<UserEntity | null> {
-    const user: UserEntity | undefined = await this.usersModel.findOne({
+  public async getUnverifiedUserById(id: number): Promise<UserEntity | undefined> {
+    return this.usersModel.findOne({
       id,
       verified: false,
     });
-
-    return user || null;
   }
 
   public async getAll(): Promise<UserEntity[] | []> {
-    const users: UserEntity[] | [] = await this.usersModel.find( { select: ['id', 'email', 'role', 'verified'] });
-
-    return users.length > 0 ? users : [];
+    return this.usersModel.find( { select: ['id', 'email', 'role', 'verified'] });
   }
 }

@@ -19,18 +19,18 @@ export default class UsersService {
     });
   }
 
-  public getVerifiedUserByEmail(email: string): Promise<UserEntity | null> {
+  public getVerifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
     return this.usersRepository.getVerifiedUserByEmail(email);
   }
 
-  public getUnverifiedUserByEmail(email: string): Promise<UserEntity | null> {
+  public getUnverifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
     return this.usersRepository.getUnverifiedUserByEmail(email);
   }
-  public getVerifiedUserById(id: number): Promise<UserEntity | null> {
+  public getVerifiedUserById(id: number): Promise<UserEntity | undefined> {
     return this.usersRepository.getVerifiedUserById(id);
   }
 
-  public getUnverifiedUserById(id: number): Promise<UserEntity | null> {
+  public getUnverifiedUserById(id: number): Promise<UserEntity | undefined> {
     return this.usersRepository.getUnverifiedUserById(id);
   }
 
