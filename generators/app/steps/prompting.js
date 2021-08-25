@@ -46,7 +46,7 @@ module.exports = {
   },
 
   askAboutJsonApi() {
-    askQuestions.call(this, 'JSON:API', questions.jsonapi, this.async())
+    askQuestions.call(this, 'JSON:API', questions.jsonapi[this.answers.authType], this.async())
   },
 
   askAboutDatabase() {
