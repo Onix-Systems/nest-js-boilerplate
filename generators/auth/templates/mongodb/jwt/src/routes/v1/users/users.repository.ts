@@ -17,39 +17,57 @@ export default class UsersRepository {
       verified: false,
     });
 
-    return newUser.toJSON();
+    return newUser.toObject();
   }
 
-  public async getByEmail(email: string, verified: boolean = true): Promise<User | null> {
-    const user = await this.usersModel.findOne({
+  public async getUnverifiedUserByEmail(email: string): Promise<User | null> {
+    return this.usersModel.findOne({
       email,
-      verified,
-    }).exec();
-
-    return user ? user.toJSON() : null;
+      verified: false,
+    }).lean();
   }
 
-  public async getById(id: Types.ObjectId, verified: boolean = true): Promise<User | null> {
-    const user = await this.usersModel.findOne({
-      _id: id,
-      verified,
-    }, { password: 0 }).exec();
+  public async getVerifiedUserByEmail(email: string): Promise<User | null> {
+    return this.usersModel.findOne({
+      email,
+      verified: true,
+    }).lean();
+  }
 
-    return user ? user.toJSON() : null;
+  public async getById(id: Types.ObjectId): Promise<User | null> {
+    return  this.usersModel.findOne({
+      _id: id,
+    }, { password: 0 }).lean();
+  }
+
+  public async getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    return this.usersModel.findOne({
+      _id: id,
+      verified: true,
+    }, { password: 0 }).lean();
+  }
+
+  public async getUnverifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    return this.usersModel.findOne({
+      _id: id,
+      verified: false,
+    }, { password: 0 }).lean();
   }
 
   public async updateById(id: Types.ObjectId, data: UpdateUserDto): Promise<User | null> {
-    const updatedUser = await this.usersModel.findByIdAndUpdate(
+    return this.usersModel.findByIdAndUpdate(
       id,
       {
         $set: data,
       },
-    ).exec();
-
-    return updatedUser ? updatedUser.toJSON() : null;
+    ).lean();
   }
 
-  public getAll(verified: boolean = true) {
-    return this.usersModel.find({ verified }).lean();
+  public getAll() {
+    return this.usersModel.find().lean();
+  }
+
+  public getVerifiedUsers() {
+    return this.usersModel.find({ verified: true }).lean();
   }
 }

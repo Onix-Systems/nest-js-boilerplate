@@ -12,16 +12,11 @@ export default class WrapResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       map((...args) => {
-        // if this an error response then return first object if no then second..
-        if (args[0].data) {
-          return {
-            data: args[0].data,
-          };
-        }
         return {
-          data: args[0],
+          data: args[0].data ?? args[0],
         };
       }),
     );
   }
 }
+

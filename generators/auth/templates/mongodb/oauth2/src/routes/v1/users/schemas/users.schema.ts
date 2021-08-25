@@ -31,13 +31,6 @@ export class User {
   email: string = '';
 
   @Prop({
-    required: true,
-    type: String,
-  })
-  password: string = '';
-
-  @Prop({
-    required: true,
     type: Boolean,
   })
   verified: boolean = false;

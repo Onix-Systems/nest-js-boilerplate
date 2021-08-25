@@ -8,7 +8,6 @@ import {
   Query,
   UseGuards,
   UseInterceptors,
-  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -36,7 +35,7 @@ import Serialize from '@decorators/serialization.decorator';
 @ApiBearerAuth()
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(User)
-@Controller('users')
+@Controller()
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -70,7 +69,7 @@ export default class UsersController {
   async getById(
     @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
   ): Promise<UserResponseEntity> {
-    const foundUser = await this.usersService.getById(id);
+    const foundUser = await this.usersService.getVerifiedUserById(id);
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');

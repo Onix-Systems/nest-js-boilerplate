@@ -40,7 +40,6 @@ import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
 import authConstants from '@v1/auth/auth-constants';
-import { SuccessResponseInterface } from '@interfaces/success-response.interface';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
 import AuthService from './auth.service';
@@ -48,13 +47,12 @@ import RefreshTokenDto from './dto/refresh-token.dto';
 import SignInDto from './dto/sign-in.dto';
 import SignUpDto from './dto/sign-up.dto';
 import JwtTokensDto from './dto/jwt-tokens.dto';
-import ResponseUtils from '../../../utils/response.utils';
 import UsersEntity from '@v1/users/entity/user.entity';
 
 @ApiTags('Auth')
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(JwtTokensDto)
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -110,13 +108,10 @@ export default class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
-  async signIn(@Request() req: ExpressRequest): Promise<SuccessResponseInterface | never> {
+  async signIn(@Request() req: ExpressRequest): Promise<JwtTokensDto> {
     const user = req.user as User;
 
-    return ResponseUtils.success(
-      'tokens',
-      await this.authService.login(user),
-    );
+    return this.authService.login(user);
   }
 
   @ApiBody({ type: SignUpDto })
@@ -174,7 +169,7 @@ export default class AuthController {
       to: email,
       from: process.env.MAILER_FROM_EMAIL,
       subject: authConstants.mailer.verifyEmail.subject,
-      template: 'verify-password',
+      template: `${process.cwd()}/src/templates/verify-password`,
       context: {
         token,
         email,
@@ -182,7 +177,7 @@ export default class AuthController {
       },
     });
 
-    return ResponseUtils.success('auth', { message: 'Success! please verify your email' });
+    return { message: 'Success! please verify your email' };
   }
 
   @ApiOkResponse({
@@ -219,7 +214,7 @@ export default class AuthController {
   @Post('refresh-token')
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
-  ): Promise<SuccessResponseInterface | never>  {
+  ): Promise<JwtTokensDto | never>  {
     const decodedUser = this.jwtService.decode(
       refreshTokenDto.refreshToken,
     ) as DecodedUser;
@@ -245,10 +240,7 @@ export default class AuthController {
       role: decodedUser.role,
     };
 
-    return ResponseUtils.success(
-      'tokens',
-      await this.authService.login(payload),
-    );
+    return this.authService.login(payload);
   }
 
   @ApiNoContentResponse({
@@ -266,21 +258,18 @@ export default class AuthController {
   })
   @HttpCode(HttpStatus.NO_CONTENT)
   @Get('verify/:token')
-  async verifyUser(@Param('token') token: string): Promise<SuccessResponseInterface | never> {
+  async verifyUser(@Param('token') token: string): Promise<User | null> {
     const { id } = await this.authService.verifyEmailVerToken(
       token,
       authConstants.jwt.secrets.accessToken,
     );
-    const foundUser = await this.usersService.getById(id, false) as UsersEntity;
+    const foundUser = await this.usersService.getUnverifiedUserById(id) as UsersEntity;
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');
     }
 
-    return ResponseUtils.success(
-      'users',
-      await this.usersService.update(foundUser._id, { verified: true }),
-    );
+    return this.usersService.update(foundUser._id, { verified: true });
   }
 
   @ApiNoContentResponse({
@@ -380,7 +369,7 @@ export default class AuthController {
   @Get('token')
   async getUserByAccessToken(
     @AuthBearer() token: string,
-  ): Promise<SuccessResponseInterface | never> {
+  ): Promise<DecodedUser | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
       authConstants.jwt.secrets.accessToken,
@@ -392,9 +381,6 @@ export default class AuthController {
 
     const { exp, iat, ...user } = decodedUser;
 
-    return ResponseUtils.success(
-      'users',
-      user,
-    );
+    return user;
   }
 }

@@ -1,4 +1,4 @@
 {
-  "general": { "@nestjs-modules/mailer": "1.5.1", "nodemailer": "6.4.17" },
-  "dev": { "@types/nodemailer": "6.4.0" }
+  "general": { "@nestjs-modules/mailer": "1.6.0", "nodemailer": "6.6.3" },
+  "dev": { "@types/nodemailer": "6.4.4" }
 }

@@ -253,9 +253,8 @@ export default class AuthController {
   @Roles(RolesEnum.admin)
   @Put('verify')
   async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<User | null> {
-    const foundUser = await this.usersService.getByEmail(
+    const foundUser = await this.usersService.getUnverifiedUserByEmail(
       verifyUserDto.email,
-      false,
     ) as UsersEntity;
 
     if (!foundUser) {

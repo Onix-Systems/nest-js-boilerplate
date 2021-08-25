@@ -62,7 +62,7 @@ export default class AuthController {
       ...user
     } = req.user as UserGooglePayload;
 
-    const foundUser = await this.usersService.getByEmail(user.email as string);
+    const foundUser = await this.usersService.getVerifiedUserByEmail(user.email as string);
 
     if (!foundUser) {
       await this.usersService.createIfDoesNotExist(user as UserDto);

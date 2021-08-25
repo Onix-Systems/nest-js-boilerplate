@@ -18,7 +18,7 @@ import AppGateway from './app.gateway';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.POSTGRESQL_HOST || 'mysql',
+      host: process.env.POSTGRESQL_HOST || 'postgres',
       port: (process.env.POSTGRESQL_PORT as unknown) as number,
       database: process.env.POSTGRESQL_DB,
       username: process.env.POSTGRESQL_ROOT_USER,
@@ -53,7 +53,6 @@ import AppGateway from './app.gateway';
         from: process.env.MAILER_FROM_EMAIL,
       },
       template: {
-        dir: `${process.cwd()}/src/templates/`,
         adapter: new HandlebarsAdapter(),
         options: {
           strict: true,

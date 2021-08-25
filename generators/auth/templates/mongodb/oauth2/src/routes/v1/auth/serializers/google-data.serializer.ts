@@ -15,7 +15,7 @@ export default class GoogleDataSerializer extends PassportSerializer {
   }
 
   async deserializeUser(user: UserEntity, done: CallableFunction) {
-    const foundUser = await this.usersService.getByEmail(user.email);
+    const foundUser = await this.usersService.getVerifiedUserByEmail(user.email);
     if (!foundUser) {
       return done(new UnauthorizedException());
     }

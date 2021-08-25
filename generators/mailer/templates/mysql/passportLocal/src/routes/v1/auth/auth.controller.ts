@@ -33,7 +33,7 @@ import AuthService from './auth.service';
 import SignUpDto from './dto/sign-up.dto';
 
 @ApiTags('Auth')
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -70,7 +70,7 @@ export default class AuthController {
       to: email,
       from: process.env.MAILER_FROM_EMAIL,
       subject: 'Email Verification',
-      template: 'verify-password',
+      template: `${process.cwd()}/public/views/mailer/templates/verify-password`,
       context: {
         token,
         email,

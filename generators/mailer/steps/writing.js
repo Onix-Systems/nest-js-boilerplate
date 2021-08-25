@@ -22,8 +22,8 @@ module.exports = function() {
     payload,
   );
 
-  switch (answers.authType) {
-    case 'jwt':
+  switch (authFolder) {
+    case 'mongodb/jwt':
       // templates
       this.fs.copyTpl(
         this.templatePath(`${fullPathToAuthFolder}/src/templates`),
@@ -42,6 +42,14 @@ module.exports = function() {
         payload,
       );
 
+      this.fs.copyTpl(
+        this.templatePath(`${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`),
+        this.destinationPath(
+          `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
+        ),
+        payload,
+      );
+
 
       this.fs.copyTpl(
         this.templatePath(
@@ -53,7 +61,7 @@ module.exports = function() {
         payload,
       );
       break;
-    case 'passportLocal':
+    case 'mongodb/passportLocal':
       // templates
       this.fs.copyTpl(
         this.templatePath(
@@ -74,14 +82,8 @@ module.exports = function() {
         payload,
       );
 
-      const { wantedMailer, wantedJsonApi } = answers;
-
-      const pathToTmpAppModuleFile = (wantedMailer === 'Yes' && wantedJsonApi === 'Yes')
-        ? `${fullPathToAuthFolder}/src/routes/v1/auth/auth-json.controller.ts`
-        : `${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`;
-
       this.fs.copyTpl(
-        this.templatePath(pathToTmpAppModuleFile),
+        this.templatePath(`${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`),
         this.destinationPath(
           `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
         ),
@@ -139,6 +141,163 @@ module.exports = function() {
         ),
         this.destinationPath(
           `${rootFolder}/src/routes/v1/users/users.service.ts`,
+        ),
+        payload,
+      );
+      break;
+    case "mysql/jwt":
+      this.fs.copyTpl(
+        this.templatePath(`${fullPathToAuthFolder}/src/templates`),
+        this.destinationPath(`${rootFolder}/src/templates`),
+        payload,
+      );
+
+      // auth
+      this.fs.copyTpl(
+        this.templatePath(
+          `${fullPathToAuthFolder}/src/routes/v1/auth/auth-constants.ts`,
+        ),
+        this.destinationPath(
+          `${rootFolder}/src/routes/v1/auth/auth-constants.ts`,
+        ),
+        payload,
+      );
+
+      this.fs.copyTpl(
+        this.templatePath(
+          `${fullPathToAuthFolder}/src/routes/v1/auth/auth.service.ts`,
+        ),
+        this.destinationPath(
+          `${rootFolder}/src/routes/v1/auth/auth.service.ts`,
+        ),
+        payload,
+      );
+
+      this.fs.copyTpl(
+        this.templatePath(`${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`),
+        this.destinationPath(
+          `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
+        ),
+        payload,
+      );
+      break;
+    case "mysql/passportLocal":
+      this.fs.copyTpl(
+        this.templatePath(
+          `${fullPathToAuthFolder}/public/views/mailer/templates`,
+        ),
+        this.destinationPath(`${rootFolder}/public/views/mailer/templates`),
+        payload,
+      );
+
+      // auth
+      this.fs.copyTpl(
+        this.templatePath(
+          `${fullPathToAuthFolder}/src/routes/v1/auth/auth-constants.ts`,
+        ),
+        this.destinationPath(
+          `${rootFolder}/src/routes/v1/auth/auth-constants.ts`,
+        ),
+        payload,
+      );
+
+      this.fs.copyTpl(
+        this.templatePath(`${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`),
+        this.destinationPath(
+          `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
+        ),
+        payload,
+      );
+
+      this.fs.copyTpl(
+        this.templatePath(
+          `${fullPathToAuthFolder}/src/routes/v1/auth/auth.service.ts`,
+        ),
+        this.destinationPath(
+          `${rootFolder}/src/routes/v1/auth/auth.service.ts`,
+        ),
+        payload,
+      );
+
+      this.fs.copyTpl(
+        this.templatePath(
+          `${fullPathToAuthFolder}/src/routes/v1/auth/serializers`,
+        ),
+        this.destinationPath(`${rootFolder}/src/routes/v1/auth/serializers`),
+        payload,
+      );
+
+      // users
+      this.fs.copyTpl(
+        this.templatePath(
+          `${fullPathToAuthFolder}/src/routes/v1/users/interfaces`,
+        ),
+        this.destinationPath(`${rootFolder}/src/routes/v1/users/interfaces`),
+        payload,
+      );
+
+      this.fs.copyTpl(
+        this.templatePath(
+          `${fullPathToAuthFolder}/src/routes/v1/users/interfaces`,
+        ),
+        this.destinationPath(`${rootFolder}/src/routes/v1/users/interfaces`),
+        payload,
+      );
+
+      this.fs.copyTpl(
+        this.templatePath(
+          `${fullPathToAuthFolder}/src/routes/v1/users/users.repository.ts`,
+        ),
+        this.destinationPath(
+          `${rootFolder}/src/routes/v1/users/users.repository.ts`,
+        ),
+        payload,
+      );
+
+      this.fs.copyTpl(
+        this.templatePath(
+          `${fullPathToAuthFolder}/src/routes/v1/users/users.service.ts`,
+        ),
+        this.destinationPath(
+          `${rootFolder}/src/routes/v1/users/users.service.ts`,
+        ),
+        payload,
+      );
+      break;
+    case "postgresql/jwt":
+      // templates
+      this.fs.copyTpl(
+        this.templatePath(`${fullPathToAuthFolder}/src/templates`),
+        this.destinationPath(`${rootFolder}/src/templates`),
+        payload,
+      );
+
+      // auth
+      this.fs.copyTpl(
+        this.templatePath(
+          `${fullPathToAuthFolder}/src/routes/v1/auth/auth-constants.ts`,
+        ),
+        this.destinationPath(
+          `${rootFolder}/src/routes/v1/auth/auth-constants.ts`,
+        ),
+        payload,
+      );
+
+      this.fs.copyTpl(
+        this.templatePath(`${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`),
+        this.destinationPath(
+          `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
+        ),
+        payload,
+      );
+
+
+      this.fs.copyTpl(
+        this.templatePath(
+          `${fullPathToAuthFolder}/src/routes/v1/auth/auth.service.ts`,
+        ),
+        this.destinationPath(
+          `${rootFolder}/src/routes/v1/auth/auth.service.ts`,
         ),
         payload,
       );

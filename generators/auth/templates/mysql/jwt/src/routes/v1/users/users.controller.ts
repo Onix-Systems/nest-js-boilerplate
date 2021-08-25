@@ -18,17 +18,17 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger';
 import JwtAccessGuard from '@guards/jwt-access.guard';
-import UserEntity from './entities/user.entity';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
+import Serialize from '@decorators/serialization.decorator';
+import { AllUsersResponseEntity, UserResponseEntity } from '@v1/users/entities/user-response.entity';
+import UserEntity from './schemas/user.entity';
 import UsersService from './users.service';
-import Serialize from '../../../../../../mongodb/jwt/src/decorators/serialization.decorator';
-import UserResponseEntity from '../../../../../../mongodb/jwt/src/routes/v1/users/entity/user-response.entity';
 
 @ApiTags('Users')
 @ApiBearerAuth()
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(UserEntity)
-@Controller('users')
+@Controller()
 export default class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -62,7 +62,7 @@ export default class UsersController {
   async getById(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<UserEntity | never> {
-    const foundUser = await this.usersService.getById(id);
+    const foundUser = await this.usersService.getVerifiedUserById(id);
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');
@@ -93,9 +93,9 @@ export default class UsersController {
   })
   @Get()
   @UseGuards(JwtAccessGuard)
-  @Serialize(UserResponseEntity)
+  @Serialize(AllUsersResponseEntity)
   async getAllVerifiedUsers(): Promise<UserEntity[] | []> {
-    const foundUsers = await this.usersService.getAll(true);
+    const foundUsers = await this.usersService.getVerifiedUsers();
 
     return foundUsers;
   }

@@ -5,7 +5,7 @@ function transform(errors: ValidationError[]) {
     return {
       detail: `${error.property} validation error`,
       source: { pointer: `data/attributes/${error.property}` },
-      meta: Object.values(error.constraints),
+      meta: error.constraints ? Object.values(error.constraints) : null,
     };
   });
 }

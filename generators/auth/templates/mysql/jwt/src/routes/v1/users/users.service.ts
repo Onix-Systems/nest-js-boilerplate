@@ -5,13 +5,12 @@ import { Injectable } from '@nestjs/common';
 import SignUpDto from '@v1/auth/dto/sign-up.dto';
 import UsersRepository from './users.repository';
 import { UpdateResult } from 'typeorm/index';
-import UserEntity from './entities/user.entity';
+import UserEntity from './schemas/user.entity';
 import UpdateUserDto from './dto/update-user.dto';
 
 @Injectable()
 export default class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {
-  }
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   public async create(user: SignUpDto): Promise<UserEntity> {
     const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -22,19 +21,35 @@ export default class UsersService {
     });
   }
 
-  public async getByEmail(email: string, verified = true): Promise<UserEntity | null> {
-    return this.usersRepository.getByEmail(email, verified);
+  public getUnverifiedUserByEmail(email: string) {
+    return this.usersRepository.getUnverifiedUserByEmail(email);
   }
 
-  public async getById(id: number, verified: boolean = true): Promise<UserEntity | null> {
-    return this.usersRepository.getById(id, verified);
+  public getVerifiedUserByEmail(email: string) {
+    return this.usersRepository.getVerifiedUserByEmail(email);
+  }
+
+  public async getVerifiedUserById(id: number): Promise<UserEntity | undefined> {
+    return this.usersRepository.getVerifiedUserById(id);
+  }
+
+  public async getUnverifiedUserById(id: number): Promise<UserEntity | undefined> {
+    return this.usersRepository.getUnverifiedUserById(id);
+  }
+
+  public async getById(id: number): Promise<UserEntity | undefined> {
+    return this.usersRepository.getById(id);
   }
 
   update(id: number, data: UpdateUserDto): Promise<UpdateResult> {
     return this.usersRepository.updateById(id, data);
   }
 
-  getAll(verified: boolean = true): Promise<UserEntity[] | []> {
-    return this.usersRepository.getAll(verified);
+  getAll(): Promise<UserEntity[] | []> {
+    return this.usersRepository.getAll();
+  }
+
+  getVerifiedUsers(): Promise<UserEntity[] | []> {
+    return this.usersRepository.getVerifiedUsers();
   }
 }

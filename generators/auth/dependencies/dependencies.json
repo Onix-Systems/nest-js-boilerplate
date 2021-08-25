@@ -1,18 +1,18 @@
 {
   "common": {
-    "general": { "@nestjs/passport": "7.1.5", "passport": "0.4.1" },
+    "general": { "@nestjs/passport": "8.0.1", "passport": "0.4.1" },
     "dev": {}
   },
   "jwt": {
     "hasSessionsStorage": false,
     "general": {
       "passport-local": "1.0.0",
-      "@nestjs/jwt": "7.2.0",
+      "@nestjs/jwt": "8.0.0",
       "passport-jwt": "4.0.0",
-      "nestjs-redis": "1.2.8",
-      "ioredis": "4.19.2"
+      "nestjs-redis": "git+https://github.com/GyanendroKh/nestjs-redis.git#nest8-fix",
+      "ioredis": "4.27.7"
     },
-    "dev": { "@types/passport-local": "1.0.33", "@types/passport-jwt": "3.0.3" }
+    "dev": { "@types/passport-local": "1.0.34", "@types/passport-jwt": "3.0.6" }
   },
   "oauth2": {
     "hasSessionsStorage": true,
@@ -21,45 +21,45 @@
         "passport-google-oauth20": "2.0.0",
         "express-session": "1.17.1",
         "cookie-parser": "1.4.5",
-        "connect-redis": "5.0.0",
-        "redis": "3.0.2"
+        "connect-redis": "6.0.0",
+        "redis": "3.1.2"
       },
       "mongodb": {
-        "passport-google-oauth20": "2.0.0",
-        "express-session": "1.17.1",
+        "passport-google-oauth20": "2.0.9",
+        "express-session": "1.17.2",
         "cookie-parser": "1.4.5",
-        "connect-mongodb-session": "2.4.1",
-        "mongodb": "3.6.3"
+        "connect-mongodb-session": "3.0.0",
+        "mongodb": "4.1.0"
       },
       "mysql": {
-        "passport-google-oauth20": "2.0.0",
-        "express-session": "1.17.1",
-        "express-mysql-session": "2.1.4"
+        "passport-google-oauth20": "2.0.9",
+        "express-session": "1.17.2",
+        "express-mysql-session": "2.1.6"
       }
     },
     "dev": {
       "redis": {
-        "@types/passport-google-oauth20": "2.0.4",
-        "@types/passport-local": "1.0.33",
-        "@types/connect-flash": "0.0.36",
-        "@types/express-handlebars": "3.1.0",
-        "@types/express-session": "1.17.3",
-        "@types/redis": "2.8.28",
-        "@types/connect-redis": "0.0.16"
+        "@types/passport-google-oauth20": "2.0.9",
+        "@types/passport-local": "1.0.34",
+        "@types/connect-flash": "0.0.37",
+        "@types/express-handlebars": "5.3.1",
+        "@types/express-session": "1.17.4",
+        "@types/redis": "2.8.31",
+        "@types/connect-redis": "0.0.17"
       },
       "mongodb": {
-        "@types/passport-google-oauth20": "2.0.4",
-        "@types/passport-local": "1.0.33",
-        "@types/connect-flash": "0.0.36",
-        "@types/express-handlebars": "3.1.0",
-        "@types/express-session": "1.17.3"
+        "@types/passport-google-oauth20": "2.0.9",
+        "@types/passport-local": "1.0.34",
+        "@types/connect-flash": "0.0.37",
+        "@types/express-handlebars": "5.3.1",
+        "@types/express-session": "1.17.4"
       },
       "mysql": {
-        "@types/passport-google-oauth20": "2.0.4",
-        "@types/passport-local": "1.0.33",
-        "@types/connect-flash": "0.0.36",
-        "@types/express-handlebars": "3.1.0",
-        "@types/express-session": "1.17.3"
+        "@types/passport-google-oauth20": "2.0.9",
+        "@types/passport-local": "1.0.34",
+        "@types/connect-flash": "0.0.37",
+        "@types/express-handlebars": "5.3.1",
+        "@types/express-session": "1.17.4"
       }
     }
   },
@@ -68,54 +68,54 @@
     "general": {
       "redis": {
         "passport-local": "1.0.0",
-        "express-session": "1.17.1",
-        "hbs": "4.1.1",
-        "express-handlebars": "5.2.0",
+        "express-session": "1.17.2",
+        "hbs": "4.1.2",
+        "express-handlebars": "5.3.3",
         "cookie-parser": "1.4.5",
-        "connect-redis": "5.0.0",
+        "connect-redis": "6.0.0",
         "connect-flash": "0.1.1",
-        "redis": "3.0.2"
+        "redis": "3.1.2"
       },
       "mongodb": {
         "passport-local": "1.0.0",
-        "express-session": "1.17.1",
-        "hbs": "4.1.1",
-        "express-handlebars": "5.2.0",
+        "express-session": "1.17.2",
+        "hbs": "4.1.2",
+        "express-handlebars": "5.3.3",
         "cookie-parser": "1.4.5",
-        "connect-mongodb-session": "2.4.1",
+        "connect-mongodb-session": "3.0.0",
         "connect-flash": "0.1.1",
-        "mongodb": "3.6.3"
+        "mongodb": "4.1.0"
       },
       "mysql": {
         "passport-local": "1.0.0",
-        "express-session": "1.17.1",
-        "hbs": "4.1.1",
-        "express-handlebars": "5.2.0",
+        "express-session": "1.17.2",
+        "hbs": "4.1.2",
+        "express-handlebars": "5.3.3",
         "cookie-parser": "1.4.5",
         "connect-flash": "0.1.1",
-        "express-mysql-session": "2.1.4"
+        "express-mysql-session": "2.1.6"
       }
     },
     "dev": {
       "redis": {
-        "@types/passport-local": "1.0.33",
-        "@types/connect-flash": "0.0.36",
-        "@types/express-handlebars": "3.1.0",
-        "@types/express-session": "1.17.3",
-        "@types/redis": "2.8.28",
-        "@types/connect-redis": "0.0.16"
+        "@types/passport-local": "1.0.34",
+        "@types/connect-flash": "0.0.37",
+        "@types/express-handlebars": "5.3.1",
+        "@types/express-session": "1.17.4",
+        "@types/redis": "2.8.31",
+        "@types/connect-redis": "0.0.17"
       },
       "mongodb": {
-        "@types/passport-local": "1.0.33",
-        "@types/connect-flash": "0.0.36",
-        "@types/express-handlebars": "3.1.0",
-        "@types/express-session": "1.17.3"
+        "@types/passport-local": "1.0.34",
+        "@types/connect-flash": "0.0.37",
+        "@types/express-handlebars": "5.3.1",
+        "@types/express-session": "1.17.4"
       },
       "mysql": {
-        "@types/passport-local": "1.0.33",
-        "@types/connect-flash": "0.0.36",
-        "@types/express-handlebars": "3.1.0",
-        "@types/express-session": "1.17.3"
+        "@types/passport-local": "1.0.34",
+        "@types/connect-flash": "0.0.37",
+        "@types/express-handlebars": "5.3.1",
+        "@types/express-session": "1.17.4"
       }
     }
   }

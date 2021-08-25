@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 import SignUpDto from '@v1/auth/dto/sign-up.dto';
 import UsersRepository from './users.repository';
 import { UpdateResult } from 'typeorm/index';
-import UserEntity from './entities/user.entity';
+import UserEntity from './schemas/user.entity';
 import UpdateUserDto from './dto/update-user.dto';
 
 @Injectable()
@@ -22,19 +22,35 @@ export default class UsersService {
     });
   }
 
-  public async getByEmail(email: string, verified = true): Promise<UserEntity | null> {
-    return this.usersRepository.getByEmail(email, verified);
+  public async getByEmail(email: string): Promise<UserEntity | undefined> {
+    return this.usersRepository.getByEmail(email);
   }
 
-  public async getById(id: number, verified: boolean = true): Promise<UserEntity | null> {
-    return this.usersRepository.getById(id, verified);
+  public getUnverifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
+    return this.usersRepository.getUnverifiedUserByEmail(email);
   }
 
-  update(id: number, data: UpdateUserDto): Promise<UpdateResult> {
+  public getVerifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
+    return this.usersRepository.getVerifiedUserByEmail(email);
+  }
+
+  public async getVerifiedUserById(id: number): Promise<UserEntity | undefined> {
+    return this.usersRepository.getVerifiedUserById(id);
+  }
+
+  public async getUnverifiedUserById(id: number): Promise<UserEntity | undefined> {
+    return this.usersRepository.getUnverifiedUserById(id);
+  }
+
+  public update(id: number, data: UpdateUserDto): Promise<UpdateResult> {
     return this.usersRepository.updateById(id, data);
   }
 
-  getAll(verified: boolean = true): Promise<UserEntity[] | []> {
-    return this.usersRepository.getAll(verified);
+  public getAll(): Promise<UserEntity[] | []> {
+    return this.usersRepository.getAll();
+  }
+
+  public getVerifiedUsers(): Promise<UserEntity[] | []> {
+    return this.usersRepository.getVerifiedUsers();
   }
 }

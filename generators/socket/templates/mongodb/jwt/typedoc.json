@@ -1,5 +1,5 @@
 {
-  "entryPoints": "./src/components/",
+  "entryPoints": "./src/routes/",
   "exclude": ["**/!(*.**).ts", "**/*.!(gateway).ts"],
   "out": "docs"
 }

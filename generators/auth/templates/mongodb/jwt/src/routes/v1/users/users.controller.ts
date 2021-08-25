@@ -63,7 +63,7 @@ export default class UsersController {
   async getById(
     @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
   ): Promise<User> {
-    const foundUser = await this.usersService.getById(id);
+    const foundUser = await this.usersService.getVerifiedUserById(id);
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');
@@ -96,7 +96,7 @@ export default class UsersController {
   @Serialize(UserResponseEntity)
   @UseGuards(JwtAccessGuard)
   async getAllVerifiedUsers() {
-    const foundUsers = await this.usersService.getAll(true);
+    const foundUsers = await this.usersService.getVerifiedUsers();
 
     return foundUsers;
   }

@@ -7,7 +7,6 @@ import SignUpDto from '@v1/auth/dto/sign-up.dto';
 import { User } from '@v1/users/schemas/users.schema';
 import UsersRepository from './users.repository';
 import UpdateUserDto from './dto/update-user.dto';
-import UserEntity from '@v1/users/entity/user.entity';
 
 @Injectable()
 export default class UsersService {
@@ -22,15 +21,24 @@ export default class UsersService {
     });
   }
 
-  public getByEmail(
-    email: string,
-    verified = true,
-  ): Promise<User | null> {
-    return this.usersRepository.getByEmail(email, verified);
+  public getUnverifiedUserByEmail(email: string): Promise<User | null>  {
+    return this.usersRepository.getUnverifiedUserByEmail(email);
   }
 
-  public getById(id: Types.ObjectId, verified = true): Promise<User | null> {
-    return this.usersRepository.getById(id, verified);
+  public getVerifiedUserByEmail(email: string): Promise<User | null>  {
+    return this.usersRepository.getVerifiedUserByEmail(email);
+  }
+
+  public getById(id: Types.ObjectId): Promise<User | null> {
+    return this.usersRepository.getById(id);
+  }
+
+  public getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    return this.usersRepository.getVerifiedUserById(id);
+  }
+
+  public getUnverifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    return this.usersRepository.getUnverifiedUserById(id);
   }
 
   public update(
@@ -40,7 +48,7 @@ export default class UsersService {
     return this.usersRepository.updateById(id, data);
   }
 
-  getAll(verified: boolean = true) {
-    return this.usersRepository.getAll(verified);
+  public getVerifiedUsers() {
+    return this.usersRepository.getVerifiedUsers();
   }
 }

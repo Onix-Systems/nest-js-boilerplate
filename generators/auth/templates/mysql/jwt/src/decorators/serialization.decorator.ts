@@ -1,4 +1,4 @@
-import { UseInterceptors } from '@nestjs/common';
+import { ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
 import SerializeInterceptor from '@interceptors/serialization.interceptor';
 
 const SERIALIZE_TYPE_KEY = 'SerializeTypeKey';
@@ -12,6 +12,7 @@ export function setSerializeType(target:any, serializeType: any) {
 
 const Serialize = (role: any) => (proto: any, propName: any, descriptor: any) => {
   setSerializeType(proto[propName], role);
+  UseInterceptors(ClassSerializerInterceptor)(proto, propName, descriptor);
   UseInterceptors(SerializeInterceptor)(proto, propName, descriptor);
 };
 

@@ -5,6 +5,7 @@ import {
   Get,
   Post,
   Delete,
+  Put,
   Param,
   Request,
   UnauthorizedException,
@@ -30,37 +31,35 @@ import {
 } from '@nestjs/swagger';
 import { JwtService } from '@nestjs/jwt';
 import { Request as ExpressRequest } from 'express';
-import { MailerService } from '@nestjs-modules/mailer';
 
 import UsersService from '@v1/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import RolesGuard from '@guards/roles.guard';
-import { User } from '@v1/users/schemas/users.schema';
+import UserEntity from '@v1/users/schemas/user.entity';
+import { SuccessResponseInterface } from '@interfaces/success-response.interface';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
-import authConstants from '@v1/auth/auth-constants';
-import { SuccessResponseInterface } from '@interfaces/success-response.interface';
+import authConstants from './auth-constants';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
 import AuthService from './auth.service';
 import RefreshTokenDto from './dto/refresh-token.dto';
 import SignInDto from './dto/sign-in.dto';
 import SignUpDto from './dto/sign-up.dto';
+import VerifyUserDto from './dto/verify-user.dto';
 import JwtTokensDto from './dto/jwt-tokens.dto';
 import ResponseUtils from '../../../utils/response.utils';
-import UsersEntity from '@v1/users/entity/user.entity';
 
 @ApiTags('Auth')
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(JwtTokensDto)
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
-    private readonly mailerService: MailerService,
   ) {}
 
   @ApiBody({ type: SignInDto })
@@ -111,7 +110,7 @@ export default class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
   async signIn(@Request() req: ExpressRequest): Promise<SuccessResponseInterface | never> {
-    const user = req.user as User;
+    const user = req.user as UserEntity;
 
     return ResponseUtils.success(
       'tokens',
@@ -120,9 +119,6 @@ export default class AuthController {
   }
 
   @ApiBody({ type: SignUpDto })
-  @ApiOkResponse({
-    description: '201, Success',
-  })
   @ApiBadRequestResponse({
     schema: {
       type: 'object',
@@ -165,24 +161,11 @@ export default class AuthController {
   })
   @HttpCode(HttpStatus.CREATED)
   @Post('sign-up')
-  async signUp(@Body() user: SignUpDto): Promise<any> {
-    const { _id, email } = await this.usersService.create(user) as UsersEntity;
-
-    const token = this.authService.createVerifyToken(_id);
-
-    await this.mailerService.sendMail({
-      to: email,
-      from: process.env.MAILER_FROM_EMAIL,
-      subject: authConstants.mailer.verifyEmail.subject,
-      template: 'verify-password',
-      context: {
-        token,
-        email,
-        host: process.env.SERVER_HOST,
-      },
-    });
-
-    return ResponseUtils.success('auth', { message: 'Success! please verify your email' });
+  async signUp(@Body() user: SignUpDto): Promise<SuccessResponseInterface | never> {
+    return ResponseUtils.success(
+      'users',
+      await this.usersService.create(user),
+    );
   }
 
   @ApiOkResponse({
@@ -213,13 +196,13 @@ export default class AuthController {
         details: {},
       },
     },
-    description: '500. InternalServerError ',
+    description: '500. InternalServerError',
   })
   @ApiBearerAuth()
   @Post('refresh-token')
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
-  ): Promise<SuccessResponseInterface | never>  {
+  ): Promise<SuccessResponseInterface | never> {
     const decodedUser = this.jwtService.decode(
       refreshTokenDto.refreshToken,
     ) as DecodedUser;
@@ -240,9 +223,8 @@ export default class AuthController {
     }
 
     const payload = {
-      _id: decodedUser._id,
+      id: decodedUser.id,
       email: decodedUser.email,
-      role: decodedUser.role,
     };
 
     return ResponseUtils.success(
@@ -264,14 +246,22 @@ export default class AuthController {
     },
     description: 'User was not found',
   })
+  @ApiInternalServerErrorResponse({
+    schema: {
+      type: 'object',
+      example: {
+        message: 'string',
+        details: {},
+      },
+    },
+    description: '500. InternalServerError',
+  })
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Get('verify/:token')
-  async verifyUser(@Param('token') token: string): Promise<SuccessResponseInterface | never> {
-    const { id } = await this.authService.verifyEmailVerToken(
-      token,
-      authConstants.jwt.secrets.accessToken,
+  @Put('verify')
+  async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<SuccessResponseInterface | never> {
+    const foundUser = await this.usersService.getUnverifiedUserByEmail(
+      verifyUserDto.email,
     );
-    const foundUser = await this.usersService.getById(id, false) as UsersEntity;
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');
@@ -279,7 +269,7 @@ export default class AuthController {
 
     return ResponseUtils.success(
       'users',
-      await this.usersService.update(foundUser._id, { verified: true }),
+      await this.usersService.update(foundUser.id, { verified: true }),
     );
   }
 
@@ -303,7 +293,7 @@ export default class AuthController {
         details: {},
       },
     },
-    description: 'InternalServerError',
+    description: '500. InternalServerError',
   })
   @ApiBearerAuth()
   @UseGuards(JwtAccessGuard)
@@ -343,6 +333,7 @@ export default class AuthController {
     },
     description: '500. InternalServerError',
   })
+  @ApiInternalServerErrorResponse({ description: '500. InternalServerError' })
   @ApiBearerAuth()
   @Delete('logout-all')
   @UseGuards(RolesGuard)
@@ -353,7 +344,7 @@ export default class AuthController {
   }
 
   @ApiOkResponse({
-    type: User,
+    type: UserEntity,
     description: '200, returns a decoded user from access token',
   })
   @ApiUnauthorizedResponse({

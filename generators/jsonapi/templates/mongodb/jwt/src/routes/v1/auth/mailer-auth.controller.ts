@@ -54,7 +54,7 @@ import UsersEntity from '@v1/users/entity/user.entity';
 @ApiTags('Auth')
 @UseInterceptors(WrapResponseInterceptor)
 @ApiExtraModels(JwtTokensDto)
-@Controller('auth')
+@Controller()
 export default class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -174,7 +174,7 @@ export default class AuthController {
       to: email,
       from: process.env.MAILER_FROM_EMAIL,
       subject: authConstants.mailer.verifyEmail.subject,
-      template: 'verify-password',
+      template: `${process.cwd()}/src/templates/verify-password`,
       context: {
         token,
         email,
@@ -271,7 +271,7 @@ export default class AuthController {
       token,
       authConstants.jwt.secrets.accessToken,
     );
-    const foundUser = await this.usersService.getById(id, false) as UsersEntity;
+    const foundUser = await this.usersService.getUnverifiedUserById(id) as UsersEntity;
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');
