@@ -9,7 +9,7 @@
   },
   "mysql": {
     "general": {
-      "mysql": "2.18.1",
+      "mysql2": "2.3.3",
       "@nestjs/typeorm": "8.0.2",
       "typeorm": "0.2.37"
     },

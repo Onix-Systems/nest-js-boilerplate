@@ -11,6 +11,9 @@ services:
     restart: always
     ports:
       - 3000:3000
+    depends_on:
+      - mysql
+      - redis
     links:
       - mysql
       - redis
@@ -20,7 +23,7 @@ services:
     image: mysql:5.7
     restart: always
     ports:
-      - "3306:3306"
+      - "7001:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=1234
       - MYSQL_DATABASE=app
@@ -29,4 +32,4 @@ services:
     image: redis:6
     restart: always
     ports:
-      - "6379:6379"
+      - "7000:6379"
