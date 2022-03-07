@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { RedisModule } from 'nestjs-redis';
-import { ConfigModule } from '@nestjs/config';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import AppController from './app.controller';
@@ -19,22 +19,17 @@ import V1Module from '../v1/v1.module';
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),
-    RedisModule.register({
-      url: process.env.REDIS_URL,
-      onClientReady: async (client): Promise<void> => {
-        client.on('error', console.error);
-        client.on('ready', () => {
-          console.log('redis is running on 6379 port');
-        });
-        client.on('restart', () => {
-          console.log('attempt to restart the redis server');
-        });
-      },
-      reconnectOnError: (): boolean => true,
+    RedisModule.forRootAsync({
+      useFactory: (cfg: ConfigService) => ({
+        config: {
+          url: cfg.get('REDIS_URL'),
+        },
+      }),
+      inject: [ConfigService],
     }),
     V1Module,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export default class AppModule {}
+export default class AppModule { }

@@ -11,6 +11,9 @@ services:
     restart: always
     ports:
       - 3000:3000
+    depends_on:
+      - mongodb
+      - redis
     links:
       - mongodb
       - redis
@@ -20,10 +23,10 @@ services:
     image: mongo:latest
     restart: always
     ports:
-      - 27017:27017
+      - 7001:27017
 
   redis:
     image: redis:6
     restart: always
     ports:
-      - 6379:6379
+      - 7000:6379

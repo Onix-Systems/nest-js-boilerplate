@@ -7,6 +7,7 @@ import session from 'express-session';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
 import AppModule from './routes/app/app.module';
 
@@ -17,20 +18,22 @@ const MySQLStore = require('express-mysql-session')(session);
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const configService = app.get(ConfigService);
+
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionsFilter());
 
   app.use(
     session({
-      secret: process.env.PASSPORT_SESSION_SECRET as string,
+      secret: configService.get<string>('PASSPORT_SESSION_SECRET') as string,
       resave: false,
       saveUninitialized: false,
       store: new MySQLStore({
-        host: process.env.MYSQL_HOST,
-        port: process.env.MYSQL_PORT as unknown as number,
-        user: process.env.MYSQL_ROOT_USER,
-        password: process.env.MYSQL_PASSWORD,
-        database: process.env.MYSQL_DB,
+        host: configService.get<string>('MYSQL_HOST'),
+        port: configService.get<number>('MYSQL_PORT') as unknown as number,
+        user: configService.get<string>('MYSQL_ROOT_USER'),
+        password: configService.get<string>('MYSQL_PASSWORD'),
+        database: configService.get<string>('MYSQL_DB'),
       }),
     }),
   );
@@ -48,7 +51,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, document);
 
-  const port = process.env.SERVER_PORT || 3000;
+  const port = configService.get<number>('SERVER_POR') || 3000;
 
   await app.listen(port, async () => {
     console.log(`The server is running on ${port} port: http://localhost:${port}/api`);

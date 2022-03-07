@@ -9,6 +9,7 @@ import session from 'express-session';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
 import AllExceptionsFilter from '@filters/all-exception.filter';
 
@@ -22,17 +23,19 @@ const RedisStore = redisStore(session);
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const configService = app.get(ConfigService);
+
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionsFilter());
 
   app.use(
     session({
-      secret: process.env.PASSPORT_SESSION_SECRET as string,
+      secret: configService.get<string>('PASSPORT_SESSION_SECRET') as string,
       resave: false,
       saveUninitialized: false,
       store: new RedisStore({
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT as unknown as number,
+        host: configService.get<string>('REDIS_HOST'),
+        port: configService.get<number>('REDIS_PORT') as unknown as number,
         client: redisClient,
         ttl: 666,
       }),
@@ -52,7 +55,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, document);
 
-  const port = process.env.SERVER_PORT || 3000;
+  const port = configService.get<number>('SERVER_POR') || 3000;
 
   await app.listen(port, async () => {
     console.log(`The server is running on ${port} port: http://localhost:${port}/api`);

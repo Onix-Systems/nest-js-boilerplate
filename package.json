@@ -33,22 +33,22 @@
     "commit": "git-cz"
   },
   "dependencies": {
-    "chalk": "5.0.0",
-    "husky": "7.0.4",
+    "chalk": "4.1.0",
+    "husky": "4.2.5",
     "print-message": "3.0.1",
-    "yeoman-generator": "5.6.1",
+    "yeoman-generator": "4.12.0",
     "yosay": "2.0.2"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "5.12.0",
-    "@typescript-eslint/parser": "5.12.0",
+    "@typescript-eslint/eslint-plugin": "4.29.2",
+    "@typescript-eslint/parser": "4.29.2",
     "cz-conventional-changelog": "3.3.0",
-    "eslint": "8.9.0",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-config-airbnb-typescript": "16.1.0",
+    "eslint": "7.32.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-config-airbnb-typescript": "12.3.1",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-import": "2.25.4",
-    "prettier": "2.5.1"
+    "eslint-plugin-import": "2.24.0",
+    "prettier": "2.3.2"
   },
   "config": {
     "commitizen": {
