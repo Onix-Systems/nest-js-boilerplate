@@ -5,10 +5,6 @@ const authConstants = {
       accessToken: '<%= config.accessTokenExpirationTime %>',
       refreshToken: '<%= config.refreshTokenExpirationTime %>',
     },
-    secrets: {
-      accessToken: process.env.ACCESS_TOKEN || '<%= config.accessTokenSecret %>',
-      refreshToken: process.env.REFRESH_TOKEN || '<%= config.refreshTokenSecret %>',
-    },
   },
   redis: {
     expirationTime: {

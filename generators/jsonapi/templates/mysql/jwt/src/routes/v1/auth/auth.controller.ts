@@ -31,6 +31,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtService } from '@nestjs/jwt';
 import { Request as ExpressRequest } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 import UsersService from '@v1/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
@@ -60,6 +61,7 @@ export default class AuthController {
     private readonly authService: AuthService,
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
+    private readonly configService: ConfigService,
   ) {}
 
   @ApiBody({ type: SignInDto })
@@ -302,7 +304,7 @@ export default class AuthController {
   async logout(@Param('token') token: string): Promise<{} | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
-      authConstants.jwt.secrets.accessToken,
+      this.configService.get<string>('ACCESS_TOKEN') || '<%= config.accessTokenSecret %>',
     );
 
     if (!decodedUser) {
@@ -374,7 +376,7 @@ export default class AuthController {
   ): Promise<SuccessResponseInterface | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
-      authConstants.jwt.secrets.accessToken,
+      this.configService.get<string>('ACCESS_TOKEN') || '<%= config.accessTokenSecret %>',
     );
 
     if (!decodedUser) {

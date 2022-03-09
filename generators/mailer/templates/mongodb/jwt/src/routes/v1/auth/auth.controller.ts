@@ -60,7 +60,7 @@ export default class AuthController {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
     private readonly mailerService: MailerService,
-    private configService: ConfigService,
+    private readonly configService: ConfigService,
   ) {}
 
   @ApiBody({ type: SignInDto })
@@ -263,7 +263,7 @@ export default class AuthController {
   async verifyUser(@Param('token') token: string): Promise<User | null> {
     const { id } = await this.authService.verifyEmailVerToken(
       token,
-      authConstants.jwt.secrets.accessToken,
+      this.configService.get<string>('ACCESS_TOKEN') || '<%= config.accessTokenSecret %>',
     );
     const foundUser = await this.usersService.getUnverifiedUserById(id) as UsersEntity;
 
@@ -303,7 +303,7 @@ export default class AuthController {
   async logout(@Param('token') token: string): Promise<{} | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
-      authConstants.jwt.secrets.accessToken,
+      this.configService.get<string>('ACCESS_TOKEN') || '<%= config.accessTokenSecret %>',
     );
 
     if (!decodedUser) {
@@ -374,7 +374,7 @@ export default class AuthController {
   ): Promise<DecodedUser | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
-      authConstants.jwt.secrets.accessToken,
+      this.configService.get<string>('ACCESS_TOKEN') || '<%= config.accessTokenSecret %>',
     );
 
     if (!decodedUser) {

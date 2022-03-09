@@ -42,7 +42,7 @@ export default class AuthController {
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
     private readonly mailerService: MailerService,
-    private configService: ConfigService,
+    private readonly configService: ConfigService,
   ) {}
 
   @ApiOkResponse({ description: 'Renders a login page' })
