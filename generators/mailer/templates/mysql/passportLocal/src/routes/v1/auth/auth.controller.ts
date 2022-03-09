@@ -23,6 +23,7 @@ import {
 } from '@nestjs/swagger';
 import { Request as ExpressRequest } from 'express';
 import { MailerService } from '@nestjs-modules/mailer';
+import { ConfigService } from '@nestjs/config';
 
 import UsersService from '@v1/users/users.service';
 import SignInDto from '@v1/auth/dto/sign-in.dto';
@@ -39,6 +40,7 @@ export default class AuthController {
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
     private readonly mailerService: MailerService,
+    private configService: ConfigService,
   ) {}
 
   @ApiOkResponse({ description: 'Renders a login page' })
@@ -68,13 +70,13 @@ export default class AuthController {
     const token = await this.authService.createVerifyToken(id);
     await this.mailerService.sendMail({
       to: email,
-      from: process.env.MAILER_FROM_EMAIL,
+      from: this.configService.get<string>('MAILER_FROM_EMAIL'),
       subject: 'Email Verification',
       template: `${process.cwd()}/public/views/mailer/templates/verify-password`,
       context: {
         token,
         email,
-        host: process.env.SERVER_HOST,
+        host: this.configService.get<number>('SERVER_HOST'),
       },
     });
   }

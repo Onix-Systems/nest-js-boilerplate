@@ -31,6 +31,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Request as ExpressRequest } from 'express';
 import { MailerService } from '@nestjs-modules/mailer';
+import { ConfigService } from '@nestjs/config';
 
 import { SuccessResponseInterface } from '@interfaces/success-response.interface';
 import UsersService from '@v1/users/users.service';
@@ -60,6 +61,7 @@ export default class AuthController {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
     private readonly mailerService: MailerService,
+    private configService: ConfigService,
   ) {}
 
   @ApiBody({ type: SignInDto })
@@ -170,13 +172,13 @@ export default class AuthController {
 
     await this.mailerService.sendMail({
       to: email,
-      from: process.env.MAILER_FROM_EMAIL,
+      from: this.configService.get<string>('MAILER_FROM_EMAIL'),
       subject: authConstants.mailer.verifyEmail.subject,
       template: `${process.cwd()}/src/templates/verify-password`,
       context: {
         token,
         email,
-        host: process.env.SERVER_HOST,
+        host: this.configService.get<number>('SERVER_HOST'),
       },
     });
 
