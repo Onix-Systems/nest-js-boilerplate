@@ -23,10 +23,10 @@ services:
     image: mongo:latest
     restart: always
     ports:
-      - 7001:27017
+      - 27017:27017
 
   redis:
     image: redis:6
     restart: always
     ports:
-      - 7000:6379
+      - 6379:6379
