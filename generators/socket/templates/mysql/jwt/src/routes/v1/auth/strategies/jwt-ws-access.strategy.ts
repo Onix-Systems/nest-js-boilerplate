@@ -15,7 +15,7 @@ export default class JwtWSAccessStrategy extends PassportStrategy(Strategy, 'acc
         },
       ]),
       ignoreExpiration: false,
-      secretOrKey: authConstants.jwt.secrets.accessToken,
+      secretOrKey: this.configService.get<string>('ACCESS_TOKEN') || '<%= config.accessTokenSecret %>',
     });
   }
   async validate(payload: JwtStrategyValidate): Promise<JwtStrategyValidate> {

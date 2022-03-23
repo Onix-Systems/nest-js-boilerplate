@@ -4,6 +4,7 @@ import 'module-alias/register';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, ValidationError } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 import ValidationExceptions from './exceptions/validation.exceptions';
 
 import AppModule from './routes/app/app.module';
@@ -18,7 +19,8 @@ async function bootstrap() {
   }));
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  const port = process.env.SERVER_PORT || 3000;
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>('SERVER_POR') || 3000;
 
   const options = new DocumentBuilder()
     .setTitle('Api v1')

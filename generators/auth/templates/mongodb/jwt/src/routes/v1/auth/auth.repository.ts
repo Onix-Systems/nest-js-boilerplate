@@ -1,7 +1,7 @@
 import * as Redis from 'ioredis';
 import { Injectable } from '@nestjs/common';
 
-import { RedisService } from 'nestjs-redis';
+import { RedisService } from '@liaoliaots/nestjs-redis';
 import authConstants from './auth-constants';
 
 @Injectable()

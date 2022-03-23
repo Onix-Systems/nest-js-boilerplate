@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RedisModule } from 'nestjs-redis';
-import { ConfigModule } from '@nestjs/config';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
@@ -15,48 +15,49 @@ import AppController from './app.controller';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.MYSQL_HOST,
-      port: (process.env.MYSQL_PORT as unknown) as number,
-      database: process.env.MYSQL_DB,
-      username: process.env.MYSQL_ROOT_USER,
-      password: process.env.MYSQL_PASSWORD,
-      entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: true,
+    TypeOrmModule.forRootAsync  ({
+      useFactory: (cfg: ConfigService) => ({
+        type: 'mysql',
+        host: cfg.get('MYSQL_HOST'),
+        port: (cfg.get('MYSQL_PORT') as unknown) as number,
+        database: cfg.get('MYSQL_DB'),
+        username: cfg.get('MYSQL_ROOT_USER'),
+        password: cfg.get('MYSQL_PASSWORD'),
+        entities: ['dist/**/*.entity{.ts,.js}'],
+        synchronize: true,
+      }),
+      inject: [ConfigService],
     }),
-    RedisModule.register({
-      url: process.env.REDIS_URL,
-      onClientReady: async (client): Promise<void> => {
-        client.on('error', console.error);
-        client.on('ready', () => {
-          console.log('redis is running on 6379 port');
-        });
-        client.on('restart', () => {
-          console.log('attempt to restart the redis server');
-        });
-      },
-      reconnectOnError: (): boolean => true,
+    RedisModule.forRootAsync({
+      useFactory: (cfg: ConfigService) => ({
+        config: {
+          url: cfg.get('REDIS_URL'),
+        },
+      }),
+      inject: [ConfigService],
     }),
-    MailerModule.forRoot({
-      transport: {
-        host: process.env.MAILER_HOST,
-        port: Number(process.env.MAILER_PORT),
-        secure: false,
-        auth: {
-          user: process.env.MAILER_USERNAME,
-          pass: process.env.MAILER_PASSWORD,
+    MailerModule.forRootAsync({
+      useFactory: (cfg: ConfigService) => ({
+        transport: {
+          host: cfg.get('MAILER_HOST'),
+          port: Number(cfg.get('MAILER_PORT')),
+          secure: false,
+          auth: {
+            user: cfg.get('MAILER_USERNAME'),
+            pass: cfg.get('MAILER_PASSWORD'),
+          },
         },
-      },
-      defaults: {
-        from: process.env.MAILER_FROM_EMAIL,
-      },
-      template: {
-        adapter: new HandlebarsAdapter(),
-        options: {
-          strict: true,
+        defaults: {
+          from: cfg.get('MAILER_FROM_EMAIL'),
         },
-      },
+        template: {
+          adapter: new HandlebarsAdapter(),
+          options: {
+            strict: true,
+          },
+        },
+      }),
+      inject: [ConfigService],
     }),
     V1Module,
   ],

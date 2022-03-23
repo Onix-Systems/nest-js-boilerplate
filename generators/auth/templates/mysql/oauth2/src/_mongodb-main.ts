@@ -7,6 +7,7 @@ import session from 'express-session';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
 import AppModule from './routes/app/app.module';
 
@@ -17,16 +18,18 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const configService = app.get(ConfigService);
+
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionsFilter());
 
   app.use(
     session({
-      secret: process.env.PASSPORT_SESSION_SECRET as string,
+      secret: configService.get<string>('PASSPORT_SESSION_SECRET') as string,
       resave: false,
       saveUninitialized: false,
       store: new MongoDBStore({
-        uri: process.env.MONGODB_URL,
+        uri: configService.get<string>('MONGODB_URL'),
         collection: 'sessions',
       }),
     }),
@@ -45,7 +48,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, document);
 
-  const port = process.env.SERVER_PORT || 3000;
+  const port = configService.get<number>('SERVER_PORT') || 3000;
 
   await app.listen(port, async () => {
     console.log(`The server is running on ${port} port: http://localhost:${port}/api`);

@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Types } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
 
 import UsersRepository from '@v1/users/users.repository';
 import { UserInterface } from '@v1/users/interfaces/user.interface';
@@ -20,6 +21,7 @@ export default class AuthService {
     private readonly jwtService: JwtService,
     private readonly usersRepository: UsersRepository,
     private readonly authRepository: AuthRepository,
+    private readonly configService: ConfigService,
   ) {}
 
   public async validateUser(
@@ -54,11 +56,11 @@ export default class AuthService {
 
     const accessToken = this.jwtService.sign(payload, {
       expiresIn: authConstants.jwt.expirationTime.accessToken,
-      secret: authConstants.jwt.secrets.accessToken,
+      secret: this.configService.get<string>('ACCESS_TOKEN') || '<%= config.accessTokenSecret %>',
     });
     const refreshToken = this.jwtService.sign(payload, {
       expiresIn: authConstants.jwt.expirationTime.refreshToken,
-      secret: authConstants.jwt.secrets.refreshToken,
+      secret: this.configService.get<string>('REFRESH_TOKEN') || '<%= config.refreshTokenSecret %>',
     });
 
     await this.authRepository.addRefreshToken(
@@ -89,7 +91,7 @@ export default class AuthService {
       { id },
       {
         expiresIn: authConstants.jwt.expirationTime.accessToken,
-        secret: authConstants.jwt.secrets.accessToken,
+        secret: this.configService.get<string>('ACCESS_TOKEN') || '<%= config.accessTokenSecret %>',
       },
     );
   }

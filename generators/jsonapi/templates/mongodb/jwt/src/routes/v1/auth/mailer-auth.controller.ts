@@ -31,6 +31,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Request as ExpressRequest } from 'express';
 import { MailerService } from '@nestjs-modules/mailer';
+import { ConfigService } from '@nestjs/config';
 
 import UsersService from '@v1/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
@@ -61,6 +62,7 @@ export default class AuthController {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
     private readonly mailerService: MailerService,
+    private readonly configService: ConfigService,
   ) {}
 
   @ApiBody({ type: SignInDto })
@@ -172,13 +174,13 @@ export default class AuthController {
 
     await this.mailerService.sendMail({
       to: email,
-      from: process.env.MAILER_FROM_EMAIL,
+      from: this.configService.get<string>('MAILER_FROM_EMAIL'),
       subject: authConstants.mailer.verifyEmail.subject,
       template: `${process.cwd()}/src/templates/verify-password`,
       context: {
         token,
         email,
-        host: process.env.SERVER_HOST,
+        host: this.configService.get<number>('SERVER_HOST'),
       },
     });
 
@@ -269,7 +271,7 @@ export default class AuthController {
   async verifyUser(@Param('token') token: string): Promise<SuccessResponseInterface | never> {
     const { id } = await this.authService.verifyEmailVerToken(
       token,
-      authConstants.jwt.secrets.accessToken,
+      this.configService.get<string>('ACCESS_TOKEN') || '<%= config.accessTokenSecret %>',
     );
     const foundUser = await this.usersService.getUnverifiedUserById(id) as UsersEntity;
 
@@ -312,7 +314,7 @@ export default class AuthController {
   async logout(@Param('token') token: string): Promise<{} | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
-      authConstants.jwt.secrets.accessToken,
+      this.configService.get<string>('ACCESS_TOKEN') || '<%= config.accessTokenSecret %>',
     );
 
     if (!decodedUser) {
@@ -383,7 +385,7 @@ export default class AuthController {
   ): Promise<SuccessResponseInterface | never> {
     const decodedUser: DecodedUser | null = await this.authService.verifyToken(
       token,
-      authConstants.jwt.secrets.accessToken,
+      this.configService.get<string>('ACCESS_TOKEN') || '<%= config.accessTokenSecret %>',
     );
 
     if (!decodedUser) {

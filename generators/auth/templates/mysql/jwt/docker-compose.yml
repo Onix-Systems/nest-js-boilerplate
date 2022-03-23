@@ -11,6 +11,9 @@ services:
     restart: always
     ports:
       - 3000:3000
+    depends_on:
+      - mysql
+      - redis
     links:
       - mysql
       - redis
