@@ -1,6 +1,6 @@
 {
   "name": "generator-nest-js-boilerplate",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "description": "This generator will help you to build your own Nest.js Mongodb API using TypeScript 4",
   "author": "onix-systems",
   "license": "MIT",
