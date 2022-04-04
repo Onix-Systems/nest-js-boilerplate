@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { Routes, RouterModule } from 'nest-router';
+import { Routes, RouterModule } from '@nestjs/core';
 
 import AuthModule from './auth/auth.module';
 import UsersModule from './users/users.module';
@@ -16,7 +16,7 @@ const routes: Routes = [
 
 @Module({
   imports: [
-    RouterModule.forRoutes(routes),
+    RouterModule.register(routes),
     AuthModule,
     UsersModule,
   ],
