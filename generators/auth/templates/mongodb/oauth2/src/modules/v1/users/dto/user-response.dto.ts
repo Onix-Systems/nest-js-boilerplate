@@ -6,7 +6,7 @@ import { ValidateNested } from 'class-validator';
 import { ObjectId } from 'mongodb';
 import { RolesEnum } from '@decorators/roles.decorator';
 
-export class UserResponseEntity {
+export class UserResponseDto {
   @Transform(({ value }) => value.toString(), { toPlainOnly: true })
   _id: ObjectId = new ObjectId();
 
@@ -23,8 +23,8 @@ export class UserResponseEntity {
   verified: boolean = true;
 }
 
-export default class AllUsersResponseEntity {
+export default class UsersResponseDto {
   @ValidateNested({ each: true })
-  @Type(() => UserResponseEntity)
-  data?: UserResponseEntity[] = []
+  @Type(() => UserResponseDto)
+  data?: UserResponseDto[] = []
 }

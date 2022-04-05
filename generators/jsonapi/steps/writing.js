@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { join } = require('path');
 
-module.exports = function() {
+module.exports = function () {
   const { answers } = this.options;
   const authFolder = `${answers.db.toLowerCase()}/${answers.authType}`;
 
@@ -71,8 +71,8 @@ module.exports = function() {
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/modules/v1/users/entity/user-response.entity.ts`),
-        this.destinationPath(`${rootFolder}/src/modules/v1/users/entity/user-response.entity.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/dto/user-response.dto.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/dto/user-response.dto.ts`),
         payload,
       );
 

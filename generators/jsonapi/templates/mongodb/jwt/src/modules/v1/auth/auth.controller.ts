@@ -34,13 +34,12 @@ import { ConfigService } from '@nestjs/config';
 import UsersService from '@v1/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import RolesGuard from '@guards/roles.guard';
-import { User } from '@v1/users/schemas/users.schema';
+import { User, UserDocument } from '@v1/users/schemas/users.schema';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
-import UserResponseEntity from '@v1/users/entity/user-response.entity';
+import UserResponseDto from '@v1/users/dto/user-response.dto';
 import Serialize from '@decorators/serialization.decorator';
-import UsersEntity from '@v1/users/entity/user.entity';
 import { SuccessResponseInterface } from '@interfaces/success-response.interface';
 import authConstants from './auth-constants';
 import { DecodedUser } from './interfaces/decoded-user.interface';
@@ -63,7 +62,7 @@ export default class AuthController {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   @ApiBody({ type: SignInDto })
   @ApiOkResponse({
@@ -166,7 +165,7 @@ export default class AuthController {
     description: '500. InternalServerError',
   })
   @HttpCode(HttpStatus.CREATED)
-  @Serialize(UserResponseEntity)
+  @Serialize(UserResponseDto)
   @Post('sign-up')
   async signUp(@Body() user: SignUpDto): Promise<SuccessResponseInterface | never> {
     return ResponseUtils.success(
@@ -208,7 +207,7 @@ export default class AuthController {
   @Post('refresh-token')
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
-  ): Promise<SuccessResponseInterface | never>  {
+  ): Promise<SuccessResponseInterface | never> {
     const decodedUser = this.jwtService.decode(
       refreshTokenDto.refreshToken,
     ) as DecodedUser;
@@ -271,7 +270,7 @@ export default class AuthController {
   async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<SuccessResponseInterface | never> {
     const foundUser = await this.usersService.getUnverifiedUserByEmail(
       verifyUserDto.email
-    ) as UsersEntity;
+    ) as UserDocument;
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');

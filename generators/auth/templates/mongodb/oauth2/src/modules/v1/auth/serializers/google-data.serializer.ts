@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
 
 import UsersService from '@v1/users/users.service';
-import UserEntity from '@v1/users/entities/user.entity';
+import { UserDocument } from '@v1/users/schemas/users.schema';
 
 @Injectable()
 export default class GoogleDataSerializer extends PassportSerializer {
@@ -10,11 +10,11 @@ export default class GoogleDataSerializer extends PassportSerializer {
     super();
   }
 
-  serializeUser(user: UserEntity, done: CallableFunction) {
+  serializeUser(user: UserDocument, done: CallableFunction) {
     done(null, user);
   }
 
-  async deserializeUser(user: UserEntity, done: CallableFunction) {
+  async deserializeUser(user: UserDocument, done: CallableFunction) {
     const foundUser = await this.usersService.getVerifiedUserByEmail(user.email);
     if (!foundUser) {
       return done(new UnauthorizedException());

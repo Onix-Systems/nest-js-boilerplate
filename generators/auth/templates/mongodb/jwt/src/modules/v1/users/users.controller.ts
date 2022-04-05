@@ -21,7 +21,7 @@ import JwtAccessGuard from '@guards/jwt-access.guard';
 import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
 import { User } from './schemas/users.schema';
 import UsersService from './users.service';
-import UserResponseEntity, { Data } from '@v1/users/entity/user-response.entity';
+import UsersResponseDto, { UserResponseDto } from '@v1/users/dto/user-response.dto';
 import Serialize from '@decorators/serialization.decorator';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 
@@ -31,7 +31,7 @@ import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 @UseInterceptors(WrapResponseInterceptor)
 @Controller()
 export default class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @ApiOkResponse({
     schema: {
@@ -58,7 +58,7 @@ export default class UsersController {
   })
   @ApiParam({ name: 'id', type: String })
   @Get(':id')
-  @Serialize(Data)
+  @Serialize(UserResponseDto)
   @UseGuards(JwtAccessGuard)
   async getById(
     @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
@@ -93,7 +93,7 @@ export default class UsersController {
     description: '401. UnauthorizedException.',
   })
   @Get()
-  @Serialize(UserResponseEntity)
+  @Serialize(UsersResponseDto)
   @UseGuards(JwtAccessGuard)
   async getAllVerifiedUsers() {
     const foundUsers = await this.usersService.getVerifiedUsers();

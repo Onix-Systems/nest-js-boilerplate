@@ -18,18 +18,17 @@ import RolesGuard from '@guards/roles.guard';
 import { UserDocument } from '@v1/users/schemas/users.schema';
 import Serialize from '@decorators/serialization.decorator';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
-import AllUsersResponseEntity, { UserResponseEntity } from '@v1/users/entities/user-response.entity';
-import UserEntity from './entities/user.entity';
+import UsersResponseDto, { UserResponseDto } from '@v1/users/dto/user-response.dto';
 import UsersService from './users.service';
 
 @ApiTags('users')
 @UseInterceptors(WrapResponseInterceptor)
 @Controller()
 export default class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @ApiOkResponse({
-    type: [UserEntity],
+    type: UsersResponseDto,
     description: 'Returns all verified users',
   })
   @ApiUnauthorizedResponse({
@@ -37,24 +36,24 @@ export default class UsersController {
   })
   @Get()
   @UseGuards(RolesGuard)
-  @Serialize(AllUsersResponseEntity)
+  @Serialize(UsersResponseDto)
   @Roles(RolesEnum.admin)
   async getAllVerified(): Promise<UserDocument[]> {
     return this.usersService.getAllVerified();
   }
 
   @ApiOkResponse({
-    type: UserEntity,
+    type: UserResponseDto,
     description: 'Returns a found user',
   })
   @ApiNotFoundResponse({ description: '404...' })
   @Get('/profile')
-  @Serialize(UserResponseEntity)
+  @Serialize(UserResponseDto)
   @UseGuards(IsLoggedGuard)
   async getById(
-    @RequestUser() user: UserEntity,
-  ): Promise<UserEntity | never> {
-    const foundUser = await this.usersService.getVerifiedUserById(user._id) as UserEntity;
+    @RequestUser() user: UserDocument,
+  ): Promise<UserDocument | never> {
+    const foundUser = await this.usersService.getVerifiedUserById(user._id) as UserDocument;
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');

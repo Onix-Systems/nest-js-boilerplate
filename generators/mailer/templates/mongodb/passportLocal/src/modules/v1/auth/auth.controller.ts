@@ -28,9 +28,9 @@ import { ConfigService } from '@nestjs/config';
 
 import UsersService from '@v1/users/users.service';
 import SignInDto from '@v1/auth/dto/sign-in.dto';
+import { UserDocument } from '@v1/users/schemas/users.schema';
 import IsNotLoggedGuard from '@guards/is-not-logged.guard';
 import RedirectIfLoggedGuard from '@guards/redirect-if-logged.guard';
-import UsersEntity from '@v1/users/entity/user.entity';
 import LocalAuthGuard from './guards/local-auth.guard';
 import AuthService from './auth.service';
 import SignUpDto from './dto/sign-up.dto';
@@ -43,7 +43,7 @@ export default class AuthController {
     private readonly usersService: UsersService,
     private readonly mailerService: MailerService,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   @ApiOkResponse({ description: 'Renders a login page' })
   @ApiUnauthorizedResponse({ description: 'Returns an unauthorized ' })
@@ -61,14 +61,14 @@ export default class AuthController {
   @UseGuards(IsNotLoggedGuard)
   @Get('/sign-up')
   @Render('signup')
-  public async signUp(): Promise<void> {}
+  public async signUp(): Promise<void> { }
 
   @ApiMovedPermanentlyResponse({ description: 'Redirects to home' })
   @ApiInternalServerErrorResponse({ description: 'Returns the 500 error' })
   @Post('/register')
   @Redirect('/v1/auth/login')
   public async create(@Body() params: SignUpDto): Promise<void> {
-    const { email, _id } = await this.usersService.create(params) as UsersEntity;
+    const { email, _id } = await this.usersService.create(params) as UserDocument;
     const token = await this.authService.createVerifyToken(_id);
 
     await this.mailerService.sendMail({
@@ -102,7 +102,7 @@ export default class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   @Redirect('/v1/home')
-  public login(): void {}
+  public login(): void { }
 
   @Get('verify/:token')
   @Redirect('/v1/home')

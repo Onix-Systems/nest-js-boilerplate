@@ -1,8 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
 import UsersService from '@v1/users/users.service';
-import { User } from '@v1/users/schemas/users.schema';
-import UsersEntity from '@v1/users/entity/user.entity';
+import { User, UserDocument } from '@v1/users/schemas/users.schema';
 
 @Injectable()
 export default class LocalSerializer extends PassportSerializer {
@@ -14,7 +13,7 @@ export default class LocalSerializer extends PassportSerializer {
     done(null, user);
   }
 
-  async deserializeUser(user: UsersEntity, done: CallableFunction) {
+  async deserializeUser(user: UserDocument, done: CallableFunction) {
     const foundUser = await this.usersService.getById(user._id);
 
     if (!foundUser) {

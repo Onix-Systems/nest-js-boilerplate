@@ -28,7 +28,7 @@ import { User } from './schemas/users.schema';
 import UsersService from './users.service';
 import PaginationUtils from '../../../utils/pagination.utils';
 import ResponseUtils from '../../../utils/response.utils';
-import UserResponseEntity from '@v1/users/entity/user-response.entity';
+import UserResponseDto from '@v1/users/dto/user-response.dto';
 import Serialize from '@decorators/serialization.decorator';
 
 @ApiTags('Users')
@@ -37,7 +37,7 @@ import Serialize from '@decorators/serialization.decorator';
 @ApiExtraModels(User)
 @Controller()
 export default class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @ApiOkResponse({
     schema: {
@@ -64,11 +64,11 @@ export default class UsersController {
   })
   @ApiParam({ name: 'id', type: String })
   @Get(':id')
-  @Serialize(UserResponseEntity)
+  @Serialize(UserResponseDto)
   @UseGuards(JwtAccessGuard)
   async getById(
     @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
-  ): Promise<UserResponseEntity> {
+  ): Promise<UserResponseDto> {
     const foundUser = await this.usersService.getVerifiedUserById(id);
 
     if (!foundUser) {
@@ -102,9 +102,9 @@ export default class UsersController {
     description: '401. UnauthorizedException.',
   })
   @Get()
-  @Serialize(UserResponseEntity)
+  @Serialize(UserResponseDto)
   @UseGuards(JwtAccessGuard)
-  async getAllVerifiedUsers(@Query() query: any): Promise<UserResponseEntity> {
+  async getAllVerifiedUsers(@Query() query: any): Promise<UserResponseDto> {
     const paginationParams: PaginationParamsInterface | false = PaginationUtils.normalizeParams(query.page);
     if (!paginationParams) {
       throw new BadRequestException('Invalid pagination parameters');

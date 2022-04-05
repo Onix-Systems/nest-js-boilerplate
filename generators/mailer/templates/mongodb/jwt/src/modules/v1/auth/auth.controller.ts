@@ -36,7 +36,7 @@ import { ConfigService } from '@nestjs/config';
 import UsersService from '@v1/users/users.service';
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import RolesGuard from '@guards/roles.guard';
-import { User } from '@v1/users/schemas/users.schema';
+import { User, UserDocument } from '@v1/users/schemas/users.schema';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
@@ -48,7 +48,6 @@ import RefreshTokenDto from './dto/refresh-token.dto';
 import SignInDto from './dto/sign-in.dto';
 import SignUpDto from './dto/sign-up.dto';
 import JwtTokensDto from './dto/jwt-tokens.dto';
-import UsersEntity from '@v1/users/entity/user.entity';
 
 @ApiTags('Auth')
 @UseInterceptors(WrapResponseInterceptor)
@@ -61,7 +60,7 @@ export default class AuthController {
     private readonly usersService: UsersService,
     private readonly mailerService: MailerService,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   @ApiBody({ type: SignInDto })
   @ApiOkResponse({
@@ -163,7 +162,7 @@ export default class AuthController {
   @HttpCode(HttpStatus.CREATED)
   @Post('sign-up')
   async signUp(@Body() user: SignUpDto): Promise<any> {
-    const { _id, email } = await this.usersService.create(user) as UsersEntity;
+    const { _id, email } = await this.usersService.create(user) as UserDocument;
 
     const token = this.authService.createVerifyToken(_id);
 
@@ -216,7 +215,7 @@ export default class AuthController {
   @Post('refresh-token')
   async refreshToken(
     @Body() refreshTokenDto: RefreshTokenDto,
-  ): Promise<JwtTokensDto | never>  {
+  ): Promise<JwtTokensDto | never> {
     const decodedUser = this.jwtService.decode(
       refreshTokenDto.refreshToken,
     ) as DecodedUser;
@@ -265,7 +264,7 @@ export default class AuthController {
       token,
       this.configService.get<string>('ACCESS_TOKEN') || '<%= config.accessTokenSecret %>',
     );
-    const foundUser = await this.usersService.getUnverifiedUserById(id) as UsersEntity;
+    const foundUser = await this.usersService.getUnverifiedUserById(id) as UserDocument;
 
     if (!foundUser) {
       throw new NotFoundException('The user does not exist');

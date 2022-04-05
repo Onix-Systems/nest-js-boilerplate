@@ -3,10 +3,9 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import authConstants from '../auth-constants';
+import { UserDocument } from '@v1/users/schemas/users.schema';
 
 import { JwtStrategyValidate } from '../interfaces/jwt-strategy-validate.interface';
-import UsersEntity from '@v1/users/entity/user.entity';
 
 @Injectable()
 export default class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refreshToken') {
@@ -20,7 +19,7 @@ export default class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refr
     });
   }
 
-  async validate(payload: UsersEntity): Promise<JwtStrategyValidate> {
+  async validate(payload: UserDocument): Promise<JwtStrategyValidate> {
     return {
       _id: payload._id,
       email: payload.email,

@@ -6,6 +6,7 @@ import { Types } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
 
 import UsersRepository from '@v1/users/users.repository';
+import { UserDocument } from '@v1/users/schemas/users.schema';
 import { UserInterface } from '@v1/users/interfaces/user.interface';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import JwtTokensDto from './dto/jwt-tokens.dto';
@@ -13,7 +14,6 @@ import { LoginPayload } from './interfaces/login-payload.interface';
 
 import authConstants from './auth-constants';
 import AuthRepository from './auth.repository';
-import UsersEntity from '@v1/users/entity/user.entity';
 
 @Injectable()
 export default class AuthService {
@@ -22,13 +22,13 @@ export default class AuthService {
     private readonly usersRepository: UsersRepository,
     private readonly authRepository: AuthRepository,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   public async validateUser(
     email: string,
     password: string,
   ): Promise<null | UserInterface> {
-    const user = await this.usersRepository.getVerifiedUserByEmail(email) as UsersEntity;
+    const user = await this.usersRepository.getVerifiedUserByEmail(email) as UserDocument;
 
     if (!user) {
       throw new NotFoundException('The item does not exist');
