@@ -94,7 +94,7 @@
       "^@responses(.*)$": "<rootDir>/responses$1",
       "^@interceptors(.*)$": "<rootDir>/interceptors$1",
       "^@decorators(.*)$": "<rootDir>/decorators$1",
-      "^@v1(.*)$": "<rootDir>/src/routes/v1$1",
+      "^@v1(.*)$": "<rootDir>/src/modules/v1$1",
       "^@exceptions(.*)$": "<rootDir>/src/exceptions/v1$1"
     },
     "moduleFileExtensions": [

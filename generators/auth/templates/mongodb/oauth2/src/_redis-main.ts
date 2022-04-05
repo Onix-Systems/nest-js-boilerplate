@@ -13,7 +13,7 @@ import { ConfigService } from '@nestjs/config';
 
 import AllExceptionsFilter from '@filters/all-exception.filter';
 
-import AppModule from './routes/app/app.module';
+import AppModule from './modules/app/app.module';
 
 const redisClient = redis.createClient({
   url: process.env.REDIS_URL,

@@ -19,7 +19,7 @@
       "@guards/*": ["./src/guards/*"],
       "@interfaces/*": ["./src/interfaces/*"],
       "@shared/*": ["./src/components/shared/*"],
-      "@v1/*": ["src/routes/v1/*"],
+      "@v1/*": ["src/modules/v1/*"],
       "@pipes/*": ["./src/pipes/*"],
       "@dto/*": ["./src/dto/*"],
       "@responses/*": ["./src/responses/*"],

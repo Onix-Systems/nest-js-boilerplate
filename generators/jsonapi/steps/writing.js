@@ -17,13 +17,13 @@ module.exports = function() {
   switch (authFolder) {
     case 'mongodb/jwt':
       pathToTmpAppModuleFile = (wantedMailer === 'Yes' && wantedJsonApi === 'Yes')
-        ? `${fullPathToAuthFolder}/src/routes/v1/auth/mailer-auth.controller.ts`
-        : `${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`;
+        ? `${fullPathToAuthFolder}/src/modules/v1/auth/mailer-auth.controller.ts`
+        : `${fullPathToAuthFolder}/src/modules/v1/auth/auth.controller.ts`;
 
       this.fs.copyTpl(
         this.templatePath(pathToTmpAppModuleFile),
         this.destinationPath(
-          `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
+          `${rootFolder}/src/modules/v1/auth/auth.controller.ts`,
         ),
         payload,
       );
@@ -53,26 +53,26 @@ module.exports = function() {
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/routes/v1/users/users.controller.ts`),
-        this.destinationPath(`${rootFolder}/src/routes/v1/users/users.controller.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/users.controller.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/users.controller.ts`),
         payload,
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/routes/v1/users/users.service.ts`),
-        this.destinationPath(`${rootFolder}/src/routes/v1/users/users.service.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/users.service.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/users.service.ts`),
         payload,
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/routes/v1/users/users.repository.ts`),
-        this.destinationPath(`${rootFolder}/src/routes/v1/users/users.repository.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/users.repository.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/users.repository.ts`),
         payload,
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/routes/v1/users/entity/user-response.entity.ts`),
-        this.destinationPath(`${rootFolder}/src/routes/v1/users/entity/user-response.entity.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/entity/user-response.entity.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/entity/user-response.entity.ts`),
         payload,
       );
 
@@ -84,13 +84,13 @@ module.exports = function() {
       break;
     case "mysql/jwt":
       pathToTmpAppModuleFile = (wantedMailer === 'Yes' && wantedJsonApi === 'Yes')
-        ? `${fullPathToAuthFolder}/src/routes/v1/auth/mailer-auth.controller.ts`
-        : `${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`;
+        ? `${fullPathToAuthFolder}/src/modules/v1/auth/mailer-auth.controller.ts`
+        : `${fullPathToAuthFolder}/src/modules/v1/auth/auth.controller.ts`;
 
       this.fs.copyTpl(
         this.templatePath(pathToTmpAppModuleFile),
         this.destinationPath(
-          `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
+          `${rootFolder}/src/modules/v1/auth/auth.controller.ts`,
         ),
         payload,
       );
@@ -132,26 +132,26 @@ module.exports = function() {
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/routes/v1/users/users.controller.ts`),
-        this.destinationPath(`${rootFolder}/src/routes/v1/users/users.controller.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/users.controller.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/users.controller.ts`),
         payload,
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/routes/v1/users/users.service.ts`),
-        this.destinationPath(`${rootFolder}/src/routes/v1/users/users.service.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/users.service.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/users.service.ts`),
         payload,
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/routes/v1/users/users.repository.ts`),
-        this.destinationPath(`${rootFolder}/src/routes/v1/users/users.repository.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/users.repository.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/users.repository.ts`),
         payload,
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/routes/v1/users/entities/user-response.entity.ts`),
-        this.destinationPath(`${rootFolder}/src/routes/v1/users/entities/user-response.entity.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/entities/user-response.entity.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/entities/user-response.entity.ts`),
         payload,
       );
 
@@ -170,13 +170,13 @@ module.exports = function() {
     case "postgresql/jwt":
       console.log('postgresql/jwt jsonapi')
       pathToTmpAppModuleFile = (wantedMailer === 'Yes' && wantedJsonApi === 'Yes')
-        ? `${fullPathToAuthFolder}/src/routes/v1/auth/mailer-auth.controller.ts`
-        : `${fullPathToAuthFolder}/src/routes/v1/auth/auth.controller.ts`;
+        ? `${fullPathToAuthFolder}/src/modules/v1/auth/mailer-auth.controller.ts`
+        : `${fullPathToAuthFolder}/src/modules/v1/auth/auth.controller.ts`;
 
       this.fs.copyTpl(
         this.templatePath(pathToTmpAppModuleFile),
         this.destinationPath(
-          `${rootFolder}/src/routes/v1/auth/auth.controller.ts`,
+          `${rootFolder}/src/modules/v1/auth/auth.controller.ts`,
         ),
         payload,
       );
@@ -218,26 +218,26 @@ module.exports = function() {
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/routes/v1/users/users.controller.ts`),
-        this.destinationPath(`${rootFolder}/src/routes/v1/users/users.controller.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/users.controller.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/users.controller.ts`),
         payload,
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/routes/v1/users/users.service.ts`),
-        this.destinationPath(`${rootFolder}/src/routes/v1/users/users.service.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/users.service.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/users.service.ts`),
         payload,
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/routes/v1/users/users.repository.ts`),
-        this.destinationPath(`${rootFolder}/src/routes/v1/users/users.repository.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/users.repository.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/users.repository.ts`),
         payload,
       );
 
       this.fs.copyTpl(
-        this.templatePath(`${authFolder}/src/routes/v1/users/entities/user-response.entity.ts`),
-        this.destinationPath(`${rootFolder}/src/routes/v1/users/entities/user-response.entity.ts`),
+        this.templatePath(`${authFolder}/src/modules/v1/users/entities/user-response.entity.ts`),
+        this.destinationPath(`${rootFolder}/src/modules/v1/users/entities/user-response.entity.ts`),
         payload,
       );
 

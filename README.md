@@ -111,7 +111,7 @@ Example App Skeleton (for Mongo + JWT + WS)
 │   ├── main.ts
 │   ├── pipes
 │   │   └── parse-object-id.pipe.ts
-│   ├── routes
+│   ├── modules
 │   │   ├── app
 │   │   │   ├── app.controller.ts
 │   │   │   ├── app.gateway.ts

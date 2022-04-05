@@ -24,7 +24,7 @@
       "@responses/*": ["./src/responses/*"],
       "@interceptors/*": ["./src/interceptors/*"],
       "@decorators/*": ["./src/decorators/*"],
-      "@v1/*": ["src/routes/v1/*"]
+      "@v1/*": ["src/modules/v1/*"]
     }
   }
 }

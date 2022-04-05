@@ -25,8 +25,8 @@ module.exports = function() {
   const rootFolder = answers.identifier;
 
   this.fs.copyTpl(
-    this.templatePath(`${authFolder}/src/routes/`),
-    this.destinationPath(`${rootFolder}/src/routes/`),
+    this.templatePath(`${authFolder}/src/modules/`),
+    this.destinationPath(`${rootFolder}/src/modules/`),
     payload,
   );
   this.fs.copyTpl(
