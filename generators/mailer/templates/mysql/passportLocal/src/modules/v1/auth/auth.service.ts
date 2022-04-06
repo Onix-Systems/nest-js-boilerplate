@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
@@ -8,7 +8,7 @@ import authConstants from './auth-constants';
 
 @Injectable()
 export default class AuthService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   public async validateUser(
     email: string,

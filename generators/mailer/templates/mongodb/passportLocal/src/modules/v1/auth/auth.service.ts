@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { ObjectId } from 'mongodb';
 import { Types } from 'mongoose';

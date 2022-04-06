@@ -34,12 +34,11 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 
 import UsersService from '@v1/users/users.service';
-import JwtAccessGuard from '@guards/jwt-access.guard';
-import RolesGuard from '@guards/roles.guard';
 import { User, UserDocument } from '@v1/users/schemas/users.schema';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
-import { Roles, RolesEnum } from '@decorators/roles.decorator';
+import { RolesEnum } from '@decorators/roles.decorator';
+import Auth from '@decorators/auth.decorator';
 import authConstants from '@v1/auth/auth-constants';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
@@ -296,7 +295,7 @@ export default class AuthController {
     description: 'InternalServerError',
   })
   @ApiBearerAuth()
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   @Delete('logout/:token')
   @HttpCode(HttpStatus.NO_CONTENT)
   async logout(@Param('token') token: string): Promise<{} | never> {
@@ -335,8 +334,7 @@ export default class AuthController {
   })
   @ApiBearerAuth()
   @Delete('logout-all')
-  @UseGuards(RolesGuard)
-  @Roles(RolesEnum.admin)
+  @Auth(RolesEnum.admin)
   @HttpCode(HttpStatus.NO_CONTENT)
   async logoutAll(): Promise<{}> {
     return this.authService.deleteAllTokens();
@@ -366,7 +364,7 @@ export default class AuthController {
     description: '500. InternalServerError',
   })
   @ApiBearerAuth()
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   @Get('token')
   async getUserByAccessToken(
     @AuthBearer() token: string,

@@ -146,10 +146,8 @@ Example App Skeleton (for Mongo + JWT + WS)
 │   │       │       └── local.strategy.ts
 │   │       ├── users
 │   │       │   ├── dto
-│   │       │   │   └── update-user.dto.ts
-│   │       │   ├── entity
-│   │       │   │   ├── user-response.entity.ts
-│   │       │   │   └── user.entity.ts
+│   │       │   │   ├── update-user.dto.ts
+│   │       │   │   └── user-response.dto.ts
 │   │       │   ├── interfaces
 │   │       │   │   └── user.interface.ts
 │   │       │   ├── schemas

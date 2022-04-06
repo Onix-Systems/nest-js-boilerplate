@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 
@@ -7,7 +7,7 @@ import { ValidateUserOutput } from './interfaces/validate-user-output.interface'
 
 @Injectable()
 export default class AuthService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   public async validateUser(
     email: string,

@@ -6,7 +6,6 @@ import {
   NotFoundException,
   Param,
   Query,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -19,7 +18,6 @@ import {
   ApiUnauthorizedResponse,
   getSchemaPath,
 } from '@nestjs/swagger';
-import JwtAccessGuard from '@guards/jwt-access.guard';
 import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
 import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
 import { PaginatedUsersInterface } from '@interfaces/paginatedEntity.interface';
@@ -30,6 +28,7 @@ import PaginationUtils from '../../../utils/pagination.utils';
 import ResponseUtils from '../../../utils/response.utils';
 import UserResponseDto from '@v1/users/dto/user-response.dto';
 import Serialize from '@decorators/serialization.decorator';
+import Auth from '@decorators/auth.decorator';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -65,7 +64,7 @@ export default class UsersController {
   @ApiParam({ name: 'id', type: String })
   @Get(':id')
   @Serialize(UserResponseDto)
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   async getById(
     @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
   ): Promise<UserResponseDto> {
@@ -103,7 +102,7 @@ export default class UsersController {
   })
   @Get()
   @Serialize(UserResponseDto)
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   async getAllVerifiedUsers(@Query() query: any): Promise<UserResponseDto> {
     const paginationParams: PaginationParamsInterface | false = PaginationUtils.normalizeParams(query.page);
     if (!paginationParams) {

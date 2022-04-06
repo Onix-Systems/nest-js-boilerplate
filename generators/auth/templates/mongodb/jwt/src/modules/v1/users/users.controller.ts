@@ -4,7 +4,6 @@ import {
   Get,
   NotFoundException,
   Param,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -17,12 +16,12 @@ import {
   ApiUnauthorizedResponse,
   getSchemaPath,
 } from '@nestjs/swagger';
-import JwtAccessGuard from '@guards/jwt-access.guard';
 import ParseObjectIdPipe from '@pipes/parse-object-id.pipe';
 import { User } from './schemas/users.schema';
 import UsersService from './users.service';
 import UsersResponseDto, { UserResponseDto } from '@v1/users/dto/user-response.dto';
 import Serialize from '@decorators/serialization.decorator';
+import Auth from '@decorators/auth.decorator';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 
 @ApiTags('Users')
@@ -59,7 +58,7 @@ export default class UsersController {
   @ApiParam({ name: 'id', type: String })
   @Get(':id')
   @Serialize(UserResponseDto)
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   async getById(
     @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
   ): Promise<User> {
@@ -94,7 +93,7 @@ export default class UsersController {
   })
   @Get()
   @Serialize(UsersResponseDto)
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   async getAllVerifiedUsers() {
     const foundUsers = await this.usersService.getVerifiedUsers();
 

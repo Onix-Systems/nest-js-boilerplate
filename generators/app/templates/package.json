@@ -32,7 +32,7 @@
     "@nestjs/platform-express": "8.3.1",
     "@nestjs/swagger": "5.2.0",
     "@nestjs/testing": "8.3.1",
-    "bcrypt": "5.0.1",
+    "bcryptjs": "2.4.3",
     "class-transformer": "0.5.1",
     "class-validator": "0.13.2",
     "connect-mongodb-session": "3.1.1",
@@ -56,7 +56,7 @@
   "devDependencies": {
     "@nestjs/cli": "8.2.1",
     "@nestjs/schematics": "8.0.6",
-    "@types/bcrypt": "5.0.0",
+    "@types/bcryptjs": "2.4.2",
     "@types/express": "4.17.13",
     "@types/jest": "27.4.0",
     "@types/jsonapi-serializer": "3.6.5",

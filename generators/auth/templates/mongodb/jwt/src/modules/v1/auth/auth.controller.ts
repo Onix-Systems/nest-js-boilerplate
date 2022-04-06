@@ -31,12 +31,11 @@ import { JwtService } from '@nestjs/jwt';
 import { Request as ExpressRequest } from 'express';
 import { ConfigService } from '@nestjs/config';
 
+import Auth from '@decorators/auth.decorator';
 import UsersService from '@v1/users/users.service';
-import JwtAccessGuard from '@guards/jwt-access.guard';
-import RolesGuard from '@guards/roles.guard';
 import { User, UserDocument } from '@v1/users/schemas/users.schema';
 import AuthBearer from '@decorators/auth-bearer.decorator';
-import { Roles, RolesEnum } from '@decorators/roles.decorator';
+import { RolesEnum } from '@decorators/roles.decorator';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import authConstants from './auth-constants';
 import { DecodedUser } from './interfaces/decoded-user.interface';
@@ -250,8 +249,7 @@ export default class AuthController {
   })
   @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(RolesGuard)
-  @Roles(RolesEnum.admin)
+  @Auth(RolesEnum.admin)
   @Put('verify')
   async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<User | null> {
     const foundUser = await this.usersService.getUnverifiedUserByEmail(
@@ -288,7 +286,7 @@ export default class AuthController {
     description: '500. InternalServerError',
   })
   @ApiBearerAuth()
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   @Delete('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
   async logout(@AuthBearer() token: string): Promise<{} | never> {
@@ -327,8 +325,7 @@ export default class AuthController {
   })
   @ApiBearerAuth()
   @Delete('logout-all')
-  @UseGuards(RolesGuard)
-  @Roles(RolesEnum.admin)
+  @Auth(RolesEnum.admin)
   @HttpCode(HttpStatus.NO_CONTENT)
   async logoutAll(): Promise<{}> {
     return this.authService.deleteAllTokens();
@@ -359,7 +356,7 @@ export default class AuthController {
   })
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
-  @UseGuards(JwtAccessGuard)
+  @Auth()
   @Get('token')
   async getUserByAccessToken(
     @AuthBearer() token: string,

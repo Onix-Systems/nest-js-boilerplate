@@ -9,7 +9,7 @@ COPY . .
 
 RUN apt-get install -y git
 
-RUN npm install
+RUN npm ci --quiet
 
 EXPOSE 3000
 
