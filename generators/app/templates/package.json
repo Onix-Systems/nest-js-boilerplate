@@ -43,7 +43,6 @@
     "jsonapi-serializer": "3.6.7",
     "lodash": "4.17.21",
     "module-alias": "2.2.2",
-    "nest-router": "1.0.9",
     "nestjs-redis": "1.3.3",
     "open": "8.4.0",
     "passport-google-oauth20": "2.0.0",
@@ -95,7 +94,7 @@
       "^@responses(.*)$": "<rootDir>/responses$1",
       "^@interceptors(.*)$": "<rootDir>/interceptors$1",
       "^@decorators(.*)$": "<rootDir>/decorators$1",
-      "^@v1(.*)$": "<rootDir>/src/routes/v1$1",
+      "^@v1(.*)$": "<rootDir>/src/modules/v1$1",
       "^@exceptions(.*)$": "<rootDir>/src/exceptions/v1$1"
     },
     "moduleFileExtensions": [

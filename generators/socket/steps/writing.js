@@ -9,8 +9,8 @@ module.exports = function() {
   const { wantedMailer } = answers;
 
   const pathToTmpAppModuleFile = wantedMailer === 'Yes'
-    ? `${socketFolder}/src/routes/app/mailer-app.module.ts`
-    : `${socketFolder}/src/routes/app/app.module.ts`;
+    ? `${socketFolder}/src/modules/app/mailer-app.module.ts`
+    : `${socketFolder}/src/modules/app/app.module.ts`;
 
   const fullPathToSocketFolder = join(`${__dirname}/../templates/${socketFolder}`);
   const payload = {
@@ -26,19 +26,19 @@ module.exports = function() {
 
   this.fs.copyTpl(
     this.templatePath(pathToTmpAppModuleFile),
-    this.destinationPath(`${rootFolder}/src/routes/app/app.module.ts`),
+    this.destinationPath(`${rootFolder}/src/modules/app/app.module.ts`),
     payload,
   );
 
   this.fs.copyTpl(
-    this.templatePath(`${socketFolder}/src/routes/app/app.gateway.ts`),
-    this.destinationPath(`${rootFolder}/src/routes/app/app.gateway.ts`),
+    this.templatePath(`${socketFolder}/src/modules/app/app.gateway.ts`),
+    this.destinationPath(`${rootFolder}/src/modules/app/app.gateway.ts`),
     payload,
   );
 
   this.fs.copyTpl(
-    this.templatePath(`${socketFolder}/src/routes/v1/auth`),
-    this.destinationPath(`${rootFolder}/src/routes/v1/auth`),
+    this.templatePath(`${socketFolder}/src/modules/v1/auth`),
+    this.destinationPath(`${rootFolder}/src/modules/v1/auth`),
     payload,
   );
 

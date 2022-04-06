@@ -9,7 +9,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 
-import AppModule from './routes/app/app.module';
+import AppModule from './modules/app/app.module';
 
 import AllExceptionsFilter from '@filters/all-exception.filter';
 
