@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 import { Types } from 'mongoose';
 import { Injectable } from '@nestjs/common';
@@ -9,7 +9,7 @@ import UserDto from './dto/user.dto';
 
 @Injectable()
 export default class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(private readonly usersRepository: UsersRepository) { }
 
   async create(userDto: UserDto): Promise<User> {
     const hashedPassword: string = await bcrypt.hash(userDto.password, 10);

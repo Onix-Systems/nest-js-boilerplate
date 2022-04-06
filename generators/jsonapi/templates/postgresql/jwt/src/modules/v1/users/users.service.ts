@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 import { Injectable } from '@nestjs/common';
 
@@ -32,7 +32,7 @@ export default class UsersService {
     return this.usersRepository.getVerifiedUserByEmail(email);
   }
 
-  public getUnverifiedUserByEmail(email: string): Promise<UserEntity | undefined>  {
+  public getUnverifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
     return this.usersRepository.getUnverifiedUserByEmail(email);
   }
 
