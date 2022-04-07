@@ -1,3 +1,5 @@
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/chechavalerii)
+
 # Nest.js boilerplate
 
 [![onix](https://img.shields.io/badge/onix-systems-blue.svg)](https://onix-systems.com/)
