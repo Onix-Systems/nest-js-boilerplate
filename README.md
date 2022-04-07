@@ -265,12 +265,6 @@ http://localhost:3000/api
 ![Alt Text1](https://media.giphy.com/media/XEUyeEL03IcaZYw6SB/giphy.gif)
 
 
-## Getting To Know Yeoman
+## Buy me a coffee
 
-- Yeoman has a heart of gold.
-- Yeoman is a person with feelings and opinions, but is very easy to work with.
-- Yeoman can be too opinionated at times but is easily convinced not to be.
-- Feel free to [learn more about Yeoman](http://yeoman.io/).
-
-[travis-image]: https://travis-ci.org/caiobsouza/generator-ts-node-api.svg?branch=master
-[travis-url]: https://travis-ci.org/caiobsouza/generator-ts-node-api
+You can support by buying a coffee ☕️ here - [https://www.buymeacoffee.com/chechavalerii](https://www.buymeacoffee.com/chechavalerii)
