@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { RedisModule } from 'nestjs-redis';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -19,22 +19,26 @@ import AppGateway from './app.gateway';
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),
-    RedisModule.register({
-      url: process.env.REDIS_URL,
-      onClientReady: async (client): Promise<void> => {
-        client.on('error', console.error);
-        client.on('ready', () => {
-          console.log('redis is running on 6379 port');
-        });
-        client.on('restart', () => {
-          console.log('attempt to restart the redis server');
-        });
-      },
-      reconnectOnError: (): boolean => true,
+    RedisModule.forRootAsync({
+      useFactory: () => ({
+        config: {
+          url: process.env.REDIS_URL,
+          onClientCreated: async (client): Promise<void> => {
+            client.on('error', console.error);
+            client.on('ready', () => {
+              console.log('redis is running on 6379 port');
+            });
+            client.on('restart', () => {
+              console.log('attempt to restart the redis server');
+            });
+          },
+          reconnectOnError: (): boolean => true,
+        },
+      }),
     }),
     V1Module,
   ],
   controllers: [AppController],
   providers: [AppService, AppGateway],
 })
-export default class AppModule {}
+export default class AppModule { }
