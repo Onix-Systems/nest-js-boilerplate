@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import V1Module from '../v1/v1.module';
@@ -20,9 +20,9 @@ import AppGateway from './app.gateway';
       useUnifiedTopology: true,
     }),
     RedisModule.forRootAsync({
-      useFactory: () => ({
+      useFactory: (cfg: ConfigService) => ({
         config: {
-          url: process.env.REDIS_URL,
+          url: cfg.get('REDIS_URL'),
           onClientCreated: async (client): Promise<void> => {
             client.on('error', console.error);
             client.on('ready', () => {
@@ -35,6 +35,7 @@ import AppGateway from './app.gateway';
           reconnectOnError: (): boolean => true,
         },
       }),
+      inject: [ConfigService],
     }),
     V1Module,
   ],
