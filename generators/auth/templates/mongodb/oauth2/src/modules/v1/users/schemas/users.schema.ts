@@ -36,7 +36,7 @@ export class User {
   verified: boolean = false;
 
   @Prop({
-    type: RolesEnum,
+    type: String,
     required: false,
     default: RolesEnum.user,
   })
