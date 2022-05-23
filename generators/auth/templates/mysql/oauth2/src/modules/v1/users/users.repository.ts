@@ -28,14 +28,14 @@ export default class UsersRepository {
     });
   }
 
-  public async getVerifiedUserByEmail(email: string): Promise<UserEntity | null> {
+  public async getVerifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
     return this.usersModel.findOne({
       email,
       verified: true,
     });
   }
 
-  public async getUnverifiedUserByEmail(email: string): Promise<UserEntity | null> {
+  public async getUnverifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
     return this.usersModel.findOne({
       email,
       verified: false,

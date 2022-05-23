@@ -19,7 +19,7 @@ export default class UsersRepository {
     });
   }
 
-  public async getByEmail(email: string): Promise<UserEntity | null> {
+  public async getByEmail(email: string): Promise<UserEntity | undefined> {
     const user: UserEntity | undefined = await this.usersModel.findOne({
       email,
     });
@@ -27,7 +27,7 @@ export default class UsersRepository {
     return user || null;
   }
 
-  public async getById(id: number): Promise<UserEntity | null> {
+  public async getById(id: number): Promise<UserEntity | undefined> {
     const user: UserEntity | undefined = await this.usersModel.findOne({
       id,
     });

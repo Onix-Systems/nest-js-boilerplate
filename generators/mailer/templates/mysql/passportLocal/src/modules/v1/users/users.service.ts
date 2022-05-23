@@ -19,11 +19,11 @@ export default class UsersService {
     });
   }
 
-  public getByEmail(email: string): Promise<UserEntity | null> {
+  public getByEmail(email: string): Promise<UserEntity | undefined> {
     return this.usersRepository.getByEmail(email);
   }
 
-  public getById(id: number): Promise<UserEntity | null> {
+  public getById(id: number): Promise<UserEntity | undefined> {
     return this.usersRepository.getById(id);
   }
 

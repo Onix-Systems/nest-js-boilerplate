@@ -20,7 +20,7 @@ export default class UsersService {
     return this.usersRepository.getByEmail(email);
   }
 
-  public async getVerifiedUserByEmail(email: string) : Promise<UserEntity | null> {
+  public async getVerifiedUserByEmail(email: string) : Promise<UserEntity | undefined> {
     return this.usersRepository.getVerifiedUserByEmail(email);
   }
 
