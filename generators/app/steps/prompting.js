@@ -50,7 +50,7 @@ module.exports = {
   },
 
   askAboutDatabase() {
-    askQuestions.call(this, 'Database', questions.db, this.async());
+    askQuestions.call(this, 'Database', questions.db[this.answers.authType], this.async());
   },
 
   askAboutMailer() {
