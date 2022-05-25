@@ -20,7 +20,7 @@ export default class UsersRepository {
     });
   }
 
-  public async getByEmail(email: string): Promise<UserEntity | undefined> {
+  public async getByEmail(email: string): Promise<UserEntity | void> {
     return this.usersModel.findOne({
       where: [{
         email
@@ -28,25 +28,25 @@ export default class UsersRepository {
     });
   }
 
-  public async getVerifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
+  public async getVerifiedUserByEmail(email: string): Promise<UserEntity | void> {
     return this.usersModel.findOne({
       email,
       verified: true,
     });
   }
 
-  public async getUnverifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
+  public async getUnverifiedUserByEmail(email: string): Promise<UserEntity | void> {
     return this.usersModel.findOne({
       email,
       verified: false,
     });
   }
 
-  public async getById(id: number): Promise<UserEntity | undefined> {
+  public async getById(id: number): Promise<UserEntity | void> {
     return this.usersModel.findOne(id);
   }
 
-  public async getVerifiedUserById(id: number): Promise<UserEntity | undefined> {
+  public async getVerifiedUserById(id: number): Promise<UserEntity | void> {
     return this.usersModel.findOne(id, {
       where: [{ verified: true }],
     });

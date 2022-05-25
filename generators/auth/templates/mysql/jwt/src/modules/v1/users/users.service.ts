@@ -29,15 +29,15 @@ export default class UsersService {
     return this.usersRepository.getVerifiedUserByEmail(email);
   }
 
-  public async getVerifiedUserById(id: number): Promise<UserEntity | undefined> {
+  public async getVerifiedUserById(id: number): Promise<UserEntity | void> {
     return this.usersRepository.getVerifiedUserById(id);
   }
 
-  public async getUnverifiedUserById(id: number): Promise<UserEntity | undefined> {
+  public async getUnverifiedUserById(id: number): Promise<UserEntity | void> {
     return this.usersRepository.getUnverifiedUserById(id);
   }
 
-  public async getById(id: number): Promise<UserEntity | undefined> {
+  public async getById(id: number): Promise<UserEntity | void> {
     return this.usersRepository.getById(id);
   }
 
