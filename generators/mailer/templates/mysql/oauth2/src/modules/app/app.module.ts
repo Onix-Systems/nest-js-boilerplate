@@ -14,7 +14,7 @@ import AppService from './app.service';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
+    TypeOrmModule.forRootAsync({
       useFactory: (cfg: ConfigService) => ({
         type: 'mysql',
         host: cfg.get('MYSQL_HOST'),
