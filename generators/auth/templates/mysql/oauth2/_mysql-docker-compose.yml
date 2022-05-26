@@ -13,7 +13,6 @@ services:
       - 3000:3000
     links:
       - mysql
-      - redis
 
   mysql:
     container_name: mysql
@@ -24,9 +23,3 @@ services:
     environment:
       - MYSQL_DATABASE=app
       - MYSQL_ROOT_PASSWORD=1234
-
-  redis:
-    image: redis:6
-    restart: always
-    ports:
-      - 6379:6379

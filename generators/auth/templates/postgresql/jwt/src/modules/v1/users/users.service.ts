@@ -22,23 +22,23 @@ export default class UsersService {
     });
   }
 
-  public async getByEmail(email: string): Promise<UserEntity | undefined> {
+  public async getByEmail(email: string): Promise<UserEntity | void> {
     return this.usersRepository.getByEmail(email);
   }
 
-  public getUnverifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
+  public getUnverifiedUserByEmail(email: string): Promise<UserEntity | void> {
     return this.usersRepository.getUnverifiedUserByEmail(email);
   }
 
-  public getVerifiedUserByEmail(email: string): Promise<UserEntity | undefined> {
+  public getVerifiedUserByEmail(email: string): Promise<UserEntity | void> {
     return this.usersRepository.getVerifiedUserByEmail(email);
   }
 
-  public async getVerifiedUserById(id: number): Promise<UserEntity | undefined> {
+  public async getVerifiedUserById(id: number): Promise<UserEntity | void> {
     return this.usersRepository.getVerifiedUserById(id);
   }
 
-  public async getUnverifiedUserById(id: number): Promise<UserEntity | undefined> {
+  public async getUnverifiedUserById(id: number): Promise<UserEntity | void> {
     return this.usersRepository.getUnverifiedUserById(id);
   }
 

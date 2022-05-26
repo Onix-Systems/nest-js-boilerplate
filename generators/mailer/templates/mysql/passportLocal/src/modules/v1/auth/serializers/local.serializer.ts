@@ -14,7 +14,7 @@ export default class LocalSerializer extends PassportSerializer {
   }
 
   public async deserializeUser(user: UserEntity, done: CallableFunction) {
-    const foundUser: UserEntity | null = await this.usersService.getById(
+    const foundUser: UserEntity | void = await this.usersService.getById(
       user.id,
     );
 

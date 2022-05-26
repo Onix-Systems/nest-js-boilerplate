@@ -19,16 +19,16 @@ export default class UsersRepository {
     });
   }
 
-  public async getByEmail(email: string): Promise<UserEntity | null> {
-    const user: UserEntity | undefined = await this.usersModel.findOne({
+  public async getByEmail(email: string): Promise<UserEntity | void> {
+    const user: UserEntity | void = await this.usersModel.findOne({
       email,
     });
 
     return user || null;
   }
 
-  public async getById(id: number): Promise<UserEntity | null> {
-    const user: UserEntity | undefined = await this.usersModel.findOne({
+  public async getById(id: number): Promise<UserEntity | void> {
+    const user: UserEntity | void = await this.usersModel.findOne({
       id,
     });
 

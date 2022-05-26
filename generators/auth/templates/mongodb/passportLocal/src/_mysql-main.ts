@@ -48,9 +48,9 @@ async function bootstrap() {
       store: new MySQLStore({
         host: configService.get<string>('MYSQL_HOST'),
         port: configService.get<number>('MYSQL_PORT'),
-        user: configService.get<string>('MYSQL_USER'),
-        password: configService.get<string>('MYSQL_PASS'),
-        database: configService.get<string>('MYSQL_SESSIONS_DB'),
+        user: configService.get<string>('MYSQL_ROOT_USER'),
+        password: configService.get<string>('MYSQL_PASSWORD'),
+        database: configService.get<string>('MYSQL_DB'),
       }),
     }),
   );

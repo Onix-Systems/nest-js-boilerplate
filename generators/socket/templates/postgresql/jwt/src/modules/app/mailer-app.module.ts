@@ -16,7 +16,7 @@ import AppGateway from './app.gateway';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
+    TypeOrmModule.forRootAsync({
       useFactory: (cfg: ConfigService) => ({
       type: 'postgres',
       host: cfg.get('POSTGRESQL_HOST') || 'postgres',
