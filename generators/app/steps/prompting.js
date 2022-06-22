@@ -41,10 +41,6 @@ module.exports = {
     );
   },
 
-  askAboutJsonApi() {
-    askQuestions.call(this, 'JSON:API', questions.jsonapi[this.answers.authType], this.async())
-  },
-
   askAboutDatabase() {
     askQuestions.call(this, 'Database', questions.db[this.answers.authType], this.async());
   },

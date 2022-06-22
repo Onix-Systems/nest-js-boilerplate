@@ -10,7 +10,6 @@ const deploy = require('./deploy');
 const mailer = require('./mailer');
 const socket = require('./socket');
 const additionalMailerQuestions = require('./additionalMailerQuestions');
-const jsonapi = require('./jsonapi');
 
 module.exports = {
   packageManager,
@@ -29,5 +28,4 @@ module.exports = {
     additionalQuestions: additionalMailerQuestions,
   },
   socket,
-  jsonapi,
 };
