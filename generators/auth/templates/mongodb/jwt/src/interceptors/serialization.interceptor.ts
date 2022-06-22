@@ -6,7 +6,10 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import _ from 'lodash';
 import { getSerializeType } from '@decorators/serialization.decorator';
+
+const getSerializer = (entity: any) => (data: any) => Object.assign(entity, data);
 
 @Injectable()
 export default class SerializeInterceptor implements NestInterceptor {
@@ -14,12 +17,21 @@ export default class SerializeInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((args) => {
         const SerializeType = getSerializeType(context.getHandler());
-        const entity = new SerializeType();
-        if (Array.isArray(args)) {
-          return Object.assign(entity, { data: args });
-        } else {
-          return Object.assign(entity, args);
+        const serializer = getSerializer(new SerializeType());
+
+        if (_.isArray(args)) {
+          if (args && args[0] && args[0].toJSON) {
+            return serializer({ data: args.map((doc) => doc.toJSON()) });
+          }
+
+          return serializer({ data: args });
         }
+
+        if (args && args.toJSON) {
+          return serializer(args.toJSON());
+        }
+
+        return serializer(args);
       }),
     );
   }
