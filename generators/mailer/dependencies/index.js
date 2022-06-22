@@ -8,18 +8,9 @@ function getStableDep(dependenciesObj, versions) {
   return depArray.join(' ');
 }
 
-function getLatestDep(dependenciesObj, versions) {
-  const depArray = Object.keys(dependenciesObj[versions]);
-
-  return depArray.join(' ');
-}
-
-module.exports = function(needStableDependencies) {
-  const getDependencies =
-    needStableDependencies === 'Yes' ? getStableDep : getLatestDep;
-
+module.exports = function() {
   return Object.keys(dependenciesObj).reduce((acc, versions) => {
-    acc[versions] = getDependencies(dependenciesObj, versions);
+    acc[versions] = getStableDep(dependenciesObj, versions);
 
     return acc;
   }, {});

@@ -4,9 +4,8 @@ module.exports = function() {
   const {
     packageManager,
     identifier: folderName,
-    needStableDependencies,
   } = this.options.answers;
-  const { general, dev } = chooseDependencies(needStableDependencies);
+  const { general, dev } = chooseDependencies();
 
   if (packageManager === 'npm') {
     this.npmInstall(general, { save: true }, { cwd: folderName });

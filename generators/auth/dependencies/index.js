@@ -8,20 +8,10 @@ function getStableDep(dependenciesObj) {
   return depArray.join(' ');
 }
 
-function getLatestDep(dependenciesObj) {
-  const depArray = Object.keys(dependenciesObj);
-
-  return depArray.join(' ');
-}
-
 module.exports = function({
   authType,
   sessionsStorage,
-  needStableDependencies,
 }) {
-  const getDependencies =
-    needStableDependencies === 'Yes' ? getStableDep : getLatestDep;
-
   const { hasSessionsStorage } = dependenciesObj[authType];
   const generalDependenciesObj = hasSessionsStorage
     ? dependenciesObj[authType].general[sessionsStorage]
@@ -39,7 +29,7 @@ module.exports = function({
   };
 
   return {
-    general: getDependencies(mergedGeneralDependenciesObj),
-    dev: getDependencies(mergedDevDependenciesObj),
+    general: getStableDep(mergedGeneralDependenciesObj),
+    dev: getStableDep(mergedDevDependenciesObj),
   };
 };

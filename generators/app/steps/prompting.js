@@ -24,10 +24,6 @@ module.exports = {
     );
   },
 
-  askAboutDependencies() {
-    askQuestions.call(this, 'Dependencies`s versions', questions.dependencies, this.async());
-  },
-
   askAppName() {
     askQuestions.call(this, 'Application', questions.app, this.async());
   },
