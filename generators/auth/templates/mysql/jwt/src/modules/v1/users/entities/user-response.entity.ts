@@ -5,7 +5,7 @@ import { RolesEnum } from '@decorators/roles.decorator';
 export class UserResponseEntity {
   id: number = 0;
 
-  role: RolesEnum = RolesEnum.user;
+  role: RolesEnum = RolesEnum.USER;
 
   verified: boolean = false;
 

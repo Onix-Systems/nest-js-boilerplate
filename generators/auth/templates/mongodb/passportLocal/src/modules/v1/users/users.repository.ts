@@ -15,7 +15,7 @@ export default class UsersRepository {
   public create(user: UserDto): Promise<User> {
     return this.userModel.create({
       ...user,
-      role: RolesEnum.user,
+      role: RolesEnum.USER,
       verified: true,
     });
   }

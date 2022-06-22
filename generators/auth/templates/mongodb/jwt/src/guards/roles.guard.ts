@@ -18,6 +18,6 @@ export default class RolesGuard implements CanActivate {
     const request: Request = context.switchToHttp().getRequest();
     const user = request.user as UserDocument;
 
-    return user.role === RolesEnum.admin || roles.includes(user.role);
+    return user.role === RolesEnum.ADMIN || roles.includes(user.role);
   }
 }

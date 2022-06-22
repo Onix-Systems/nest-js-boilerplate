@@ -38,9 +38,9 @@ export class User {
   @Prop({
     type: String,
     required: false,
-    default: RolesEnum.user,
+    default: RolesEnum.USER,
   })
-  role: RolesEnum = RolesEnum.user;
+  role: RolesEnum = RolesEnum.USER;
 }
 
 export type UserDocument = User & Document;

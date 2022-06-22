@@ -39,7 +39,7 @@ async function bootstrap() {
     extname: '.hbs',
     defaultLayout: 'main',
     helpers: {
-      isAdmin: (role: string) => role === RolesEnum.admin,
+      isAdmin: (role: string) => role === RolesEnum.ADMIN,
     },
   }));
   app.set('views', viewsPath);

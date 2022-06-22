@@ -13,7 +13,7 @@ export default class UsersService {
   public create(user: UserDto): Promise<User> {
     return this.usersRepository.create({
       ...user,
-      role: RolesEnum.user,
+      role: RolesEnum.USER,
       verified: true,
     });
   }
@@ -40,7 +40,7 @@ export default class UsersService {
     if (!foundUser) {
       return this.usersRepository.create({
         ...user,
-        role: RolesEnum.user,
+        role: RolesEnum.USER,
         verified: true,
       });
     }

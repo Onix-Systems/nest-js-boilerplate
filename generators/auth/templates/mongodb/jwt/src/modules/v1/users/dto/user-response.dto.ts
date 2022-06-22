@@ -7,7 +7,7 @@ export class UserResponseDto {
   @Transform(({ value }) => value.toString(), { toPlainOnly: true })
   _id: ObjectId = new ObjectId();
 
-  role: RolesEnum = RolesEnum.user;
+  role: RolesEnum = RolesEnum.USER;
 
   verified: boolean = false;
 

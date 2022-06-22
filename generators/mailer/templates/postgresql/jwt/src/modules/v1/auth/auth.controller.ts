@@ -334,7 +334,7 @@ export default class AuthController {
   @ApiBearerAuth()
   @Delete('logout-all')
   @UseGuards(RolesGuard)
-  @Roles(RolesEnum.admin)
+  @Roles(RolesEnum.ADMIN)
   @HttpCode(HttpStatus.NO_CONTENT)
   async logoutAll(): Promise<{}> {
     return this.authService.deleteAllTokens();

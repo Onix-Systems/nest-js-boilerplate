@@ -37,7 +37,7 @@ export default class UsersController {
   @Get()
   @UseGuards(RolesGuard)
   @Serialize(UsersResponseDto)
-  @Roles(RolesEnum.admin)
+  @Roles(RolesEnum.ADMIN)
   async getAllVerified(): Promise<UserDocument[]> {
     return this.usersService.getAllVerified();
   }

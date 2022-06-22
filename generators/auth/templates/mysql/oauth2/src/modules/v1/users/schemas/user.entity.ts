@@ -35,7 +35,7 @@ export default class UserEntity {
   @Column()
   readonly verified: boolean = false;
 
-  @ApiProperty({ type: String, default: RolesEnum.user, enum: RolesEnum })
-  @Column({ type: 'enum', enum: RolesEnum, default: RolesEnum.user })
-  readonly role: RolesEnum = RolesEnum.user;
+  @ApiProperty({ type: String, default: RolesEnum.USER, enum: RolesEnum })
+  @Column({ type: 'enum', enum: RolesEnum, default: RolesEnum.USER })
+  readonly role: RolesEnum = RolesEnum.USER;
 }
