@@ -1,4 +1,4 @@
-import { Model, Query, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
@@ -47,11 +47,11 @@ export default class UsersRepository {
     }).exec();
   }
 
-  public getAll(): Query<UserDocument[], UserDocument> {
+  public getAll(): Promise<UserDocument[]> {
     return this.usersModel.find().exec();
   }
 
-  public getVerifiedUsers(): Query<UserDocument[], UserDocument> {
+  public getVerifiedUsers(): Promise<UserDocument[]> {
     return this.usersModel.find({ verified: true }).exec();
   }
 }

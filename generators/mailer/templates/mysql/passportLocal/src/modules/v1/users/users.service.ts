@@ -27,6 +27,10 @@ export default class UsersService {
     return this.usersRepository.getById(id);
   }
 
+  public getVerifiedUserByEmail(email: string): Promise<UserEntity | void> {
+    return this.usersRepository.getVerifiedUserByEmail(email);
+  }
+
   public getAll(): Promise<UserEntity[] | []> {
     return this.usersRepository.getAll();
   }

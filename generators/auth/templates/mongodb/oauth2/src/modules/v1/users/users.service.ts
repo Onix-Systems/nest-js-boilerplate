@@ -1,4 +1,4 @@
-import { Query, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 
 import { User, UserDocument } from '@v1/users/schemas/users.schema';
@@ -48,7 +48,7 @@ export default class UsersService {
     return foundUser;
   }
 
-  getAllVerified(): Query<UserDocument[], UserDocument> {
+  getAllVerified(): Promise<UserDocument[]> {
     return this.usersRepository.getVerifiedUsers();
   }
 }

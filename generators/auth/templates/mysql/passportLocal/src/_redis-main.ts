@@ -4,7 +4,7 @@ import 'module-alias/register';
 import flash from 'connect-flash';
 import redisStore from 'connect-redis';
 import redis from 'redis';
-import exphbs from 'express-handlebars';
+import { engine } from 'express-handlebars';
 import passport from 'passport';
 import session from 'express-session';
 
@@ -35,7 +35,7 @@ async function bootstrap() {
 
   const viewsPath = join(__dirname, '../public/views');
 
-  app.engine('.hbs', exphbs({
+  app.engine('.hbs', engine({
     extname: '.hbs',
     defaultLayout: 'main',
     helpers: {

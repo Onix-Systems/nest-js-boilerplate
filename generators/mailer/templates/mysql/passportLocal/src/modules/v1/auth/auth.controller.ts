@@ -85,8 +85,16 @@ export default class AuthController {
   @ApiInternalServerErrorResponse({ description: 'Internal error' })
   @Get('/logout')
   @Redirect('/v1/auth/login')
-  public logout(@Request() req: ExpressRequest): void {
-    req.logout();
+  public logout(@Request() req: ExpressRequest): Promise<void> {
+    return new Promise((resolve, reject) => {
+      req.logout((error: any) => {
+        if (error) {
+          reject(error);
+        }
+
+        resolve();
+      });
+    });
   }
 
   @ApiCookieAuth()
