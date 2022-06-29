@@ -15,10 +15,17 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 
+import { RolesEnum } from '@decorators/roles.decorator';
+
 import AppModule from './modules/app/app.module';
 
-import { RolesEnum } from '@decorators/roles.decorator';
-import AllExceptionsFilter from '@filters/all-exceptions.filter';
+import {
+  BadRequestExceptionFilter,
+  UnauthorizedExceptionFilter,
+  ForbiddenExceptionFilter,
+  NotFoundExceptionFilter,
+  AllExceptionsFilter,
+} from './filters';
 
 const redisClient = redis.createClient({
   url: process.env.REDIS_URL,
@@ -31,7 +38,14 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new AllExceptionsFilter());
+
+  app.useGlobalFilters(
+    new AllExceptionsFilter(),
+    new UnauthorizedExceptionFilter(),
+    new ForbiddenExceptionFilter(),
+    new BadRequestExceptionFilter(),
+    new NotFoundExceptionFilter(),
+  );
 
   const viewsPath = join(__dirname, '../public/views');
 

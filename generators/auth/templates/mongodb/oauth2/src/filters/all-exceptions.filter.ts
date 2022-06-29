@@ -1,15 +1,16 @@
-import {
-  HttpStatus,
-  ExceptionFilter,
-  Catch,
-  ArgumentsHost,
-} from '@nestjs/common';
 import { Response as ExpressResponse } from 'express';
-import { ExceptionResponse } from '@interfaces/exception-response.interface';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpStatus,
+} from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 
+import { ExceptionResponse } from '@interfaces/exception-response.interface';
+
 @Catch()
-export default class AllExceptionsFilter implements ExceptionFilter {
+export class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
     const ctx: HttpArgumentsHost = host.switchToHttp();
     const res = ctx.getResponse<ExpressResponse>();
@@ -24,14 +25,24 @@ export default class AllExceptionsFilter implements ExceptionFilter {
 
     if (exception.code === mongodbCodes.bulkWriteError) {
       return res.status(HttpStatus.CONFLICT).json({
-        message: exceptionResponse?.message,
-        error: exceptionResponse?.error,
+        error: 'Duplicate Key',
+        message: exception.message,
       });
     }
 
-    return res.status(status).json({
-      message: exceptionResponse?.message,
-      error: exceptionResponse?.error,
-    });
+    const errorBody = {
+      error: exception.name,
+      message: exception.message,
+    };
+
+    if (exceptionResponse) {
+      if (Array.isArray(exceptionResponse.message)) {
+        Reflect.set(errorBody, 'messages', exceptionResponse.message);
+      } else {
+        Reflect.set(errorBody, 'message', exceptionResponse.message);
+      }
+    }
+
+    return res.status(status).json(errorBody);
   }
 }

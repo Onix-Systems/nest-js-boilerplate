@@ -1,41 +1,48 @@
+import { Response as ExpressResponse } from 'express';
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
-  NotFoundException,
-  UnauthorizedException,
-  BadRequestException,
+  Catch,
+  ExceptionFilter,
   HttpStatus,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { HttpArgumentsHost } from '@nestjs/common/interfaces';
+
+import { ExceptionResponse } from '@interfaces/exception-response.interface';
 
 @Catch()
-export default class AllExceptionsFilter implements ExceptionFilter {
+export class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const res = ctx.getResponse<Response>();
+    const ctx: HttpArgumentsHost = host.switchToHttp();
+    const res = ctx.getResponse<ExpressResponse>();
+    const exceptionResponse: null | ExceptionResponse = exception.getResponse
+      ? (exception.getResponse() as ExceptionResponse)
+      : null;
+    const status: number = exception.getStatus ? exception.getStatus() : 500;
 
     const mongodbCodes = {
-      bulkWriteError: 11000,
+      bulkWriteError: 11000, // a duplicate error code in mongoose
     };
 
     if (exception.code === mongodbCodes.bulkWriteError) {
       return res.status(HttpStatus.CONFLICT).json({
-        message:
-          'Any message which should help the user to resolve the conflict',
+        error: 'Duplicate Key',
+        message: exception.message,
       });
     }
 
-    if (
-      exception instanceof NotFoundException ||
-      exception instanceof UnauthorizedException ||
-      exception instanceof BadRequestException ||
-      exception.code === 'ValidationException'
-    ) {
-      return res.redirect('/v1/auth/sign-up'); // here you can specify rendering your page
+    const errorBody = {
+      error: exception.name,
+      message: exception.message,
+    };
+
+    if (exceptionResponse) {
+      if (Array.isArray(exceptionResponse.message)) {
+        Reflect.set(errorBody, 'messages', exceptionResponse.message);
+      } else {
+        Reflect.set(errorBody, 'message', exceptionResponse.message);
+      }
     }
-    return res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ message: 'Something is broken' });
+
+    return res.status(status).json(errorBody);
   }
 }

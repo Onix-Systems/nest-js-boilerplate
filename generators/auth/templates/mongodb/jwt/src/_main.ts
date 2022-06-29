@@ -5,11 +5,19 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, ValidationError } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import ValidationExceptions from './exceptions/validation.exceptions';
 
 import AppModule from './modules/app/app.module';
 
-import AllExceptionsFilter from './filters/all-exceptions.filter';
+import ValidationExceptions from './exceptions/validation.exceptions';
+
+import {
+  BadRequestExceptionFilter,
+  UnauthorizedExceptionFilter,
+  ForbiddenExceptionFilter,
+  ValidationExceptionsFilter,
+  NotFoundExceptionFilter,
+  AllExceptionsFilter,
+} from './filters';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,7 +25,15 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     exceptionFactory: (errors: ValidationError[]) => new ValidationExceptions(errors),
   }));
-  app.useGlobalFilters(new AllExceptionsFilter());
+
+  app.useGlobalFilters(
+    new AllExceptionsFilter(),
+    new UnauthorizedExceptionFilter(),
+    new ForbiddenExceptionFilter(),
+    new BadRequestExceptionFilter(),
+    new NotFoundExceptionFilter(),
+    new ValidationExceptionsFilter(),
+  );
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>('SERVER_POR') || 3000;
