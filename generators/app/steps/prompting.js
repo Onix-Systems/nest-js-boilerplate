@@ -24,10 +24,6 @@ module.exports = {
     );
   },
 
-  askAboutDependencies() {
-    askQuestions.call(this, 'Dependencies`s versions', questions.dependencies, this.async());
-  },
-
   askAppName() {
     askQuestions.call(this, 'Application', questions.app, this.async());
   },
@@ -43,10 +39,6 @@ module.exports = {
       questions.auth.additionalQuestions[this.answers.authType],
       this.async(),
     );
-  },
-
-  askAboutJsonApi() {
-    askQuestions.call(this, 'JSON:API', questions.jsonapi[this.answers.authType], this.async())
   },
 
   askAboutDatabase() {

@@ -20,19 +20,22 @@ export default class UsersRepository {
   }
 
   public async getByEmail(email: string): Promise<UserEntity | void> {
-    const user: UserEntity | void = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       email,
     });
-
-    return user || null;
   }
 
   public async getById(id: number): Promise<UserEntity | void> {
-    const user: UserEntity | void = await this.usersModel.findOne({
+    return this.usersModel.findOne({
       id,
     });
+  }
 
-    return user || null;
+  public async getVerifiedUserByEmail(email: string): Promise<UserEntity | void> {
+    return this.usersModel.findOne({
+      email,
+      verified: true,
+    });
   }
 
   public async getAll(): Promise<UserEntity[] | []> {

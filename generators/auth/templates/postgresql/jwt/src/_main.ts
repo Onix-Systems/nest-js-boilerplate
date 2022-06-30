@@ -8,7 +8,13 @@ import { ConfigService } from '@nestjs/config';
 
 import AppModule from './modules/app/app.module';
 
-import AllExceptionsFilter from './filters/all-exceptions.filter';
+import {
+  BadRequestExceptionFilter,
+  UnauthorizedExceptionFilter,
+  ForbiddenExceptionFilter,
+  NotFoundExceptionFilter,
+  AllExceptionsFilter,
+} from './filters';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,7 +22,14 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new AllExceptionsFilter());
+
+  app.useGlobalFilters(
+    new AllExceptionsFilter(),
+    new UnauthorizedExceptionFilter(),
+    new ForbiddenExceptionFilter(),
+    new BadRequestExceptionFilter(),
+    new NotFoundExceptionFilter(),
+  );
 
   const port = configService.get<number>('SERVER_PORT') || 3000;
 

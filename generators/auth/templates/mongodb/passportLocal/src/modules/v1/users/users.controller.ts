@@ -70,7 +70,7 @@ export default class UsersController {
     description: 'Returns 200 if the template has been rendered successfully',
   })
   @UseGuards(RolesGuard)
-  @Roles(RolesEnum.admin)
+  @Roles(RolesEnum.ADMIN)
   @Get()
   @Render('all-users')
   public async getAllUsers(@RequestUser() admin: User): Promise<any> {

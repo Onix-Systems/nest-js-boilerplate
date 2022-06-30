@@ -76,9 +76,15 @@ export default class AuthController {
   @UseGuards(IsLoggedGuard)
   @Delete('logout')
   @HttpCode(204)
-  async logout(@Req() req: ExpressRequest): Promise<{}> {
-    await req.logout();
+  public logout(@Req() req: ExpressRequest): Promise<void> {
+    return new Promise((resolve, reject) => {
+      req.logout((error: any) => {
+        if (error) {
+          reject(error);
+        }
 
-    return {};
+        resolve();
+      });
+    });
   }
 }

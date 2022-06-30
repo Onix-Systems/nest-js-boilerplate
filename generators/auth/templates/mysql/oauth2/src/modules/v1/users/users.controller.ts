@@ -37,7 +37,7 @@ export default class UsersController {
   })
   @Get()
   @UseGuards(RolesGuard)
-  @Roles(RolesEnum.admin)
+  @Roles(RolesEnum.ADMIN)
   @Serialize(AllUsersResponseEntity)
   async getAllVerified(): Promise<UserEntity[] | []> {
     const foundUsers: UserEntity[] | [] = await this.usersService.getAll();

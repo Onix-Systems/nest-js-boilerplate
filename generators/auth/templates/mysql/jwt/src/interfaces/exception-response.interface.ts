@@ -1,7 +1,9 @@
 export interface ExceptionResponse {
-  readonly message: unknown;
-
   readonly statusCode: number;
 
   readonly error: string;
+
+  readonly message: unknown;
+
+  readonly messages: unknown[];
 }

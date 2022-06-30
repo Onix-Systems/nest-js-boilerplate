@@ -16,50 +16,44 @@ export default class UsersRepository {
   public create(user: UserDto): Promise<User> {
     return this.userModel.create({
       ...user,
-      role: RolesEnum.user,
+      role: RolesEnum.USER,
       verified: false,
     });
   }
 
   public async getByEmail(email: string): Promise<User | null> {
-    const foundUser: User | null = await this.userModel.findOne({
+    return this.userModel.findOne({
       email,
-    });
-    return foundUser || null;
+    }).exec();
   }
 
   public async getById(id: Types.ObjectId): Promise<User | null> {
-    const foundUser: User | null = await this.userModel.findOne({
+    return this.userModel.findOne({
       _id: id,
-    });
-    return foundUser || null;
+    }).exec();
   }
 
   public async getAll(): Promise<User[] | []> {
-    const foundUsers: User[] | [] = await this.userModel.find({}, { password: false }).lean();
+    const foundUsers: User[] | [] = await this.userModel.find({}, { password: false }).exec();
 
     return foundUsers.length > 0 ? foundUsers : [];
   }
 
-  public async getVerifiedUserByEmail(email: string): Promise<User | null> {
-    const foundUser: User | null = await this.userModel.findOne({
+  public getVerifiedUserByEmail(email: string): Promise<User | null> {
+    return this.userModel.findOne({
       email,
       verified: true,
-    });
-
-    return foundUser || null;
+    }).exec();
   }
 
-  public async getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
-    const foundUser: User | null = await this.userModel.findOne({
+  public getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
+    return  this.userModel.findOne({
       _id: id,
       verified: true,
-    });
-
-    return foundUser || null;
+    }).exec();
   }
 
   public findOneAndUpdate(_id: Types.ObjectId, fieldForUpdate: IUpdateUser) {
-    return this.userModel.findByIdAndUpdate({ _id }, fieldForUpdate);
+    return this.userModel.findByIdAndUpdate({ _id }, fieldForUpdate).exec();
   }
 }

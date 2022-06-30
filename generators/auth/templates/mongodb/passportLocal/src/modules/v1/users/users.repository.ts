@@ -15,7 +15,7 @@ export default class UsersRepository {
   public create(user: UserDto): Promise<User> {
     return this.userModel.create({
       ...user,
-      role: RolesEnum.user,
+      role: RolesEnum.USER,
       verified: true,
     });
   }
@@ -24,17 +24,17 @@ export default class UsersRepository {
     return this.userModel.findOne({
       email,
       verified: true,
-    });
+    }).exec();
   }
 
   public async getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
     return  this.userModel.findOne({
       _id: id,
       verified: true,
-    });
+    }).exec();
   }
 
   public async getAll(): Promise<User[] | []> {
-    return this.userModel.find({}, { password: false }).lean();
+    return this.userModel.find({}, { password: false }).exec();
   }
 }

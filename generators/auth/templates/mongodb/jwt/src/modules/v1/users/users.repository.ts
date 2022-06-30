@@ -17,41 +17,41 @@ export default class UsersRepository {
       verified: false,
     });
 
-    return newUser.toObject();
+    return newUser.toJSON();
   }
 
   public async getUnverifiedUserByEmail(email: string): Promise<User | null> {
     return this.usersModel.findOne({
       email,
       verified: false,
-    }).lean();
+    }).exec();
   }
 
   public async getVerifiedUserByEmail(email: string): Promise<User | null> {
     return this.usersModel.findOne({
       email,
       verified: true,
-    }).lean();
+    }).exec();
   }
 
   public async getById(id: Types.ObjectId): Promise<User | null> {
     return  this.usersModel.findOne({
       _id: id,
-    }, { password: 0 }).lean();
+    }, { password: 0 }).exec();
   }
 
   public async getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
     return this.usersModel.findOne({
       _id: id,
       verified: true,
-    }, { password: 0 }).lean();
+    }, { password: 0 }).exec();
   }
 
   public async getUnverifiedUserById(id: Types.ObjectId): Promise<User | null> {
     return this.usersModel.findOne({
       _id: id,
       verified: false,
-    }, { password: 0 }).lean();
+    }, { password: 0 }).exec();
   }
 
   public async updateById(id: Types.ObjectId, data: UpdateUserDto): Promise<User | null> {
@@ -60,14 +60,14 @@ export default class UsersRepository {
       {
         $set: data,
       },
-    ).lean();
+    ).exec();
   }
 
   public getAll() {
-    return this.usersModel.find().lean();
+    return this.usersModel.find().exec();
   }
 
   public getVerifiedUsers() {
-    return this.usersModel.find({ verified: true }).lean();
+    return this.usersModel.find({ verified: true }).exec();
   }
 }

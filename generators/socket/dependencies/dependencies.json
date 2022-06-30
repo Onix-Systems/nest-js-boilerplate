@@ -1,7 +1,7 @@
 {
  "general": {
-    "@nestjs/websockets": "8.0.6",
-    "@nestjs/platform-socket.io": "8.0.6"
+    "@nestjs/websockets": "8.4.7",
+    "@nestjs/platform-socket.io": "8.4.7"
  },
- "dev": { "typedoc": "0.21.5", "@types/socket.io": "3.0.2" }
+ "dev": { "typedoc": "0.22.17" }
 }

@@ -249,7 +249,7 @@ export default class AuthController {
   })
   @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Auth(RolesEnum.admin)
+  @Auth(RolesEnum.ADMIN)
   @Put('verify')
   async verifyUser(@Body() verifyUserDto: VerifyUserDto): Promise<User | null> {
     const foundUser = await this.usersService.getUnverifiedUserByEmail(
@@ -325,7 +325,7 @@ export default class AuthController {
   })
   @ApiBearerAuth()
   @Delete('logout-all')
-  @Auth(RolesEnum.admin)
+  @Auth(RolesEnum.ADMIN)
   @HttpCode(HttpStatus.NO_CONTENT)
   async logoutAll(): Promise<{}> {
     return this.authService.deleteAllTokens();

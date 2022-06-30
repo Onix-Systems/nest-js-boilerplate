@@ -5,7 +5,7 @@
       "@nestjs/mongoose": "8.0.1",
       "mongodb": "4.1.0"
     },
-    "dev": { "@types/mongoose": "5.10.2", "@types/mongoose": "5.11.97" }
+    "dev": {}
   },
   "mysql": {
     "general": {

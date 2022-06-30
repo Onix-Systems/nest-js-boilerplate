@@ -6,7 +6,6 @@ module.exports = function() {
     packageManager,
     db,
     identifier: folderName,
-    needStableDependencies,
   } = this.answers;
 
   if (this.options['skip-install']) {
@@ -20,7 +19,7 @@ module.exports = function() {
     return;
   }
 
-  const { general, dev } = chooseDependencies(needStableDependencies, db);
+  const { general, dev } = chooseDependencies(db);
 
   if (packageManager === 'npm') {
     // at the first, install all common packages in the package.json with npm
