@@ -13,9 +13,9 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 
-import AppModule from './modules/app/app.module';
-
 import { RolesEnum } from '@decorators/roles.decorator';
+
+import AppModule from './modules/app/app.module';
 
 import {
   BadRequestExceptionFilter,
@@ -48,7 +48,7 @@ async function bootstrap() {
     extname: '.hbs',
     defaultLayout: 'main',
     helpers: {
-      isAdmin: (role: string) => role === RolesEnum.ADMIN,
+      isAdmin: (roles: RolesEnum[]) => roles.includes(RolesEnum.ADMIN),
     },
   }));
   app.set('views', viewsPath);

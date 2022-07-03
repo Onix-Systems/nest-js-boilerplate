@@ -4,5 +4,5 @@ import { RolesEnum } from '@decorators/roles.decorator';
 export interface JwtStrategyValidate {
   _id: Types.ObjectId;
   email: string;
-  role: RolesEnum;
+  roles: RolesEnum[];
 }

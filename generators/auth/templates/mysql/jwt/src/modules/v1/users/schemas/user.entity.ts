@@ -2,11 +2,11 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  Index,
+  Index, ManyToMany, JoinTable,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { RolesEnum } from '@decorators/roles.decorator';
+import RoleEntity from '@v1/roles/schemas/role.entity';
 
 @Entity('users')
 export default class UserEntity {
@@ -27,7 +27,11 @@ export default class UserEntity {
   @Column({ type: 'tinyint' })
   readonly verified: boolean = false;
 
-  @ApiProperty({ type: String, default: RolesEnum.USER, enum: RolesEnum })
-  @Column({ type: 'enum', enum: RolesEnum, default: RolesEnum.USER })
-  readonly role: RolesEnum = RolesEnum.USER;
+  @ManyToMany(() => RoleEntity, {
+    cascade: true,
+  })
+  @JoinTable({
+    name: 'users_roles',
+  })
+  readonly roles!: RoleEntity[];
 }

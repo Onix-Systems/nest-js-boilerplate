@@ -1,4 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+
+import RolesService from '@v1/roles/roles.service';
+import { RolesEnum } from '@decorators/roles.decorator';
 
 import UserEntity from './schemas/user.entity';
 import UserDto from './dto/user.dto';
@@ -6,10 +9,22 @@ import UsersRepository from './users.repository';
 
 @Injectable()
 export default class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly rolesService: RolesService,
+  ) {}
 
-  public create(user: UserDto): Promise<UserEntity> {
-    return this.usersRepository.create(user);
+  public async create(user: UserDto): Promise<UserEntity> {
+    const role = await this.rolesService.getByName(RolesEnum.USER);
+
+    if (!role) {
+      throw new InternalServerErrorException('Role not found');
+    }
+
+    return this.usersRepository.create({
+      ...user,
+      roles: [role],
+    });
   }
 
   public getAll(): Promise<UserEntity[] | []> {

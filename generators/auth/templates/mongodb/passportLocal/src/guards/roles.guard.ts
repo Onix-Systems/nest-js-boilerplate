@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import {RolesEnum} from "@decorators/roles.decorator";
 
 @Injectable()
 export default class RolesGuard implements CanActivate {
@@ -8,7 +9,7 @@ export default class RolesGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const roles = this.reflector.get<string[]>('roles', context.getHandler());
+    const roles = this.reflector.get<RolesEnum[]>('roles', context.getHandler());
     if (!roles) {
       return true;
     }
@@ -20,11 +21,15 @@ export default class RolesGuard implements CanActivate {
       return res.redirect('/v1/auth/login');
     }
 
-    const haveAccess: boolean = roles.some((role) => role === req?.user?.role);
+    const haveAccess: boolean = this.getAccess(req.user.roles, roles);
     if (!haveAccess) {
       return res.redirect('/v1/home');
     }
 
     return true;
+  }
+
+  private getAccess(user: RolesEnum[], roles: RolesEnum[]) {
+    return roles.some((role) => user.includes(role as RolesEnum));
   }
 }

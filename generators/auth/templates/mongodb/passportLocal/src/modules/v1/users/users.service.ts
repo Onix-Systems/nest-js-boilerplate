@@ -28,7 +28,9 @@ export default class UsersService {
     return this.usersRepository.getVerifiedUserById(id);
   }
 
-  public getAll(): Promise<User[] | []> {
-    return this.usersRepository.getAll();
+  public async getAll(): Promise<User[] | []> {
+    const users = await this.usersRepository.getAll();
+
+    return users.map((user) => user.toJSON());
   }
 }

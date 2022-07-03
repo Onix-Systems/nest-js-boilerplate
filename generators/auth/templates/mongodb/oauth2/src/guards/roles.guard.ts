@@ -22,6 +22,10 @@ export default class RolesGuard implements CanActivate {
       throw new UnauthorizedException('Login please');
     }
 
-    return roles.some((role) => role === req?.user?.role);
+    if (Array.isArray(roles)) {
+      return roles.some((role) => req.user.roles.includes(role));
+    }
+
+    return req.user.roles.includes(roles);
   }
 }

@@ -2,14 +2,16 @@ import * as bcrypt from 'bcryptjs';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 import UsersService from '@v1/users/users.service';
+import { RolesEnum } from '@decorators/roles.decorator';
+
+import JwtTokensDto from './dto/jwt-tokens.dto';
 
 import { DecodedUser } from './interfaces/decoded-user.interface';
-import JwtTokensDto from './dto/jwt-tokens.dto';
 import { ValidateUserOutput } from './interfaces/validate-user-output.interface';
 import { LoginPayload } from './interfaces/login-payload.interface';
-import { ConfigService } from '@nestjs/config';
 
 import authConstants from './auth-constants';
 import AuthRepository from './auth.repository';
@@ -36,10 +38,12 @@ export default class AuthService {
     const passwordCompared = await bcrypt.compare(password, user.password);
 
     if (passwordCompared) {
+      const roles = user.roles.map((role) => role.name as RolesEnum);
+
       return {
         id: user.id,
         email: user.email,
-        role: user.role,
+        roles,
       };
     }
 
@@ -50,7 +54,7 @@ export default class AuthService {
     const payload: LoginPayload = {
       id: data.id,
       email: data.email,
-      role: data.role,
+      roles: data.roles,
     };
 
     const accessToken = this.jwtService.sign(payload, {

@@ -2,6 +2,8 @@ import * as bcrypt from 'bcryptjs';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 
+import { RolesEnum } from "@decorators/roles.decorator";
+
 import UsersService from '@v1/users/users.service';
 import { ValidateUserOutput } from './interfaces/validate-user-output.interface';
 
@@ -22,11 +24,13 @@ export default class AuthService {
     const passwordCompared = await bcrypt.compare(password, user.password);
 
     if (passwordCompared) {
+      const roles = user.roles.map((role) => role.name as RolesEnum);
+
       return {
         id: user.id,
         email: user.email,
         verified: user.verified,
-        role: user.role,
+        roles,
       };
     }
 

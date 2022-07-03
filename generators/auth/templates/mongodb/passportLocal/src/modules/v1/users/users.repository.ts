@@ -3,8 +3,7 @@ import { Types, Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import UserDto from './dto/user.dto';
 import { RolesEnum } from '@decorators/roles.decorator';
-import { User } from './schemas/users.schema';
-import { UserDocument } from '@v1/users/schemas/users.schema';
+import { UserDocument, User } from '@v1/users/schemas/users.schema';
 
 @Injectable()
 export default class UsersRepository {
@@ -12,29 +11,29 @@ export default class UsersRepository {
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
-  public create(user: UserDto): Promise<User> {
+  public create(user: UserDto): Promise<UserDocument> {
     return this.userModel.create({
       ...user,
-      role: RolesEnum.USER,
+      roles: [RolesEnum.USER],
       verified: true,
     });
   }
 
-  public async getVerifiedUserByEmail(email: string): Promise<User | null> {
+  public async getVerifiedUserByEmail(email: string): Promise<UserDocument | null> {
     return this.userModel.findOne({
       email,
       verified: true,
     }).exec();
   }
 
-  public async getVerifiedUserById(id: Types.ObjectId): Promise<User | null> {
+  public async getVerifiedUserById(id: Types.ObjectId): Promise<UserDocument | null> {
     return  this.userModel.findOne({
       _id: id,
       verified: true,
     }).exec();
   }
 
-  public async getAll(): Promise<User[] | []> {
+  public async getAll(): Promise<UserDocument[] | []> {
     return this.userModel.find({}, { password: false }).exec();
   }
 }

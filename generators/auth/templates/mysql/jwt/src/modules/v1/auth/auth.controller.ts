@@ -49,6 +49,7 @@ import SignInDto from './dto/sign-in.dto';
 import SignUpDto from './dto/sign-up.dto';
 import VerifyUserDto from './dto/verify-user.dto';
 import JwtTokensDto from './dto/jwt-tokens.dto';
+import {LoginPayload} from "@v1/auth/interfaces/login-payload.interface";
 
 @ApiTags('Auth')
 @UseInterceptors(WrapResponseInterceptor)
@@ -110,7 +111,7 @@ export default class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
   async signIn(@Request() req: ExpressRequest): Promise<JwtTokensDto> {
-    const user = req.user as UserEntity;
+    const user = req.user as LoginPayload;
 
     return this.authService.login(user);
   }
@@ -219,6 +220,7 @@ export default class AuthController {
     const payload = {
       id: decodedUser.id,
       email: decodedUser.email,
+      roles: decodedUser.roles,
     };
 
     return this.authService.login(payload);

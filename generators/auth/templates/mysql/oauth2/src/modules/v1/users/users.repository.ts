@@ -3,8 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/index';
 import { FindConditions } from 'typeorm/find-options/FindConditions';
 
+import { ICreateUser } from '@v1/users/interfaces/user.interface';
+
 import UserEntity from './schemas/user.entity';
-import UserDto from './dto/user.dto';
 
 @Injectable()
 export default class UsersRepository {
@@ -13,7 +14,7 @@ export default class UsersRepository {
     private readonly usersModel: Repository<UserEntity>,
   ) {}
 
-  public create(user: UserDto): Promise<UserEntity> {
+  public create(user: ICreateUser): Promise<UserEntity> {
     return this.usersModel.save({
       ...user,
       verified: true,
@@ -30,8 +31,11 @@ export default class UsersRepository {
 
   public async getVerifiedUserByEmail(email: string): Promise<UserEntity | void> {
     return this.usersModel.findOne({
-      email,
-      verified: true,
+      where: {
+        email,
+        verified: true,
+      },
+      relations: ['roles'],
     });
   }
 
@@ -49,11 +53,14 @@ export default class UsersRepository {
   public async getVerifiedUserById(id: number): Promise<UserEntity | void> {
     return this.usersModel.findOne(id, {
       where: [{ verified: true }],
+      relations: ['roles'],
     });
   }
 
   public find(): Promise<UserEntity[] | []> {
-    return this.usersModel.find();
+    return this.usersModel.find({
+      relations: ['roles'],
+    });
   }
 
   public findOne(filter: FindConditions<UserEntity>) {

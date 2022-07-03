@@ -49,7 +49,7 @@ async function bootstrap() {
     extname: '.hbs',
     defaultLayout: 'main',
     helpers: {
-      isAdmin: (role: string) => role === RolesEnum.ADMIN,
+      isAdmin: (roles: RolesEnum[]) => roles.includes(RolesEnum.ADMIN),
     },
   }));
   app.set('views', viewsPath);

@@ -4,6 +4,8 @@ import { PassportSerializer } from '@nestjs/passport';
 import UsersService from '@v1/users/users.service';
 import UserEntity from '@v1/users/schemas/user.entity';
 
+import { RolesEnum } from '@decorators/roles.decorator';
+
 @Injectable()
 export default class GoogleDataSerializer extends PassportSerializer {
   constructor(private readonly usersService: UsersService) {
@@ -21,6 +23,8 @@ export default class GoogleDataSerializer extends PassportSerializer {
       return done(new UnauthorizedException());
     }
 
-    return done(null, { ...user, role: foundUser.role, id: foundUser.id });
+    const roles = foundUser.roles.map((role) => role.name as RolesEnum);
+
+    return done(null, { ...user, roles, id: foundUser.id });
   }
 }
