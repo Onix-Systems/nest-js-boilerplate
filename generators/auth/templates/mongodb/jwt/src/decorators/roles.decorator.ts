@@ -5,6 +5,4 @@ export enum RolesEnum {
   USER = 'user'
 }
 
-export type RolesAuthType = RolesEnum[] | RolesEnum | void;
-
 export const Roles = (...roles: RolesEnum[]) => SetMetadata('roles', roles);
