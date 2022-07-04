@@ -39,6 +39,32 @@ This generator will help you to build your own Nest.JS Mongodb/MySQL API using T
 - jwt authentication
 - passport google 2.0 strategy
 
+### Roles
+For now, we are implement only few roles: `user` and `admin`
+
+Usage example:
+
+```typescript
+@Auth('admin', 'user')
+```
+or 
+```typescript
+@Auth(RolesEnum.ADMIN)
+```
+
+### Serialization
+Implementing `@Serialize` decorator will start process before objects are returned in a network response
+Example:
+
+```typescript
+ @Serialize(UserResponseDto)
+```
+use Exclude decorator to exclude properties from serialization
+```typescript
+  @Exclude()
+  password: string = '';
+```
+
 ### Session Storage
 
 - MongoDB
@@ -49,17 +75,13 @@ This generator will help you to build your own Nest.JS Mongodb/MySQL API using T
 
 - Nodemailer
 
-### Integration testing
-
-- mocha
-- chai
-- supertest
-
 ## Requirements
 
 - node >= 14
 - npm >= 7
 - mongodb >= 4.0
+- redis >= 4.0
+- mysql >= 2.0
 - typescript >= 4.0.3
 
 ## Installation
@@ -77,25 +99,29 @@ Then generate your new project:
 yo nest-js-boilerplate
 ```
 
-Example App Skeleton (for Mongo + JWT + WS)
+Example App Skeleton (for Mongo + JWT)
 
 ```bash
-├── README.md
-├── docker-compose.yml
-├── index.js
-├── nest-cli.json
-├── package.json
+├── docker
+│   └── App.Dockerfile
 ├── src
 │   ├── constants
 │   │   └── common.constants.ts
 │   ├── decorators
 │   │   ├── auth-bearer.decorator.ts
+│   │   ├── auth.decorator.ts
 │   │   ├── roles.decorator.ts
 │   │   └── serialization.decorator.ts
 │   ├── exceptions
 │   │   └── validation.exceptions.ts
 │   ├── filters
 │   │   ├── all-exceptions.filter.ts
+│   │   ├── bad-request-exception.filter.ts
+│   │   ├── forbidden-exception.filter.ts
+│   │   ├── index.ts
+│   │   ├── not-found-exception.filter.ts
+│   │   ├── unauthorized-exception.filter.ts
+│   │   ├── validation-exceptions.filter.ts
 │   │   └── ws-exceptions.filter.ts
 │   ├── guards
 │   │   ├── jwt-access.guard.ts
@@ -111,8 +137,6 @@ Example App Skeleton (for Mongo + JWT + WS)
 │   │   ├── paginatedEntity.interface.ts
 │   │   └── pagination-params.interface.ts
 │   ├── main.ts
-│   ├── pipes
-│   │   └── parse-object-id.pipe.ts
 │   ├── modules
 │   │   ├── app
 │   │   │   ├── app.controller.ts
@@ -162,11 +186,19 @@ Example App Skeleton (for Mongo + JWT + WS)
 │   │       │   ├── users.service.spec.ts
 │   │       │   └── users.service.ts
 │   │       └── v1.module.ts
+│   ├── pipes
+│   │   └── parse-object-id.pipe.ts
 │   └── templates
 │       └── verify-password.hbs
 ├── tsconfig.build.json
 ├── tsconfig.json
-└── typedoc.json
+├── typedoc.json
+├── index.js
+├── nest-cli.json
+├── package-lock.json
+├── package.json
+├── docker-compose.yml
+└──README.md
 
 ```
 
