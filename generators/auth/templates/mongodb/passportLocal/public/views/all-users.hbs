@@ -6,12 +6,12 @@
         <h2 class="mdl-card__title-text">Welcome {{ data.admin.email }}!</h2>
       </div>
       <div class="mdl-card__supporting-text">
-        <p class="mdl-card__subtitle-text mdl-typography--text-right">Logged like {{ data.admin.role }}</p>
+        <p class="mdl-card__subtitle-text mdl-typography--text-right">Logged like {{ data.admin.roles }}</p>
         <table>
           <thead>
           <tr>
             <th class = "mdl-data-table__cell--non-numeric">Email</th>
-            <th>Role</th>
+            <th>Roles</th>
             <th>Verified</th>
           </tr>
           </thead>
@@ -20,7 +20,7 @@
           {{#each data.users}}
             <tr id="{{ this._id }}">
               <td class = "mdl-data-table__cell--non-numeric"> {{ this.email }} </td>
-              <td> {{ this.role }} </td>
+              <td> {{ this.roles }} </td>
               <td> {{ this.verified }} </td>
             </tr>
           {{/each}}

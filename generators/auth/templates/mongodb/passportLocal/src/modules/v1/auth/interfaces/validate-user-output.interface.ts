@@ -8,5 +8,5 @@ export interface ValidateUserOutput {
 
   readonly verified: boolean;
 
-  readonly role?: RolesEnum;
+  readonly roles?: RolesEnum[];
 }

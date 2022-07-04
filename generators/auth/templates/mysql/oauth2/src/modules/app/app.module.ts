@@ -20,6 +20,11 @@ import V1Module from '../v1/v1.module';
         username: cfg.get('MYSQL_ROOT_USER'),
         password: cfg.get('MYSQL_PASSWORD'),
         entities: ['dist/**/*.entity{.ts,.js}'],
+        migrations: ['dist/**/migrations/*{.ts,.js}'],
+        cli: {
+          migrationsDir: 'src/migrations',
+        },
+        migrationsRun: true,
         synchronize: true,
       }),
       inject: [ConfigService],

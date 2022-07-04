@@ -5,5 +5,5 @@ export interface LoginPayload {
 
   readonly email?: string;
 
-  readonly role?: RolesEnum;
+  readonly roles?: RolesEnum[];
 }

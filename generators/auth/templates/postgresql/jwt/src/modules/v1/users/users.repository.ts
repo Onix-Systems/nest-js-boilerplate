@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm/index';
-import SignUpDto from '@v1/auth/dto/sign-up.dto';
+
+import { ICreateUser } from '@v1/users/interfaces/user.interface';
+
 import UpdateUserDto from './dto/update-user.dto';
 import UserEntity from './schemas/user.entity';
 
@@ -12,7 +14,7 @@ export default class UsersRepository {
     private readonly usersModel: Repository<UserEntity>,
   ) {}
 
-  public create(user: SignUpDto): Promise<UserEntity> {
+  public create(user: ICreateUser): Promise<UserEntity> {
     return this.usersModel.save({
       ...user,
       verified: false,
@@ -29,8 +31,11 @@ export default class UsersRepository {
 
   public async getVerifiedUserByEmail(email: string): Promise<UserEntity | void> {
     return this.usersModel.findOne({
-      email,
-      verified: true,
+      where: {
+        email,
+        verified: true,
+      },
+      relations: ['roles'],
     });
   }
 
@@ -48,6 +53,7 @@ export default class UsersRepository {
   public async getVerifiedUserById(id: number): Promise<UserEntity | void> {
     return this.usersModel.findOne(id, {
       where: [{ verified: true }],
+      relations: ['roles'],
     });
   }
 
@@ -62,7 +68,9 @@ export default class UsersRepository {
   }
 
   public getAll(): Promise<UserEntity[] | []> {
-    return this.usersModel.find();
+    return this.usersModel.find({
+      relations: ['roles'],
+    });
   }
 
   public getVerifiedUsers(): Promise<UserEntity[] | []> {
@@ -70,6 +78,7 @@ export default class UsersRepository {
       where: {
         verified: true,
       },
+      relations: ['roles'],
     });
   }
 }

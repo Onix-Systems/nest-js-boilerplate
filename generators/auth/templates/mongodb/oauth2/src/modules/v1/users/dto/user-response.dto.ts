@@ -16,7 +16,7 @@ export class UserResponseDto {
 
   lastName: string = '';
 
-  role: RolesEnum = RolesEnum.USER;
+  roles: RolesEnum[] = [RolesEnum.USER];
 
   email: string = '';
 

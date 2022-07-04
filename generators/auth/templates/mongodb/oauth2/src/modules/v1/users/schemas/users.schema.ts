@@ -36,11 +36,11 @@ export class User {
   verified: boolean = false;
 
   @Prop({
-    type: String,
+    type: [String],
     required: false,
-    default: RolesEnum.USER,
+    default: [RolesEnum.USER],
   })
-  role: RolesEnum = RolesEnum.USER;
+  roles: RolesEnum[] = [];
 }
 
 export type UserDocument = User & Document;

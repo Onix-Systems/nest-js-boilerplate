@@ -75,6 +75,12 @@ export default class UsersController {
   @Render('all-users')
   public async getAllVerified(@RequestUser() admin: UserEntity): Promise<any> {
     const foundUsers = await this.usersService.getAll();
-    return { admin, users: foundUsers };
+
+    const users = foundUsers.map((user) => ({
+      ...user,
+      roles: user.roles.map((role) => role.name),
+    }));
+
+    return { admin, users };
   }
 }

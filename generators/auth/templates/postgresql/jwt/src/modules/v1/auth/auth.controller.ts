@@ -40,6 +40,7 @@ import UserEntity from '@v1/users/schemas/user.entity';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
+import { LoginPayload } from '@v1/auth/interfaces/login-payload.interface';
 import authConstants from './auth-constants';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
@@ -110,7 +111,7 @@ export default class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
   async signIn(@Request() req: ExpressRequest): Promise<JwtTokensDto> {
-    const user = req.user as UserEntity;
+    const user = req.user as LoginPayload;
 
     return this.authService.login(user);
   }
@@ -219,6 +220,7 @@ export default class AuthController {
     const payload = {
       id: decodedUser.id,
       email: decodedUser.email,
+      roles: decodedUser.roles,
     };
 
     return this.authService.login(payload);

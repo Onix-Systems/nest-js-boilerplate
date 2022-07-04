@@ -20,6 +20,6 @@ export default class GoogleDataSerializer extends PassportSerializer {
       return done(new UnauthorizedException());
     }
 
-    return done(null, { ...user, role: foundUser.role, _id: foundUser._id });
+    return done(null, { ...user, roles: foundUser.roles, _id: foundUser._id });
   }
 }
