@@ -123,6 +123,13 @@ module.exports = function() {
       payload,
     );
   }
+  if (fs.existsSync(`${fullPathToAuthFolder}/src/migrations`)) {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/migrations`),
+      this.destinationPath(`${rootFolder}/src/migrations`),
+      payload,
+    );
+  }
 
   // DOCKER
   if (answers.wantedDocker.toLowerCase() === 'yes') {
