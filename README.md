@@ -45,12 +45,15 @@ For now, we are implement only few roles: `user` and `admin`
 Usage example:
 
 ```typescript
-@Auth('admin', 'user')
+@Auth(RolesEnum.ADMIN, RolesEnum.USER)
 ```
-or 
+or for all roles:
+
 ```typescript
-@Auth(RolesEnum.ADMIN)
+@Auth()
 ```
+
+_Note: before use it for sql database, you must run migrations._
 
 ### Serialization
 Implementing `@Serialize` decorator will start process before objects are returned in a network response
