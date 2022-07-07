@@ -94,6 +94,18 @@ http://localhost:3000/admin/login
 
 To login in the admin panel, you have to have registered verified user with admin role.
 
+To create a default admin user you can run migrations:
+
+```bash
+mingrate-mongo up
+```
+
+The migrations will create a default admin user in db with creds:
+
+```bash
+login: admin@test.com
+password: String_12345
+```
 
 ![Alt Text2](https://media.giphy.com/media/HdWGgOGfQa0QRLNXME/giphy.gif)
 

@@ -17,4 +17,14 @@ module.exports = function() {
     this.destinationPath(`${rootFolder}/src/exceptions`),
     payload,
   );
+  this.fs.copyTpl(
+    this.templatePath(`${adminFolder}/migrations`),
+    this.destinationPath(`${rootFolder}/migrations`),
+    payload,
+  );
+  this.fs.copyTpl(
+    this.templatePath(`${adminFolder}/migrate-mongo-config.js`),
+    this.destinationPath(`${rootFolder}/migrate-mongo-config.js`),
+    payload,
+  );
 };
