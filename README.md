@@ -78,6 +78,25 @@ use Exclude decorator to exclude properties from serialization
 
 - Nodemailer
 
+### AdminJS
+
+AdminJS is available to use if you select Mongo + JWT/Passport, on the route:
+
+```bash
+http://localhost:3000/admin
+```
+
+If you are not logged in, you will be redirected to the admin login page.
+
+```bash
+http://localhost:3000/admin/login
+```
+
+To login in the admin panel, you have to have registered verified user with admin role.
+
+
+![Alt Text2](https://media.giphy.com/media/HdWGgOGfQa0QRLNXME/giphy.gif)
+
 ## Requirements
 
 - node >= 14
