@@ -3,7 +3,6 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { JwtStrategyValidate } from '../interfaces/jwt-strategy-validate.interface';
 import { ConfigService } from '@nestjs/config';
-import authConstants from '../auth-constants';
 
 @Injectable()
 export default class JwtWSAccessStrategy extends PassportStrategy(Strategy, 'accessTokenWS') {
@@ -25,7 +24,7 @@ export default class JwtWSAccessStrategy extends PassportStrategy(Strategy, 'acc
     return {
       _id: payload._id,
       email: payload.email,
-      role: payload.role,
+      roles: payload.roles,
     };
   }
 }

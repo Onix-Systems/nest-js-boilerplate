@@ -1,0 +1,10 @@
+{
+ "general": {
+   "@adminjs/express": "4.1.3",
+   "@adminjs/mongoose": "2.0.4",
+   "@adminjs/nestjs": "4.0.1",
+   "@adminjs/passwords": "2.0.2",
+   "adminjs": "5.10.4"
+ },
+ "dev": {}
+}

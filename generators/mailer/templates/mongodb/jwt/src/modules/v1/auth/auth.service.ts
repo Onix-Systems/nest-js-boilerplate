@@ -40,7 +40,7 @@ export default class AuthService {
       return {
         _id: user._id,
         email: user.email,
-        role: user.role,
+        roles: user.roles,
       };
     }
 
@@ -51,7 +51,7 @@ export default class AuthService {
     const payload: LoginPayload = {
       _id: data._id,
       email: data.email,
-      role: data.role,
+      roles: data.roles,
     };
 
     const accessToken = this.jwtService.sign(payload, {

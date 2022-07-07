@@ -67,6 +67,10 @@ module.exports = {
     askQuestions.call(this, 'Socket', questions.socket[this.answers.authType], this.async());
   },
 
+  askAboutAdminPanel() {
+    askQuestions.call(this, 'Admin panel', questions.adminPanel[this.answers.db][this.answers.authType], this.async());
+  },
+
   askWouldHeLikeDocker() {
     askQuestions.call(this, 'Docker', questions.docker, this.async());
   },

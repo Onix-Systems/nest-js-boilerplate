@@ -33,13 +33,19 @@ export default class UsersRepository {
 
   public async getVerifiedUserByEmail(email: string): Promise<UserEntity | void> {
     return this.usersModel.findOne({
-      email,
-      verified: true,
+      where: {
+        email,
+        verified: true,
+      },
+      relations: ['roles'],
     });
   }
 
   public async getAll(): Promise<UserEntity[] | []> {
-   const users: UserEntity[] | [] = await this.usersModel.find( { select: ['id', 'email', 'role', 'verified'] });
+   const users: UserEntity[] | [] = await this.usersModel.find({
+     select: ['id', 'email', 'verified'],
+     relations: ['roles'],
+   });
 
     return users.length > 0 ? users : [];
   }
