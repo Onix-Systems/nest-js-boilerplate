@@ -59,10 +59,12 @@ To login in the admin panel, you have to have registered verified user with admi
 To create a default admin user you can run migrations:
 
 ```bash
-mingrate-mongo up
+npm install migrate-mongo
+
+npx migrate-mongo up
 ```
 
-The migrations will create a default admin user in db with creds:
+The migrations will create a default admin user in db with credentials:
 
 ```bash
 login: admin@test.com
