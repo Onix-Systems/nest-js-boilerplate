@@ -22,6 +22,7 @@ This generator will help you to build your own Nest.JS Mongodb/MySQL API using T
 
 ### Project Introduction
 
+- Admin.js
 - Support ES6/ES7 features
 - Using Eslint followed [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
 - Husky
@@ -38,6 +39,39 @@ This generator will help you to build your own Nest.JS Mongodb/MySQL API using T
 - passport local strategy
 - jwt authentication
 - passport google 2.0 strategy
+
+### AdminJS
+
+AdminJS is available to use if you select Mongo + JWT/Passport, on the route:
+
+```bash
+http://localhost:3000/admin
+```
+
+If you are not logged in, you will be redirected to the admin login page.
+
+```bash
+http://localhost:3000/admin/login
+```
+
+To login in the admin panel, you have to have registered verified user with admin role.
+
+To create a default admin user you can run migrations:
+
+```bash
+mingrate-mongo up
+```
+
+The migrations will create a default admin user in db with creds:
+
+```bash
+login: admin@test.com
+password: String_12345
+```
+
+![Alt Text2](https://media.giphy.com/media/HdWGgOGfQa0QRLNXME/giphy.gif)
+
+_Note: admin cat be generated only with mongo + jwt/passport_
 
 ### Roles
 For now, we are implement only few roles: `user` and `admin`
@@ -77,37 +111,6 @@ use Exclude decorator to exclude properties from serialization
 ### Email Sending
 
 - Nodemailer
-
-### AdminJS
-
-AdminJS is available to use if you select Mongo + JWT/Passport, on the route:
-
-```bash
-http://localhost:3000/admin
-```
-
-If you are not logged in, you will be redirected to the admin login page.
-
-```bash
-http://localhost:3000/admin/login
-```
-
-To login in the admin panel, you have to have registered verified user with admin role.
-
-To create a default admin user you can run migrations:
-
-```bash
-mingrate-mongo up
-```
-
-The migrations will create a default admin user in db with creds:
-
-```bash
-login: admin@test.com
-password: String_12345
-```
-
-![Alt Text2](https://media.giphy.com/media/HdWGgOGfQa0QRLNXME/giphy.gif)
 
 ## Requirements
 
