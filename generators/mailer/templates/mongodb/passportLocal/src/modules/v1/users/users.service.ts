@@ -20,16 +20,10 @@ export default class UsersService {
     });
   }
 
-  getByEmail(email: string): Promise<User | null> {
-    return this.usersRepository.getByEmail(email);
-  }
+  public async getAll(): Promise<User[] | []> {
+    const users = await this.usersRepository.getAll();
 
-  getById(id: Types.ObjectId): Promise<User | null> {
-    return this.usersRepository.getById(id);
-  }
-
-  getAll(): Promise<User[] | []> {
-    return this.usersRepository.getAll();
+    return users.map((user) => user.toJSON());
   }
 
   public getVerifiedUserByEmail(email: string): Promise<User | null> {
@@ -40,7 +34,7 @@ export default class UsersService {
     return this.usersRepository.getVerifiedUserById(id);
   }
 
-  verifyUser(_id: Types.ObjectId) {
+  public verifyUser(_id: Types.ObjectId) {
     return this.usersRepository.findOneAndUpdate(_id, { verified: true });
   }
 }

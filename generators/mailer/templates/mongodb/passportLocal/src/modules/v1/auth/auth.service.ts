@@ -29,7 +29,7 @@ export default class AuthService {
       return {
         _id: user._id,
         email: user.email,
-        role: user.role,
+        roles: user.roles,
         verified: user.verified,
       };
     }

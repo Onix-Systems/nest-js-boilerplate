@@ -2,6 +2,8 @@ import { Types, Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 
+import { RolesEnum } from '@decorators/roles.decorator';
+
 import SignUpDto from '@v1/auth/dto/sign-up.dto';
 import { UserDocument, User } from '@v1/users/schemas/users.schema';
 
@@ -69,5 +71,13 @@ export default class UsersRepository {
 
   public getVerifiedUsers() {
     return this.usersModel.find({ verified: true }).exec();
+  }
+
+  public async getVerifiedAdminByEmail(email: string): Promise<User | null> {
+    return this.usersModel.findOne({
+      email,
+      roles: { $in: RolesEnum.ADMIN },
+      verified: true,
+    }).exec();
   }
 }

@@ -16,7 +16,7 @@ export default class UsersRepository {
   public create(user: UserDto): Promise<User> {
     return this.userModel.create({
       ...user,
-      role: RolesEnum.USER,
+      roles: [RolesEnum.USER],
       verified: false,
     });
   }
@@ -55,5 +55,13 @@ export default class UsersRepository {
 
   public findOneAndUpdate(_id: Types.ObjectId, fieldForUpdate: IUpdateUser) {
     return this.userModel.findByIdAndUpdate({ _id }, fieldForUpdate).exec();
+  }
+
+  public async getVerifiedAdminByEmail(email: string): Promise<User | null> {
+    return this.userModel.findOne({
+      email,
+      roles: { $in: RolesEnum.ADMIN },
+      verified: true,
+    }).exec();
   }
 }

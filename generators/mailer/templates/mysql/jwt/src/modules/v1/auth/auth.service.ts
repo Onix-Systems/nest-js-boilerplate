@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
 import UsersService from '@v1/users/users.service';
+import { RolesEnum } from '@decorators/roles.decorator';
 
 import { DecodedUser } from '@v1/auth/interfaces/decoded-user.interface';
 import JwtTokensDto from './dto/jwt-tokens.dto';
@@ -36,10 +37,12 @@ export default class AuthService {
     const passwordCompared = await bcrypt.compare(password, user.password);
 
     if (passwordCompared) {
+      const roles = user.roles.map((role) => role.name as RolesEnum);
+
       return {
         id: user.id,
         email: user.email,
-        role: user.role,
+        roles,
       };
     }
 
@@ -50,7 +53,7 @@ export default class AuthService {
     const payload: LoginPayload = {
       id: data.id,
       email: data.email,
-      role: data.role,
+      roles: data.roles,
     };
 
     const accessToken = this.jwtService.sign(payload, {

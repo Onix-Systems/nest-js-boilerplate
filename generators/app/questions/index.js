@@ -10,6 +10,7 @@ const deploy = require('./deploy');
 const mailer = require('./mailer');
 const socket = require('./socket');
 const additionalMailerQuestions = require('./additionalMailerQuestions');
+const adminPanel = require('./admin');
 
 module.exports = {
   packageManager,
@@ -28,4 +29,5 @@ module.exports = {
     additionalQuestions: additionalMailerQuestions,
   },
   socket,
+  adminPanel,
 };
