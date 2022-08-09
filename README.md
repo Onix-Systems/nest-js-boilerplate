@@ -18,9 +18,9 @@
 
 ## Description
 
-This generator will help you to build your own Nest.JS Mongodb/MySQL API using TypeScript 4
+This boilerplate will help you bootstrap your own Nest.JS/MongoDB/MySQL/Typescript API quickly with common enterprise configurations done for you.
 
-### Project Introduction
+### Project Overview
 
 - Admin.js
 - Support ES6/ES7 features
@@ -36,9 +36,9 @@ This generator will help you to build your own Nest.JS Mongodb/MySQL API using T
 
 ### Authentication
 
-- passport local strategy
-- jwt authentication
-- passport google 2.0 strategy
+- PassportJS local strategy
+- JWT authentication (using passport-jwt)
+- Passport OAuth 2.0 strategy (for Google)
 
 ### AdminJS
 
@@ -54,9 +54,9 @@ If you are not logged in, you will be redirected to the admin login page.
 http://localhost:3000/admin/login
 ```
 
-To login in the admin panel, you have to have registered verified user with admin role.
+To login in the admin panel, you should have a **verified user** registered with the `admin` role.
 
-To create a default admin user you can run migrations:
+To create a default admin user, run the provided migrations:
 
 ```bash
 npm install migrate-mongo
@@ -64,7 +64,7 @@ npm install migrate-mongo
 npx migrate-mongo up
 ```
 
-The migrations will create a default admin user in db with credentials:
+The migrations will create a default admin user in the database with following credentials:
 
 ```bash
 login: admin@test.com
@@ -73,10 +73,10 @@ password: String_12345
 
 ![Alt Text2](https://media.giphy.com/media/HdWGgOGfQa0QRLNXME/giphy.gif)
 
-_Note: admin cat be generated only with mongo + jwt/passport_
+_Note: admin can be generated only with mongo + jwt/passport_
 
 ### Roles
-For now, we are implement only few roles: `user` and `admin`
+For now, we have implemented only two roles: `user` and `admin`
 
 Usage example:
 
@@ -89,16 +89,16 @@ or for all roles:
 @Auth()
 ```
 
-_Note: before use it for sql database, you must run migrations._
+_Note: before using it with sql databases, you must run migrations._
 
 ### Serialization
-Implementing `@Serialize` decorator will start process before objects are returned in a network response
+Use `@Serialize` decorator to process the objects before they are returned in the network response
 Example:
 
 ```typescript
  @Serialize(UserResponseDto)
 ```
-use Exclude decorator to exclude properties from serialization
+use `@Exclude` decorator to exclude properties from serialization
 ```typescript
   @Exclude()
   password: string = '';
@@ -251,32 +251,32 @@ To start the application in development mode, run:
 npm run start:dev
 ```
 
-Start the application in production env:
+Start the application in production environment:
 
-Install ts pm2 and typescript compiler:
+Install `pm2` and `typescript` to make pm2 work with typescript codebase:
 
 ```bash
 npm install -g pm2
 pm2 install typescript
 ```
 
-example start with scale on 2 core:
+Here is an example command to start the process with 2 instances and a load-balancer
 
 ```bash
 pm2 start ./dist/main.js -i 2 --no-daemon
 ```
 
-Express server listening on http://localhost:3000/, in development mode
-The developer mode will watch your changes then will transpile the TypeScript code and re-run the node application automatically.
+Express server listening on http://localhost:3000, in development mode
+_In development mode will watch your changes then will transpile the TypeScript code and re-run the node application automatically._
 
 ### Docker
 
 1. [Install Docker](https://docs.docker.com/get-docker/)
 2. [Install docker-compose](https://docs.docker.com/compose/install/)
 
-To run your app in docker containers choose "Yes" when the generator asks you about docker.
+To run your app in docker containers, choose "Yes" when the generator asks you about docker.
 
-#### Now, lift up your app in docker
+#### Now, spin up your app in docker
 
 ```bash
   docker-compose up
@@ -284,14 +284,18 @@ To run your app in docker containers choose "Yes" when the generator asks you ab
 
 ## Set up environment
 
-In root folder you can find `.env`. You can use this config or change it for your purposes.
+In root folder you can find `.env`. You can use this config as a template for your application.
 
 ## Deploy
 
 ### Heroku
 
-Check all urls to dbs if they are true, they must connect to dbs which located at them own servers like mongodb on Mlab
+Check all urls to databases if they are true, they must connect to dbs which located at them own servers like mongodb on Mlab
 When you'll run npm run deploy:heroku you'll need to sign in on heroku. You will be redirected to login form.
+
+**Check all database URLs to be valid. They should connect to their respective hosted instances (local or otherwise).**
+
+_Note: you may need to sign in on heroku (if not done already). You will be redirected to Heroku login, if required, by the cli._
 
 ```bash
 npm run deploy:heroku
@@ -305,7 +309,7 @@ npm run deploy:heroku
 
 ![Alt Text3](https://media.giphy.com/media/RiWDyLQwXaJXu972SM/giphy.gif)
 
-When you go by http://localhost:3000/google route, google'll ask you to authorize into your account. After successfully sign in to your account you will be redirected to http://localhost:3000/google/redirect route
+To initiate the google sign-in, use http://localhost:3000/google. Once authorized, you will be redirected to http://localhost:3000/google/redirect.
 
 ## Documentation
 
@@ -319,8 +323,12 @@ TypeDoc documentation will be available after entering the command:
 npm run docs
 ```
 
-This command will create a folder with documents in which you can see index.html, which needs to be opened in a browser
-to view the documentation.
+This will build the documentation in a subfolder with `index.html` as the entrypoint. You can open the `index.html` in a web browser to explore the documentation or host the subdirectory using a simple http server like `lite-server` using the following command.
+
+```bash
+npx lite-server ./path/to/documentation/
+```
+
 ### REST API
 
 #### Swagger
@@ -332,7 +340,7 @@ http://localhost:3000/api
 ```
 
 > Please note: </br>
-> All users not verified by default. Please set ```"verified": true```, for sign-in request.
+> Users are not verified by default. Please set ```"verified": true```, for sign-in request.
 
 
 ![Alt Text1](https://media.giphy.com/media/XEUyeEL03IcaZYw6SB/giphy.gif)
