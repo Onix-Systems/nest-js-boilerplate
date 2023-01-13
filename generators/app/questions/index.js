@@ -11,6 +11,7 @@ const mailer = require('./mailer');
 const socket = require('./socket');
 const additionalMailerQuestions = require('./additionalMailerQuestions');
 const adminPanel = require('./admin');
+const casl = require('./casl');
 
 module.exports = {
   packageManager,
@@ -30,4 +31,5 @@ module.exports = {
   },
   socket,
   adminPanel,
+  casl,
 };

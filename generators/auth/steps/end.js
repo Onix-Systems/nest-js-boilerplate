@@ -8,6 +8,7 @@
     wantedMailer,
     wantedSocket,
     wantedAdminPanel,
+    wantedCasl,
   } = this.options.answers;
 
   if (wantedMailer === 'Yes') {
@@ -26,5 +27,11 @@
      this.composeWith('nest-js-boilerplate:admin', {
        answers: this.options.answers,
      });
+   }
+
+   if (wantedCasl === 'Yes') {
+    this.composeWith('nest-js-boilerplate:casl', {
+      answers: this.options.answers,
+    })
    }
 };

@@ -71,6 +71,10 @@ module.exports = {
     askQuestions.call(this, 'Admin panel', questions.adminPanel[this.answers.db][this.answers.authType], this.async());
   },
 
+  askAboutCasl() {
+    askQuestions.call(this, 'Casl', questions.casl, this.async());
+  },
+
   askWouldHeLikeDocker() {
     askQuestions.call(this, 'Docker', questions.docker, this.async());
   },

@@ -1,0 +1,32 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/App.Dockerfile
+    container_name: app
+    volumes:
+      - ./:/var/www/app:cached
+      - /var/www/app/node_modules # anonymous volume for node_modules only
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+      - redis
+    links:
+      - mongodb
+      - redis
+
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+
+  redis:
+    image: redis:6
+    restart: always
+    ports:
+      - 6379:6379
