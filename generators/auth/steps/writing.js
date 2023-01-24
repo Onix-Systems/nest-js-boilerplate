@@ -25,10 +25,31 @@ module.exports = function() {
   const rootFolder = answers.identifier;
 
   this.fs.copyTpl(
-    this.templatePath(`${authFolder}/src/modules/`),
-    this.destinationPath(`${rootFolder}/src/modules/`),
+    this.templatePath(`${authFolder}/src/modules/app`),
+    this.destinationPath(`${rootFolder}/src/modules/app`),
     payload,
   );
+
+  this.fs.copyTpl(
+    this.templatePath(`${authFolder}/src/modules/v1/v1.module.ts`),
+    this.destinationPath(`${rootFolder}/src/modules/v1/v1.module.ts`),
+    payload,
+  );
+
+  this.fs.copyTpl(
+    this.templatePath(`${authFolder}/src/modules/v1/auth`),
+    this.destinationPath(`${rootFolder}/src/modules/v1/auth`),
+    payload,
+  );
+
+  if (!answers.wantedPrisma || answers?.wantedPrisma?.toLowerCase() === 'no') {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/modules/v1/users`),
+      this.destinationPath(`${rootFolder}/src/modules/v1/users`),
+      payload,
+    );
+  }
+
   this.fs.copyTpl(
     this.templatePath(`${authFolder}/src/guards/`),
     this.destinationPath(`${rootFolder}/src/guards/`),
@@ -123,7 +144,7 @@ module.exports = function() {
       payload,
     );
   }
-  if (fs.existsSync(`${fullPathToAuthFolder}/src/migrations`)) {
+  if (fs.existsSync(`${fullPathToAuthFolder}/src/migrations`) && !answers.wantedPrisma || answers?.wantedPrisma?.toLowerCase() === 'no') {
     this.fs.copyTpl(
       this.templatePath(`${authFolder}/src/migrations`),
       this.destinationPath(`${rootFolder}/src/migrations`),

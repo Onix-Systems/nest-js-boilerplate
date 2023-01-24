@@ -22,5 +22,12 @@
       "typeorm": "0.3.11"
     },
     "dev": {}
+  },
+  "prisma": {
+    "general": {
+      "prisma": "4.8.1",
+      "@prisma/client": "4.8.1",
+      "typeorm": "0.3.11"
+    }
   }
 }

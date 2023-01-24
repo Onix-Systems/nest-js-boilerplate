@@ -9,6 +9,7 @@
     wantedSocket,
     wantedAdminPanel,
     wantedCasl,
+    wantedPrisma,
   } = this.options.answers;
 
   if (wantedMailer === 'Yes') {
@@ -23,15 +24,27 @@
     });
   }
 
-   if (wantedAdminPanel === 'Yes') {
-     this.composeWith('nest-js-boilerplate:admin', {
-       answers: this.options.answers,
-     });
-   }
+  if (wantedAdminPanel === 'Yes') {
+    this.composeWith('nest-js-boilerplate:admin', {
+      answers: this.options.answers,
+    });
+  }
 
-   if (wantedCasl === 'Yes') {
+  if (wantedCasl === 'Yes') {
     this.composeWith('nest-js-boilerplate:casl', {
       answers: this.options.answers,
     })
-   }
+  }
+
+  if (wantedPrisma === 'Yes') {
+    this.composeWith('nest-js-boilerplate:prisma', {
+      answers: this.options.answers,
+    })
+  }
+
+  if (wantedPrisma === 'Yes' && wantedCasl === 'Yes') {
+    this.composeWith('nest-js-boilerplate:prisma-casl', {
+      answers: this.options.answers,
+    })
+  }
 };

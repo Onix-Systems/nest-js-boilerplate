@@ -23,11 +23,13 @@ module.exports = function() {
     payload,
   );
 
-  this.fs.copyTpl(
-    this.templatePath(`${caslFolder}/src/modules/v1/users/`),
-    this.destinationPath(`${rootFolder}/src/modules/v1/users/`),
-    payload,
-  );
+  if (!answers.wantedPrisma || answers.wantedPrisma.toLowerCase() === 'no') {
+    this.fs.copyTpl(
+      this.templatePath(`${caslFolder}/src/modules/v1/users/`),
+      this.destinationPath(`${rootFolder}/src/modules/v1/users/`),
+      payload,
+    );
+  }
 
   this.fs.copyTpl(
     this.templatePath(`${caslFolder}/src/guards/`),

@@ -45,6 +45,10 @@ module.exports = {
     askQuestions.call(this, 'Database', questions.db[this.answers.authType], this.async());
   },
 
+  askAboutPrisma() {
+    askQuestions.call(this, 'Prisma', questions.prisma[this.answers.db][this.answers.authType], this.async())
+  },
+
   askAboutMailer() {
     askQuestions.call(
       this,

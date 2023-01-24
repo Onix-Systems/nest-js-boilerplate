@@ -1,0 +1,24 @@
+<!-- src/public/views/home.hbs -->
+<div class="mdl-layout mdl-js-layout mdl-color--grey-100">
+  <main class="mdl-layout__content">
+    <div class="mdl-card mdl-shadow--6dp">
+      <div class="mdl-card__title mdl-color--primary mdl-color-text--white">
+        <h2 class="mdl-card__title-text">Welcome {{ email }}!</h2>
+      </div>
+      <div class="mdl-card__supporting-text">
+          <p class="mdl-card__subtitle-text mdl-typography--text-right">Logged like {{ roles }}</p>
+        <div class="mdl-card__actions mdl-card--border">
+          <a class="mdl-button" href='/v1/users/profile'>Get
+            Profile</a>
+        </div>
+        {{#if (isAdmin roles)}}
+          <div class="mdl-card__actions mdl-card--border">
+            <a class="mdl-button" href='/v1/users'>Get
+               All Users
+            </a>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </main>
+</div>

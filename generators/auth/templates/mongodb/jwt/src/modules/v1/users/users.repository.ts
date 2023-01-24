@@ -19,7 +19,7 @@ export default class UsersRepository {
       verified: false,
     });
 
-    return newUser.toJSON();
+    return newUser;
   }
 
   public async getUnverifiedUserByEmail(email: string): Promise<User | null> {

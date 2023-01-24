@@ -4,6 +4,9 @@
   "description": "<%= config.description %>",
   "author": "",
   "license": "MIT",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -20,7 +23,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "commit": "git-cz",
     "deploy:heroku": "chmod +x ./deployHeroku.sh && sudo ./deployHeroku.sh",
-    "docs": "typedoc --options typedoc.json"
+    "docs": "typedoc --options typedoc.json",
+    "db:migration": "prisma migrate dev && prisma db seed"
   },
   "dependencies": {
     "@casl/ability": "6.3.3",
