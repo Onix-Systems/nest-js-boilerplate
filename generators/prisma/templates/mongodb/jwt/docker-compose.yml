@@ -1,0 +1,89 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/App.Dockerfile
+    container_name: app
+    volumes:
+      - ./:/var/www/app:cached
+      - /var/www/app/node_modules # anonymous volume for node_modules only
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+      - redis
+    links:
+      - mongo1
+      - mongo2
+      - mongo3
+      - redis
+
+  mongo1:
+    image: mongo:4.2
+    container_name: mongodb1
+    hostname: mongodb1
+    volumes:
+      - ./data/mongo-1:/data/db
+      - ./.docker/mongodb/scripts/initiate_replica.sh:/scripts/initiate_replica.sh
+    ports:
+      - ${MONGO_PORT}:${MONGO_PORT}
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_PORT: ${MONGO_PORT}
+      MONGO_REPLICA_NAME: ${MONGO_REPLICA_NAME}
+      MONGO_REPLICA_HOST_1: ${MONGO_REPLICA_HOST_1}
+      MONGO_REPLICA_HOST_2: ${MONGO_REPLICA_HOST_2}
+      MONGO_REPLICA_HOST_3: ${MONGO_REPLICA_HOST_3}
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "${MONGO_REPLICA_NAME}", "--bind_ip_all" ]
+    healthcheck:
+       test: ["CMD",  "/bin/bash", "/scripts/initiate_replica.sh"]
+       interval: 10s
+       start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "5"
+
+  mongo2:
+    image: mongo:4.2
+    container_name: mongodb2
+    hostname: mongodb2
+    volumes:
+      - ./data/mongo-2:/data/db
+    ports:
+      - 27018:${MONGO_PORT}
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "${MONGO_REPLICA_NAME}", "--bind_ip_all" ]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "5"
+
+  mongo3:
+    image: mongo:4.2
+    container_name: mongodb3
+    hostname: mongodb3
+    volumes:
+      - ./data/mongo-3:/data/db
+    ports:
+      - 27019:${MONGO_PORT}
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "${MONGO_REPLICA_NAME}", "--bind_ip_all" ]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "5"
+
+  redis:
+    image: redis:6
+    restart: always
+    ports:
+      - 6379:6379

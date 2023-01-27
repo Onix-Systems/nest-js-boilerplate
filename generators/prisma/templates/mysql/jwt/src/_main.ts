@@ -30,7 +30,7 @@ async function bootstrap() {
   );
 
   const configService = app.get(ConfigService);
-  const port = configService.get<number>('SERVER_POR') || 3000;
+  const port = configService.get<number>('SERVER_PORT') || 3000;
 
   const options = new DocumentBuilder()
     .setTitle('Api v1')

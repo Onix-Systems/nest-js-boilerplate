@@ -42,7 +42,7 @@ module.exports = function() {
     payload,
   );
 
-  if (!answers.wantedPrisma || answers?.wantedPrisma?.toLowerCase() === 'no') {
+  if (answers.wantedPrismaOrTypeOrmOrMongoose !== 'Prisma') {
     this.fs.copyTpl(
       this.templatePath(`${authFolder}/src/modules/v1/users`),
       this.destinationPath(`${rootFolder}/src/modules/v1/users`),
@@ -50,6 +50,7 @@ module.exports = function() {
     );
   }
 
+  if (answers.wantedPrismaOrTypeOrmOrMongoose !== 'Prisma')
   this.fs.copyTpl(
     this.templatePath(`${authFolder}/src/guards/`),
     this.destinationPath(`${rootFolder}/src/guards/`),
@@ -144,7 +145,7 @@ module.exports = function() {
       payload,
     );
   }
-  if (fs.existsSync(`${fullPathToAuthFolder}/src/migrations`) && !answers.wantedPrisma || answers?.wantedPrisma?.toLowerCase() === 'no') {
+  if (fs.existsSync(`${fullPathToAuthFolder}/src/migrations`) && answers.wantedPrismaOrTypeOrmOrMongoose !== 'Prisma') {
     this.fs.copyTpl(
       this.templatePath(`${authFolder}/src/migrations`),
       this.destinationPath(`${rootFolder}/src/migrations`),

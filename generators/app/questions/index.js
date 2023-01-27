@@ -12,7 +12,7 @@ const socket = require('./socket');
 const additionalMailerQuestions = require('./additionalMailerQuestions');
 const adminPanel = require('./admin');
 const casl = require('./casl');
-const prisma = require('./prisma');
+const orm = require('./orm');
 
 module.exports = {
   packageManager,
@@ -33,5 +33,5 @@ module.exports = {
   socket,
   adminPanel,
   casl,
-  prisma,
+  orm,
 };

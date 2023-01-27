@@ -1,4 +1,5 @@
 module.exports = function() {
+  const fs = require('fs');
   const { answers } = this.options;
 
   const rootFolder = answers.identifier;
@@ -7,11 +8,14 @@ module.exports = function() {
     config: answers,
   };
 
-  this.fs.copyTpl(
-    this.templatePath(`${adminFolder}/src/modules`),
-    this.destinationPath(`${rootFolder}/src/modules`),
-    payload,
-  );
+  if (answers.wantedPrismaOrTypeOrmOrMongoose !== 'Prisma') {
+    this.fs.copyTpl(
+      this.templatePath(`${adminFolder}/src/modules`),
+      this.destinationPath(`${rootFolder}/src/modules`),
+      payload,
+    );
+  }
+
   this.fs.copyTpl(
     this.templatePath(`${adminFolder}/src/exceptions`),
     this.destinationPath(`${rootFolder}/src/exceptions`),

@@ -3,7 +3,6 @@ import {
 } from '@casl/ability';
 import { RolesEnum } from '@decorators/roles.decorator';
 import { Injectable } from '@nestjs/common';
-import UserEntity from '@v1/users/schemas/user.entity';
 import { UserEntity } from '@prisma/client';
 import Action from './enums/casl-action.enum';
 import { UserResponseEntity } from '@v1/users/entities/user-response.entity';

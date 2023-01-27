@@ -6,5 +6,9 @@
    "@adminjs/passwords": "2.0.2",
    "adminjs": "5.10.4"
  },
- "dev": {}
+ "dev": {
+  "express-mysql-session": "2.1.8",
+  "express-handlebars": "6.0.7",
+  "connect-flash": "0.1.1"
+ }
 }

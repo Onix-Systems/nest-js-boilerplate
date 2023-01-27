@@ -3,7 +3,7 @@ const { join } = require('path');
 
 module.exports = function() {
   const { answers } = this.options;
-  const prismaFolder = `${answers.db.toLowerCase()}/${answers.authType}`;
+  const authFolder = `${answers.db.toLowerCase()}/${answers.authType}`;
   
 
   const payload = {
@@ -13,65 +13,105 @@ module.exports = function() {
   const { sessionsStorage } = answers;
 
   this.fs.copyTpl(
-    this.templatePath(`${prismaFolder}/src/modules/app/app.module.ts`),
+    this.templatePath(`${authFolder}/src/modules/app/app.module.ts`),
     this.destinationPath(`${rootFolder}/src/modules/app/app.module.ts`),
     payload,
   );
 
   this.fs.copyTpl(
-    this.templatePath(`${prismaFolder}/src/modules/v1/auth`),
+    this.templatePath(`${authFolder}/src/modules/v1/auth`),
     this.destinationPath(`${rootFolder}/src/modules/v1/auth`),
     payload,
   );
 
   this.fs.copyTpl(
-    this.templatePath(`${prismaFolder}/src/modules/v1/users/`),
+    this.templatePath(`${authFolder}/src/modules/v1/users/`),
     this.destinationPath(`${rootFolder}/src/modules/v1/users/`),
     payload,
   );
 
+  if (answers.authType === 'passportLocal') {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/modules/v1/home/`),
+      this.destinationPath(`${rootFolder}/src/modules/v1/home/`),
+      payload,
+    );
+  }
+
   this.fs.copyTpl(
-    this.templatePath(`${prismaFolder}/src/modules/v1/roles/`),
-    this.destinationPath(`${rootFolder}/src/modules/v1/roles/`),
+    this.templatePath(`${authFolder}/src/interfaces/`),
+    this.destinationPath(`${rootFolder}/src/interfaces/`),
     payload,
   );
 
   this.fs.copyTpl(
-    this.templatePath(`${prismaFolder}/src/guards/`),
+    this.templatePath(`${authFolder}/src/guards/`),
     this.destinationPath(`${rootFolder}/src/guards/`),
     payload,
   );
 
+  if (answers.db === 'Mongodb' || answers.db === 'Postgresql') {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/main.ts`),
+      this.destinationPath(`${rootFolder}/src/main.ts`),
+      payload,
+    );
+  }
+
+  if (answers.db === 'Mysql' && answers.authType === 'jwt') {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/_main.ts`),
+      this.destinationPath(`${rootFolder}/src/_main.ts`),
+      payload,
+    );
+  }
+
+  if (answers.db !== 'Mongodb') {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/modules/v1/roles`),
+      this.destinationPath(`${rootFolder}/src/modules/v1/roles`),
+      payload,
+    );
+  }
+
   this.fs.copyTpl(
-    this.templatePath(`${prismaFolder}/src/decorators/`),
+    this.templatePath(`${authFolder}/src/decorators/`),
     this.destinationPath(`${rootFolder}/src/decorators/`),
     payload,
   );
 
   this.fs.copyTpl(
-    this.templatePath(`${prismaFolder}/prisma`),
+    this.templatePath(`${authFolder}/prisma`),
     this.destinationPath(`${rootFolder}/prisma`),
     payload,
   );
 
   this.fs.copyTpl(
-    this.templatePath(`${prismaFolder}/.env`),
+    this.templatePath(`${authFolder}/.env`),
     this.destinationPath(`${rootFolder}/.env`),
     payload,
   );
+
+  if (answers.wantedAdminPanel === 'yes') {
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/modules/v1/admin/`),
+      this.destinationPath(`${rootFolder}/src/modules/v1/admin/`),
+      payload,
+    );
+  }
 
   // DOCKER
   if (answers.wantedDocker.toLowerCase() === 'yes') {
     if (sessionsStorage) {
       this.fs.copyTpl(
         this.templatePath(
-          `${prismaFolder}/_${sessionsStorage}-docker-compose.yml`,
+          `${authFolder}/_${sessionsStorage}-docker-compose.yml`,
         ),
         this.destinationPath(`${rootFolder}/docker-compose.yml`),
       );
     } else {
       this.fs.copyTpl(
-        this.templatePath(`${prismaFolder}/docker-compose.yml`),
+        this.templatePath(`${authFolder}/docker-compose.yml`),
         this.destinationPath(`${rootFolder}/docker-compose.yml`),
         payload,
       );

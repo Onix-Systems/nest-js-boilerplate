@@ -9,7 +9,7 @@
     wantedSocket,
     wantedAdminPanel,
     wantedCasl,
-    wantedPrisma,
+    wantedPrismaOrTypeOrmOrMongoose,
   } = this.options.answers;
 
   if (wantedMailer === 'Yes') {
@@ -36,13 +36,13 @@
     })
   }
 
-  if (wantedPrisma === 'Yes') {
+  if (wantedPrismaOrTypeOrmOrMongoose === 'Prisma') {
     this.composeWith('nest-js-boilerplate:prisma', {
       answers: this.options.answers,
     })
   }
 
-  if (wantedPrisma === 'Yes' && wantedCasl === 'Yes') {
+  if (wantedPrismaOrTypeOrmOrMongoose === 'Prisma' && wantedCasl === 'Yes') {
     this.composeWith('nest-js-boilerplate:prisma-casl', {
       answers: this.options.answers,
     })

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '@prisma/client';
 
 import { ICreateUser } from '@v1/users/interfaces/user.interface';
