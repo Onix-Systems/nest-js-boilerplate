@@ -92,7 +92,7 @@ module.exports = function() {
     payload,
   );
 
-  if (answers.wantedAdminPanel === 'yes') {
+  if (answers.wantedAdminPanel.toLowerCase() === 'yes') {
     this.fs.copyTpl(
       this.templatePath(`${authFolder}/src/modules/v1/admin/`),
       this.destinationPath(`${rootFolder}/src/modules/v1/admin/`),
