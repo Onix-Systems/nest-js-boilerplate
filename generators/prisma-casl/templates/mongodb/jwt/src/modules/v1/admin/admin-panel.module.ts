@@ -8,7 +8,7 @@ import UsersModule from '@v1/users/users.module';
 
 import AdminService from '@v1/admin/admin.service';
 import AdminModule from '@v1/admin/admin.module';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Roles } from '@prisma/client';
 import { Database, Resource } from '@adminjs/prisma';
 import { DMMFClass } from '@prisma/client/runtime';
 import { RolesEnum } from '@decorators/roles.decorator';
@@ -19,6 +19,7 @@ import passwordsFeature from '@adminjs/passwords';
 import * as bcrypt from 'bcryptjs';
 import CreateUserDto from './dto/create-user.dto';
 import { ICreateUser } from './interfaces/user.interface';
+import { componentLoader, Components } from './components';
 
 AdminJS.registerAdapter({ Database, Resource });
 
@@ -58,7 +59,9 @@ const beforeCreateUser = async (request: ActionRequest) => {
       useFactory: (cfg: ConfigService, adminService: AdminService) => ({
         adminJsOptions: {
           rootPath: '/admin',
+          componentLoader,
           resources: [{
+            componentLoader,
             resource: { model: dmmf.modelMap.User, client: prisma },
             options: {
               properties: {
@@ -77,9 +80,13 @@ const beforeCreateUser = async (request: ActionRequest) => {
                   isRequired: false,
                 },
                 roles: {
-                  availableValues: Object.values(RolesEnum).map((role) => ({
-                    label: role,
-                    value: role,
+                  components: {
+                    list: Components.Roles,
+                    show: Components.Roles,
+                  },
+                  availableValues: Object.values(Roles).map((role) => ({
+                    label: [role],
+                    value: [role],
                   })),
                 },
               },
@@ -112,4 +119,5 @@ const beforeCreateUser = async (request: ActionRequest) => {
     AdminModule,
   ],
 })
+
 export default class AdminPanelModule {}

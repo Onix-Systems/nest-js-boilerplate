@@ -34,6 +34,12 @@ module.exports = function() {
     this.fs.copyTpl(
       this.templatePath(`${authFolder}/src/modules/v1/home/`),
       this.destinationPath(`${rootFolder}/src/modules/v1/home/`),
+      payload
+    );
+
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/modules/v1/v1.module.ts`),
+      this.destinationPath(`${rootFolder}/src/modules/v1/v1.module.ts`),
       payload,
     );
   }
@@ -92,10 +98,16 @@ module.exports = function() {
     payload,
   );
 
-  if (answers.wantedAdminPanel.toLowerCase() === 'yes') {
+  if (answers.wantedAdminPanel === 'Yes' && answers.authType === 'jwt' && answers.db === 'Mongodb') {
     this.fs.copyTpl(
       this.templatePath(`${authFolder}/src/modules/v1/admin/`),
       this.destinationPath(`${rootFolder}/src/modules/v1/admin/`),
+      payload,
+    );
+
+    this.fs.copyTpl(
+      this.templatePath(`${authFolder}/src/modules/v1/v1.module.ts`),
+      this.destinationPath(`${rootFolder}/src/modules/v1/v1.module.ts`),
       payload,
     );
   }

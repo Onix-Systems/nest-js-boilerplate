@@ -11,6 +11,7 @@ const routes: Routes = [
     children: [
       { path: '/auth', module: AuthModule },
       { path: '/users', module: UsersModule },
+      { path: '/admin', module: AdminPanelModule },
     ],
   },
 ];

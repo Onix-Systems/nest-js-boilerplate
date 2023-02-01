@@ -1,6 +1,11 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+enum Roles {
+  admin
+  user
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,11 +16,11 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  password String   @default("")
-  email    String   @unique @default("")
-  verified Boolean  @default(false)
-  roles    String[] @default(["user"])
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  password String  @default("")
+  email    String  @unique @default("")
+  verified Boolean @default(false)
+  roles    Roles[] @default([user])
 
   @@map("users")
 }

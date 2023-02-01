@@ -2,7 +2,7 @@
 import 'module-alias/register';
 
 import redisStore from 'connect-redis';
-import redis from 'redis';
+import * as redis from 'redis';
 import passport from 'passport';
 import session from 'express-session';
 
@@ -22,8 +22,10 @@ import {
 } from './filters';
 
 const redisClient = redis.createClient({
+  legacyMode: true,
   url: process.env.REDIS_URL,
 });
+redisClient.connect();
 const RedisStore = redisStore(session);
 
 async function bootstrap() {
