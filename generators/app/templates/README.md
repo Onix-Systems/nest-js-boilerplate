@@ -174,3 +174,11 @@ When you go by http://localhost:3000/google route, google'll ask you to authoriz
 
 [travis-image]: https://travis-ci.org/caiobsouza/generator-ts-node-api.svg?branch=master
 [travis-url]: https://travis-ci.org/caiobsouza/generator-ts-node-api
+
+## Running migrations for Prisma
+
+For Mongodb run:
+`npx prisma generate`
+
+For Mysql/Postgres run:
+`npm run db:migration`
