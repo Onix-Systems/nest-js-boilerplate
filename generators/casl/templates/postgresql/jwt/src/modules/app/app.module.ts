@@ -25,8 +25,7 @@ import AppController from './app.controller';
         cli: {
           migrationsDir: 'src/migrations',
         },
-        migrationsRun: true,
-        synchronize: true,
+        autoLoadEntities: true,
       }),
       inject: [ConfigService],
     }),

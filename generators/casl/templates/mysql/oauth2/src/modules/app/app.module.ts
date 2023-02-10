@@ -24,8 +24,7 @@ import V1Module from '../v1/v1.module';
         cli: {
           migrationsDir: 'src/migrations',
         },
-        migrationsRun: true,
-        synchronize: true,
+        autoLoadEntities: true,
       }),
       inject: [ConfigService],
     }),

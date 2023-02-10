@@ -25,8 +25,7 @@ import AppService from './app.service';
         cli: {
           migrationsDir: 'src/migrations',
         },
-        migrationsRun: true,
-        synchronize: true,
+        autoLoadEntities: true,
       }),
       inject: [ConfigService],
     }),
