@@ -1,0 +1,10 @@
+{
+ "general": {
+   "@casl/ability": "6.3.3"
+ },
+ "dev": {
+  "express-mysql-session": "2.1.8",
+  "express-handlebars": "6.0.7",
+  "connect-flash": "0.1.1"
+ }
+}

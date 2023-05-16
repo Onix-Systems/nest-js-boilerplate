@@ -45,6 +45,10 @@ module.exports = {
     askQuestions.call(this, 'Database', questions.db[this.answers.authType], this.async());
   },
 
+  askAboutOrm() {
+    askQuestions.call(this, 'Orm', questions.orm[this.answers.db][this.answers.authType], this.async())
+  },
+
   askAboutMailer() {
     askQuestions.call(
       this,
@@ -69,6 +73,10 @@ module.exports = {
 
   askAboutAdminPanel() {
     askQuestions.call(this, 'Admin panel', questions.adminPanel[this.answers.db][this.answers.authType], this.async());
+  },
+
+  askAboutCasl() {
+    askQuestions.call(this, 'Casl', questions.casl, this.async());
   },
 
   askWouldHeLikeDocker() {
