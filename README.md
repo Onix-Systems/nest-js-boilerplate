@@ -16,6 +16,13 @@
 
 > Node.js Nest.js API. Supports MongoDB, Mysql, Redis
 
+## Related projects
+
+Currently, we have 1 related project:
+
+[![Nest.js Prisma MongoDB](https://github-readme-stats.vercel.app/api/pin/?username=nodeteamdev&repo=nestjs-prisma-mongodb)](https://github.com/nodeteamdev/nestjs-prisma-mongodb)
+
+
 ## Description
 
 This boilerplate will help you bootstrap your own Nest.JS/MongoDB/MySQL/Typescript API quickly with common enterprise configurations done for you.
